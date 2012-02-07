@@ -1,0 +1,23 @@
+<?
+class CiiModel extends CActiveRecord
+{
+			
+	public function parseMeta($model)
+	{
+		$items = array();
+		foreach ($model as $v)
+		{
+			if (isset($items[$v->key]))
+			{
+				$v->key = $v->key . $v->id;
+			}
+			
+			$items[$v->key] = array(
+				'value'=>$v->value
+				);
+		}
+		
+		return $items;
+	}
+}
+?>
