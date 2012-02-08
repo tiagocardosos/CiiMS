@@ -37,7 +37,7 @@ class SlugURLManager extends CUrlManager
 	 **/
 	private function cacheRules($fromString, &$item)
 	{
-		$urlRules=false;// = Yii::app()->cache->get($item);
+		$urlRules = Yii::app()->cache->get($item);
 		if($urlRules===false)
 		{
 		    $urlRules = Yii::app()->db->createCommand("SELECT id, slug FROM {$fromString}")->queryAll();

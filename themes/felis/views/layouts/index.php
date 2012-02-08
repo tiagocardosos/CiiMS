@@ -5,7 +5,7 @@
                     <h2><? echo $meta['content_caption_top']['value']; ?></h2>
 
                     <p><? echo $meta['content_caption_bottom']['value']; ?></p>
-                </div><a href="#"><img class="float-r" src="images/felis/check.png" alt=""></a>
+                </div><img class="float-r" src="images/felis/check.png" alt="">
             </div>
         </div>
         <div class="shady bott-27"></div>

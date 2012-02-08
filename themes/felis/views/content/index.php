@@ -1,9 +1,4 @@
-<?
-	            	$content = Yii::app()->db->createCommand('SELECT * FROM content WHERE vid = (SELECT vid FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 ORDER BY created ASC LIMIT 0,3')->execute();
-			
-			print_r($content);
-	            ?>
-	            <? /*<div class="inner clearfix">
+<? /*<div class="inner clearfix">
 
             <div class="inner-t">
                 <div class="heading">
@@ -198,31 +193,29 @@
         	    <div class="heading">
     	        	<h3>Latest Blog Posts</h3>
 	            </div>
-	            
-	            <div class="post-mod">
-   	        		<a href="blog-single.html" class="date-comments">
-   	        			<div>
-   	        			20 Dec,<br />
-   	        			2011
-   	        			</div>
-   	        			<span>05</span>
-   	        		</a>
-   	        		<h6><a href="blog-single.html">Et harum quidem rerum facilis est et expedita distinctio</a></h6>
-   	        		<p>Posted by <strong><a href="#">Fireform</a></strong> in <a href="#" class="clr-link">Commercials</a><img class="ml-10" src="images/felis/pencil.gif" alt=""></p>
-   	        	</div>
-	            <div class="post-mod">
-   	        		<a href="blog-single.html" class="date-comments">
-   	        			<div>27 Nov,<br />2011</div><span>79</span>
-   	        		</a>
-   	        		<h6><a href="blog-single.html">Temporibus autem quibusdam et aut officiis debitis</a></h6>
-   	        		<p>Posted by <strong><a href="#">Fireform</a></strong> in <a href="#" class="clr-link">Landed</a><img class="ml-10" src="images/felis/pencil.gif" alt=""></p>
-   	        	</div>
-	            <div class="post-mod">
-   	        		<a href="blog-single.html" class="date-comments">
-   	        			<div>25 Nov,<br />2011</div><span>26</span>
-   	        		</a>
-   	        		<h6><a href="blog-single.html">Nam libero tempore, cum soluta nobis est eligendi optio cumque</a></h6>
-   	        		<p>Posted by <strong><a href="#">Fireform</a></strong> in <a href="#" class="clr-link">Landed</a><img class="ml-10" src="images/felis/pencil.gif" alt=""></p>
-   	        	</div>
+	            <?
+	            	$content = Yii::app()->cache->get('content-listing');
+			if ($content == false)
+			{
+				$content = Yii::app()->db->createCommand('SELECT title, except, content.slug AS content_slug, categories.slug AS category_slug, categories.name AS category_name, comment_count, content.created FROM content LEFT JOIN categories ON content.category_id = categories.id WHERE vid = (SELECT vid FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 ORDER BY content.created ASC LIMIT 5')->queryAll();
+				Yii::app()->cache->set('content-listing', $content);							
+			}
+		    	$count = 0;
+		    	foreach ($content as $k=>$v):
+		    ?>
+	            	<div class="post-mod">
+	            		<? 
+	            			$dm = date('j M', strtotime($v['created']));
+	            			$y = date('Y', strtotime($v['created']));
+			    		$cal = "<div>{$dm}<br />{$y}</div><span>{$v['comment_count']}</span>";
+					echo CHtml::link($cal, Yii::app()->createUrl('/'.$v['content_slug']), array('class'=>'date-comments')); 
+				?>
+   	        		<h6><? echo CHtml::link($v['title'], Yii::app()->createUrl('/'.$v['content_slug'])); ?></h6>
+   	        		<p>
+   	        			Posted by <strong> in <? echo CHtml::link($v['category_name'], Yii::app()->createUrl('/'.$v['category_slug']), array('class'=>'clr-link'));?>
+   	        			<img class="ml-10" src="images/felis/pencil.gif" alt="">
+   	        		</p>
+   	           	</div>
+	            <? if ($count == 3) { break; } $count++; endforeach; ?>
         	</div>
         </div>

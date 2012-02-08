@@ -145,22 +145,40 @@
 		 	<div class="col1-4">
 		 		<h4>Recent posts <? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/heading-bg-footer.gif'); ?></h4>
 				<ul class="recent-posts">
-					<li><a href="#">Ut enim ad minima veniam</a></li>
-					<li><a href="#">Quis nostrum</a></li>
-					<li><a href="#">Exercitationem ullam corporis</a></li>
-					<li><a href="#">Laboriosam, nisi ut aliquid ex</a></li>
-					<li><a href="#">Consequatur quis autem vel</a></li>
-					<li><a href="#">Reprehenderit qui in ea</a></li>
+					<?
+						$content = Yii::app()->cache->get('content-listing');
+						if ($content == false)
+						{
+							$content = Yii::app()->db->createCommand('SELECT title, except, content.slug AS content_slug, categories.slug AS category_slug, categories.name AS category_name, comment_count, content.created FROM content LEFT JOIN categories ON content.category_id = categories.id WHERE vid = (SELECT vid FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 ORDER BY content.created ASC LIMIT 5')->queryAll();
+							Yii::app()->cache->set('content-listing', $content);							
+						}
+						
+						foreach ($content as $k=>$v)
+						{
+							echo '<li>' . CHtml::link($v['title'], Yii::app()->createUrl('/'.$v['content_slug'])) . '</li>';
+						}
+					?>
 				</ul>
 		 	</div>
 		 	<div class="col1-4">
 		 		<h4>Categories <? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/heading-bg-footer.gif'); ?></h4>
 				<ul class="arrows">
-					<li><a href="#">Ut enim ad minima veniam</a></li>
-					<li><a href="#">Quis nostrum</a></li>
-					<li><a href="#">Exercitationem ullam corporis</a></li>
-					<li><a href="#">Laboriosam, nisi ut aliquid ex</a></li>
-					<li><a href="#">Consequatur quis autem vel</a></li>
+					<?
+						$categories = Yii::app()->cache->get('categories-listing');
+						if ($categories == false)
+						{
+							$categories = Yii::app()->db->createCommand('SELECT id, name, slug FROM categories')->queryAll();
+							Yii::app()->cache->set('categories-listing', $categories);							
+						}
+						
+						foreach ($categories as $k=>$v)
+						{
+							if ($v['name'] != 'Uncategorized')
+							{
+								echo '<li>' . CHtml::link($v['name'], Yii::app()->createUrl('/'.$v['slug'])) . '</li>';
+							}	
+						}
+					?>
 				</ul>
 		 	</div>
 		 	<div class="col1-4 omega">
