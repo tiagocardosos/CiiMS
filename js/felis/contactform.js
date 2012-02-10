@@ -13,26 +13,9 @@ $(document).ready(function(){
 
 	form.submit(function(){
 		if(validateName() & validateEmail() & validateMessage()){
-			
-			var $name = name.val();
-			var $email = email.val();
-			var $message = message.val();
-			$.ajax({
-				type: 'GET',
-				url: "get_mail.php",
-				data: form.serialize(),
-				success: function(ajaxCevap) {
-					$('#list').hide();
-					$('#list').html(ajaxCevap);
-					$('#list').fadeIn("normal");
-					name.attr("value", "");
-					email.attr("value", "");
-					message.attr("value", "");
-				}
-			});
-
-			return false;
-		}else{
+			return true;
+		}
+		else{
 			return false;
 		}
 	});

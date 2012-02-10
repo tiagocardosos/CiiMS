@@ -27,7 +27,6 @@
 	   				->registerScriptFile("{$themeJSUrl}generated-fonts.js")
 	   				->registerScriptFile("{$themeJSUrl}jquery.preloader.js")
 	   				->registerScriptFile("{$themeJSUrl}jquery.nivo.slider.custom.js")
-	   				->registerScriptFile("{$themeJSUrl}contactform.js")
 	   				->registerScriptFile("{$themeJSUrl}jquery.flow.1.2.js")
 	   				->registerScriptFile("{$themeJSUrl}jquery.tweet.js")
 	   				->registerScriptFile("{$themeJSUrl}jflickr_0.3_min.js")

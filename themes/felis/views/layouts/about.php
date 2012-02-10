@@ -4,22 +4,15 @@
         <div class="inner clearfix">
             <div class="inner-t">
             	<div class="col1-3">
-                	<div class="heading">
-                   		<h3>Our Team</h3>
-                	</div>
-                	<p>
-                		This is our current team.
-                	</p>
                 	</div>
 				<div class="team">
 					<div class="item-holder1">
 						<div class="proj-img1">
-							<img class="o-t" src="images/content/img140x105-1.jpg" alt="">
+							<? echo CHtml::image('images/about-images/001.jpeg');?>
 						</div>
 					    	<div class="descr">
 						    	<h5>Charles Portwood</h5>
 				    	        	<p class="clr">CEO / Founder</p>
-						    	<p>About Me</p>
 			    	                </div>
 							<div class="team-social">
 								<? echo CHtml::link('<span>'.CHtml::image('images/felis/twitter-icn.png').'</span>', array('#'), array('class'=>'button-t-s')); ?>
