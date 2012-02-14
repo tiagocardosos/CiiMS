@@ -48,11 +48,13 @@ class ContentController extends CiiController
 		// Parse Metadata
 		$meta = Content::model()->parseMeta($content->metadata);
 		
-		$layout = isset($meta['layout']) ? $meta['layout']['value'] : 'blog-single';
+		$layout = isset($meta['layout']) ? $meta['layout']['value'] : 'blog';
 		// Set the layout
 		$this->setLayout($layout);
 		
-		$this->render('index', array('data'=>$content->attributes, 'meta'=>$meta, 'comments'=>$content->comments));
+		$view = isset($meta['view']) ? $meta['view']['value'] : 'blog';
+		
+		$this->render($view, array('data'=>$content->attributes, 'meta'=>$meta, 'comments'=>$content->comments));
 	}
 }
 
