@@ -31,8 +31,8 @@ return array(
 	//'defaultController' => 'content',
 	// application components
 	'components'=>array(
-		'session' => array(
-           		'sessionName' => 'EthrealNet',
+		'session' => array (
+		    'autoStart' => true,
 		),
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
@@ -42,6 +42,10 @@ return array(
 			'rules'=>array(
 				'/search'=>'/content/search',
 				'/contact'=>'/site/contact',
+				'/projects'=>'/categories/list',
+				'/register'=>'/site/register',
+				'/login'=>'/site/login',
+				'/logout'=>'/site/logout'
 				//'/projects/<page:\d+>'=>'/categories/index/id/2',
 			),
 		),
@@ -78,9 +82,9 @@ return array(
 				),
 				// uncomment the following to show log messages on web pages
 				
-				array(
-					'class'=>'CWebLogRoute',
-				),
+				//array(
+				//	'class'=>'CWebLogRoute',
+				//),
 			
 			),
 		),
@@ -89,7 +93,7 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-	        'encryptionKey'=>'c2438e6dbcacd8c387ea845556edd125ca7956ak38fhj5470ee3b5c387807e9aeb23b390014bf18499d22a3427adf6b47062b19e9d7d9d2dc6f8617c',
+	        'encryptionKey'=>'c2438e6dbca8d8c387ea845556edd125ca7956ak38fhj5470ee3b5c387807e9aeb23b39001abf18499d22a3427adf6b47062b11e9d7d9d2dc6f8617c',
 	        'reCaptchaPrivateKey'=>'6Lfaac0SAAAAAL7hTWNTsobtb808PnqoytZxjwDa',
 	        'reCaptchaPublicKey'=>'6Lfaac0SAAAAAJAgA3GMHAb1ytnik7iobMwEX24p'
 	),

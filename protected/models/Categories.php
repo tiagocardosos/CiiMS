@@ -53,12 +53,12 @@ class Categories extends CiiModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('parent_id, name, slug, created, updated', 'required'),
+			array('parent_id, name, slug', 'required'),
 			array('parent_id', 'numerical', 'integerOnly'=>true),
 			array('name, slug', 'length', 'max'=>150),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, parent_id, name, slug, created, updated', 'safe', 'on'=>'search'),
+			array('id, parent_id, name, slug', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -112,5 +112,14 @@ class Categories extends CiiModel
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function beforeSave() {
+	    	if ($this->isNewRecord)
+			$this->created = new CDbExpression('NOW()');
+	   	else
+			$this->updated = new CDbExpression('NOW()');
+	 
+	    	return parent::beforeSave();
 	}
 }

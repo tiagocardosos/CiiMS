@@ -48,7 +48,6 @@
 										</div> \
 										<div id="pp_full_res"></div> \
 										<div class="pp_details clearfix"> \
-											<p class="pp_description"></p> \
 											<a class="pp_close" href="#">Close</a> \
 											<div class="pp_nav"> \
 												<a href="#" class="pp_arrow_previous">Previous</a> \
@@ -224,7 +223,7 @@
 						};
 
 						imgPreloader.onerror = function(){
-							alert('Image cannot be loaded. Make sure the path is correct and image exist.');
+							//alert('Image cannot be loaded. Make sure the path is correct and image exist.');
 							$.prettyPhoto.close();
 						};
 					

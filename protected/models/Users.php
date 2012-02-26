@@ -59,7 +59,7 @@ class Users extends CiiModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email, password, firstName, lastName, displayName, user_role, status, activation_key, created, updated', 'required'),
+			array('email, password, firstName, lastName, displayName, user_role, status', 'required'),
 			array('user_role, status', 'numerical', 'integerOnly'=>true),
 			array('email, firstName, lastName, displayName', 'length', 'max'=>255),
 			array('password, activation_key', 'length', 'max'=>64),
@@ -131,5 +131,18 @@ class Users extends CiiModel
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function beforeSave() {
+	    	if ($this->isNewRecord)
+			$this->created = new CDbExpression('NOW()');
+	   	else
+			$this->updated = new CDbExpression('NOW()');
+	 
+	    	return parent::beforeSave();
+	}
+	
+	public function encryptHash($email, $password, $_dbsalt) {
+		return mb_strimwidth(hash("sha512", hash("sha512", hash("whirlpool", md5($password . md5($email)))) . hash("sha512", md5($password . md5($_dbsalt))) . $_dbsalt), 0, 64);	
 	}
 }

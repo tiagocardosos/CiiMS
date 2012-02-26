@@ -42,7 +42,7 @@ class Tags extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, tag, approved, created, updated', 'required'),
+			array('user_id, tag, approved', 'required'),
 			array('user_id, approved', 'numerical', 'integerOnly'=>true),
 			array('tag', 'length', 'max'=>64),
 			// The following rule is used by search().
@@ -99,5 +99,14 @@ class Tags extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function beforeSave() {
+	    	if ($this->isNewRecord)
+			$this->created = new CDbExpression('NOW()');
+	   	else
+			$this->updated = new CDbExpression('NOW()');
+	 
+	    	return parent::beforeSave();
 	}
 }

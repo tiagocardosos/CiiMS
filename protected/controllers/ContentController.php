@@ -39,12 +39,27 @@ class ContentController extends CiiController
 	 **/
 	public function actionIndex($id=NULL)
 	{
+		// Session is not automatically starting. VM issue?
+		session_start();
+		
 		// Run a pre check of our data
 		$this->beforeCiiAction($id);
 		
 		// Retrieve the data
-		$content = Content::model()->findByPk($id);
+		$content = Content::model()->with('category')->findByPk($id);
 
+		// Check for a password
+		if ($content->attributes['password'] != '')
+		{
+			// Check SESSION to see if a password is set
+			$tmpPassword = $_SESSION['password'][$id];
+			
+			if ($tmpPassword != $content->attributes['password'])
+			{
+				$this->redirect(Yii::app()->createUrl('/content/password/' . $id));
+			}
+		}
+		
 		// Parse Metadata
 		$meta = Content::model()->parseMeta($content->metadata);
 		
@@ -54,7 +69,46 @@ class ContentController extends CiiController
 		
 		$view = isset($meta['view']) ? $meta['view']['value'] : 'blog';
 		
-		$this->render($view, array('data'=>$content->attributes, 'meta'=>$meta, 'comments'=>$content->comments));
+		$this->render($view, array('id'=>$id, 'data'=>$content, 'meta'=>$meta, 'comments'=>$content->comments, 'model'=>Comments::model()));
+	}
+	
+	/**
+	 * Forces a password to be assigned before the user can proceed to the previous page
+	 * @param $id - ID of the content we want to investigate
+	 **/
+	public function actionPassword($id=NULL)
+	{	
+		// Session is not automatically starting. VM issue?
+		session_start();
+		
+		if ($id == NULL)
+		{
+			$this->redirect(Yii::app()->user->returnUrl);
+		}
+		
+		if (!isset($_SESSION['password']))
+		{
+			$_SESSION['password'] = array('tries'=>0);
+		}
+			
+		if (isset($_POST['password']))
+		{
+			$content = Content::model()->findByPk($id);
+			$this->debug($_POST); $this->debug($content->attributes);
+			if ($_POST['password'] == $content->attributes['password'])
+			{
+				$_SESSION['password'][$_POST['id']] = $_POST['password'];
+				$_SESSION['password']['tries'] = 0;
+				$this->redirect(Yii::app()->createUrl($content->attributes['slug']));
+			}
+			else
+			{
+				$_SESSION['password']['tries'] = $_SESSION['password']['tries'] + 1;
+			}
+		}
+		Yii::app()->setTheme('admin');
+		$this->layout = 'main';
+		$this->render('password', array('id'=>$id));
 	}
 }
 

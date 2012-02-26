@@ -55,7 +55,7 @@ class Comments extends CiiModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('content_id, user_id, parent_id, comment, approved, created, updated', 'required'),
+			array('content_id, user_id, parent_id, comment, approved', 'required'),
 			array('content_id, user_id, parent_id, approved', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -118,5 +118,14 @@ class Comments extends CiiModel
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function beforeSave() {
+	    	if ($this->isNewRecord)
+			$this->created = new CDbExpression('NOW()');
+	   	else
+			$this->updated = new CDbExpression('NOW()');
+	 
+	    	return parent::beforeSave();
 	}
 }

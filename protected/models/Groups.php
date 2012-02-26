@@ -37,7 +37,7 @@ class Groups extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, created, updated', 'required'),
+			array('name', 'required'),
 			array('name', 'length', 'max'=>150),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -88,5 +88,14 @@ class Groups extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function beforeSave() {
+	    	if ($this->isNewRecord)
+			$this->created = new CDbExpression('NOW()');
+	   	else
+			$this->updated = new CDbExpression('NOW()');
+	 
+	    	return parent::beforeSave();
 	}
 }

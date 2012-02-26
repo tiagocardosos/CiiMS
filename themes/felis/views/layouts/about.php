@@ -15,8 +15,8 @@
 				    	        	<p class="clr">CEO / Founder</p>
 			    	                </div>
 							<div class="team-social">
-								<? echo CHtml::link('<span>'.CHtml::image('images/felis/twitter-icn.png').'</span>', array('#'), array('class'=>'button-t-s')); ?>
-								<? echo CHtml::link('<span>'.CHtml::image('images/felis/in-icn.png').'</span>', array('#'), array('class'=>'button-t-s')); ?>
+								<? echo CHtml::link('<span>'.CHtml::image('images/felis/twitter-icn.png').'</span>', 'https://www.twitter.com/charlesportwood', array('class'=>'button-t-s')); ?>
+								<? echo CHtml::link('<span>'.CHtml::image('images/felis/in-icn.png').'</span>', 'https://www.linkedin.com/profile/view?id=59000234', array('class'=>'button-t-s')); ?>
 							</div>
 					</div>
 				</div>

@@ -140,4 +140,13 @@ class Content extends CiiModel
 		
 		return parent::findByPk($pk, $conditions, $params);
 	}
+	
+	public function beforeSave() {
+	    	if ($this->isNewRecord)
+			$this->created = new CDbExpression('NOW()');
+	   	else
+			$this->updated = new CDbExpression('NOW()');
+	 
+	    	return parent::beforeSave();
+	}
 }

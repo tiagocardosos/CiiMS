@@ -50,7 +50,7 @@
                         	<span>
                         		<? echo CHtml::link('Home', array('/')); ?>
                         		<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/v-sep.gif');?>
-                        		<? echo CHtml::link('Sitemap', array('/sitemap')); ?>
+                        		<? echo Yii::app()->user->isGuest ? CHtml::link('Login', array('/login')) : CHtml::link(Yii::app()->user->displayName, '') . CHtml::link('(logout)', Yii::app()->createUrl('/logout'), array('style'=>'margin-left: 5px;')); ?>
                         	</span>
                         </span> 
                         <!-- <span class="phone">Toll free: +012 345 678 001</span> -->
@@ -193,7 +193,7 @@
 		 		<div class="float-r social">
 					<span class="float-l">Check us out on these social networks</span>
 					<ul class="float-r">
-		 				<li><? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/felis/twitter.png'), '#', array('title'=>'twitter'));?></li>
+		 				<li><? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/felis/twitter.png'), 'https://www.twitter.com/ethrealnet', array('title'=>'twitter'));?></li>
 		 				<!-- <li><a href="#" title="Facebook"><img src="images/felis/facebook.png" alt=""></a></li> -->
 		 				<!-- <li><a href="#" title="LinkedIn"><img src="images/felis/in.png" alt=""></a></li> -->
 		 				<!-- <li><a href="#" title="Digg"><img src="images/felis/digg.png" alt=""></a></li> -->

@@ -2,7 +2,6 @@
 
 class SiteController extends CiiController
 {
-
 	/**
 	 * This is the action to handle external exceptions.
 	 */
@@ -17,6 +16,80 @@ class SiteController extends CiiController
 	    }
 	}
 
+	public function actionLogin() {
+		$this->layout = '//layouts/main';
+		$model=new LoginForm;
+
+		// collect user input data
+		if(isset($_POST['LoginForm']))
+		{
+			$model->attributes=$_POST['LoginForm'];
+			// validate user input and redirect to the previous page if valid
+			if($model->validate() && $model->login()) { 
+				$this->redirect(Yii::app()->user->returnUrl);
+			}
+		}
+		// display the login form
+		$this->render('login',array('model'=>$model));
+	}
+	
+	public function actionLogout()
+	{
+		Yii::app()->user->logout();
+		$this->redirect(Yii::app()->user->returnUrl);
+	}
+	
+	/**
+	 * Registration page
+	 *
+	 **/
+	public function actionRegister()
+	{
+		$this->layout = '//layouts/main';
+		$model = new RegisterForm();
+		$user = new Users();
+		
+		Yii::import('ext.recaptchalib');
+		$captcha = new recaptchalib();
+		$error = '';
+		if (isset($_POST) && !empty($_POST))
+		{
+			$resp = $captcha->recaptcha_check_answer(Yii::app()->params['reCaptchaPrivateKey'], $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+
+			if (!$resp->is_valid) {
+				$error = 'The CAPTCHA that you entered was invalid. Please try again';
+			} 
+			else {
+				$model->attributes = $_POST['RegisterForm'];
+				if ($model->validate())
+				{
+					$user->attributes = array(
+						'email'=>$_POST['RegisterForm']['email'],
+						'password'=>Users::model()->encryptHash($_POST['RegisterForm']['email'], $_POST['RegisterForm']['password'], Yii::app()->params['encryptionKey']),
+						'firstName'=>$_POST['RegisterForm']['firstName'],
+						'lastName'=>$_POST['RegisterForm']['lastName'],
+						'displayName'=>$_POST['RegisterForm']['displayName'],
+						'user_role'=>1,
+						'status'=>1
+					);
+					
+					try 
+					{
+						if($user->save())
+						{
+							$this->render('register-success');
+						}
+					}
+					catch(CDbException $e) 
+					{
+						$model->addError(null, 'The email address has already been associated to an account. Do you want to login instead?');
+					}
+				}
+			}
+		}
+		$this->render('register', array('captcha'=>$captcha, 'model'=>$model, 'error'=>$error, 'user'=>$user));
+	}
+	
 	/**
 	 * Displays the contact page
 	 */

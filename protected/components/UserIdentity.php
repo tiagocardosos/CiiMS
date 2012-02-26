@@ -7,27 +7,32 @@
  */
 class UserIdentity extends CUserIdentity
 {
-	/**
-	 * Authenticates a user.
-	 * The example implementation makes sure if the username and password
-	 * are both 'demo'.
-	 * In practical applications, this should be changed to authenticate
-	 * against some persistent user identity storage (e.g. database).
-	 * @return boolean whether authentication succeeds.
-	 */
+	private $_id;
+			
 	public function authenticate()
-	{
-		$users=array(
-			// username => password
-			'demo'=>'demo',
-			'admin'=>'admin',
-		);
-		if(!isset($users[$this->username]))
-			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($users[$this->username]!==$this->password)
-			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+    	{
+		$record=Users::model()->findByAttributes(array('email'=>$this->username));
+		if($record===null)
+		    $this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
+		else if($record->password!==Users::model()->encryptHash($this->username, $this->password, Yii::app()->params['encryptionKey']))
+		    $this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
+		else if ($record->status == 3)
+			$this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
 		else
-			$this->errorCode=self::ERROR_NONE;
+		{
+			$this->_id = $record->id;			
+			$this->setState('email', $record->email);
+			$this->setState('displayName', $record->displayName);
+			$this->setState('status', $record->status);
+		  	$this->setState('role', $record->user_role);
+		    	$this->errorCode=self::ERROR_NONE;
+		}
 		return !$this->errorCode;
+	    }
+
+		
+	public function getId()
+	{
+    		return $this->_id;
 	}
 }
