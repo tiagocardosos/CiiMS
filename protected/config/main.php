@@ -19,6 +19,7 @@ return array(
 
 	'modules'=>array(
 		'admin',
+		'community',
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>FALSE,
