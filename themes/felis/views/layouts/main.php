@@ -75,11 +75,11 @@
 				'id'=>'about-menu',
 				'htmlOptions'=>array('class'=>'navmenu'),
 				'items'=>array(
-					array('label'=>'Home', 'url'=>array('/')),
-					array('label'=>'About', 'url'=>array('/about')),
-					array('label'=>'Projects', 'url'=>array('/projects')),
-					array('label'=>'Contact', 'url'=>array('/contact')),
-					array('label'=>'Community', 'url'=>array('/community'))
+					array('label'=>'Home', 'url'=>Yii::app()->createUrl('/')),
+					array('label'=>'About', 'url'=>Yii::app()->createUrl('/about')),
+					array('label'=>'Projects', 'url'=>Yii::app()->createUrl('/projects')),
+					array('label'=>'Contact', 'url'=>Yii::app()->createUrl('/contact')),
+					array('label'=>'Community', 'url'=>Yii::app()->createUrl('/community'))
 				))); 
 			?>
                 </div>
