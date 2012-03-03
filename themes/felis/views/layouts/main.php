@@ -48,7 +48,7 @@
                     <div class="mini-menu">
                         <span class="mini float-l">
                         	<span>
-                        		<? echo CHtml::link('Home', array('/')); ?>
+                        		<? echo CHtml::link('Home', Yii::app()->createUrl('/')); ?>
                         		<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/v-sep.gif');?>
                         		<? echo Yii::app()->user->isGuest ? CHtml::link('Login', array('/login')) : CHtml::link(Yii::app()->user->displayName, '') . CHtml::link('(logout)', Yii::app()->createUrl('/logout'), array('style'=>'margin-left: 5px;')); ?>
                         	</span>
