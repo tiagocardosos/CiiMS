@@ -2,12 +2,6 @@
 
 class DefaultController extends ACiiController
 {
-
-	public function beforeAction()
-	{
-		Yii::app()->setTheme('admin');
-		return true;
-	}
 	
 	public function actionIndex()
 	{

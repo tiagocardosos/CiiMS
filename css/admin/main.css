@@ -666,12 +666,12 @@ thead {
   text-shadow: 0 1px 0 #fff;
 }
 
-.dataTables_paginate .paginate_active {
+.dataTables_paginate .selected {
   color: #333;
   padding: 0 5px;
 }
 
-.dataTables_paginate .paginate_button {
+.dataTables_paginate .page {
   cursor: pointer;
   display: inline-block;
   *display: inline;
@@ -681,11 +681,11 @@ thead {
   zoom: 1;
 }
 
-.dataTables_paginate .paginate_button:hover {
+.dataTables_paginate .pagie:hover {
   color: #666;
 }
 
-.dataTables_paginate .paginate_button_disabled {
+.dataTables_paginate .hidden {
   display: none;
 }
 

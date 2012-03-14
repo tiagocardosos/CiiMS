@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="logo-menu">
-                	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/felis/content/logo.png'), array('/'), array('class'=>'logo')); ?>
+                	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/felis/content/logo.png'), Yii::app()->createUrl('/'), array('class'=>'logo')); ?>
 			<? $this->widget('zii.widgets.CMenu',array(
 				'id'=>'about-menu',
 				'htmlOptions'=>array('class'=>'navmenu'),
@@ -148,7 +148,7 @@
 						$content = Yii::app()->cache->get('content-listing');
 						if ($content == false)
 						{
-							$content = Yii::app()->db->createCommand('SELECT title, extract, content.slug AS content_slug, categories.slug AS category_slug, categories.name AS category_name, comment_count, content.created FROM content LEFT JOIN categories ON content.category_id = categories.id WHERE vid = (SELECT vid FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 ORDER BY content.created ASC LIMIT 5')->queryAll();
+							$content = Yii::app()->db->createCommand('SELECT title, extract, content.slug AS content_slug, categories.slug AS category_slug, categories.name AS category_name, comment_count, content.created FROM content LEFT JOIN categories ON content.category_id = categories.id WHERE vid = (SELECT vid FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 AND status = 1 ORDER BY content.created ASC LIMIT 5')->queryAll();
 							Yii::app()->cache->set('content-listing', $content);							
 						}
 						

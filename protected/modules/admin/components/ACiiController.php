@@ -34,6 +34,12 @@ class ACiiController extends CController
 		);
 	}
 	
+	public function beforeAction()
+	{
+		Yii::app()->setTheme('admin');
+		return true;
+	}
+	
 	public $params = array();
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
