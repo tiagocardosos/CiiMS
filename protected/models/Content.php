@@ -66,7 +66,7 @@ class Content extends CiiModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('vid, author_id, title, content, extract, status, commentable, parent_id, category_id, slug', 'required'),
+			array('vid, author_id, title, content, status, commentable, parent_id, category_id, slug', 'required'),
 			array('vid, author_id, status, commentable, parent_id, category_id, type_id, comment_count', 'numerical', 'integerOnly'=>true),
 			array('title, password, slug', 'length', 'max'=>150),
 			// The following rule is used by search().
@@ -117,6 +117,30 @@ class Content extends CiiModel
 	}
 	
 	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('title',$this->title,true);
+		$criteria->compare('slug',$this->slug,true);
+		$criteria->compare('content',$this->slug,true);
+		$criteria->compare('created',$this->created,true);
+		$criteria->compare('updated',$this->updated,true);
+		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
+			
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+	
+	/**
          * Finds all active records with the specified primary keys.
          * Overloaded to support composite primary keys. For our content, we want to find the latest version of that primary key, defined as MAX(vid) WHERE id = pk
          * See {@link find()} for detailed explanation about $condition and $params.
@@ -134,19 +158,82 @@ class Content extends CiiModel
 			Yii::trace(get_class($this).'.findByPk() Override','system.db.ar.CActiveRecord');
 			$criteria = new CDbCriteria;
 			$criteria->addCondition("t.id={$pk}");
-			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE t.id={$pk})");
+			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id={$pk})");
 			return $this->query($criteria);
 		}
 		
 		return parent::findByPk($pk, $conditions, $params);
 	}
 	
-	public function beforeSave() {
+	public function beforeValidate() {
 	    	if ($this->isNewRecord)
+	    	{
+	    		// Implicit flush to delete the URL rules
 			$this->created = new CDbExpression('NOW()');
+		}
 	   	else
 			$this->updated = new CDbExpression('NOW()');
-	 
-	    	return parent::beforeSave();
+		
+		if ($this->extract == '')
+		{
+    			$this->extract = $this->myTruncate($this->content, 200, '.', '');
+	 	}
+		
+		if ($this->slug == '')
+		{
+			$this->slug = $this->checkSlug(str_replace(' ', '-', $this->title));
+		}
+
+	 	
+	    	return parent::beforeValidate();
+	}
+	
+	public function beforeSave()
+	{
+		if ($this->isNewRecord)
+		{			
+	    		Yii::app()->cache->delete('content');
+	    		Yii::app()->cache->delete('content-listing');
+		}
+		
+		return parent::beforeSave();
+	}
+	
+	public function beforeDelete()
+	{		
+    		Yii::app()->cache->delete('content');
+    		Yii::app()->cache->delete('content-listing');
+		
+		return parent::beforeDelete();
+	}
+	
+	public function checkSlug($slug, $id=NULL)
+	{
+		if ($this->countByAttributes(array('slug'=>$slug . $id)) == 0)
+			return $slug . $id;
+		else
+		{
+			if ($id == NULL)
+				$id = 1;
+			else 
+				$id++;
+			return $this->checkSlug($slug, $id);
+		}
+	}
+	
+	private function myTruncate($string, $limit, $break=".", $pad="...")
+	{
+		// return with no change if string is shorter than $limit
+		if(strlen($string) <= $limit) return $string;
+
+		// is $break present between $limit and the end of the string?
+		if(false !== ($breakpoint = strpos($string, $break, $limit)))
+		{
+			if($breakpoint < strlen($string) - 1) {
+				$string = substr($string, 0, $breakpoint) . $pad;
+			}
+		}
+
+		return $string;
 	}
 }

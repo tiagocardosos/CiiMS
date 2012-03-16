@@ -20,46 +20,38 @@ class ContentController extends ACiiController
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionSave($id=NULL)
 	{
-		$model=new Categories;
-
+		if ($id == NULL)
+		{
+			$model = new Content;
+			$version = 0;
+		}
+		else
+		{
+			$model=$this->loadModel($id);
+			if ($model == NULL)
+				throw new CHttpException(400,'asdfasdfrequest again.');
+			$versions = sizeof(Content::model()->findAllByAttributes(array('id' => $id)));
+		}
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Categories']))
-		{
-			$model->attributes=$_POST['Categories'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+		if(isset($_POST['Content']))
+		{	
+			$model2 = new Content;
+			$model2->id = $_POST['Content']['id'];
+			$model2->vid+=1;
+			$model2->attributes=$_POST['Content'];
+			$model2->vid+=1;
+			if($model2->save())
+				$this->redirect(array('save','id'=>$model2->id));
 		}
 
-		$this->render('create',array(
+		$this->render('save',array(
 			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Categories']))
-		{
-			$model->attributes=$_POST['Categories'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
+			'id'=>$id,
+			'versions'=>$versions
 		));
 	}
 
@@ -70,17 +62,15 @@ class ContentController extends ACiiController
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+		// we only allow deletion via POST request
+		// and we delete /everything/
+		$command = Yii::app()->db->createCommand("DELETE FROM content WHERE id = :id");
+		$command->bindParam(":id", $id, PDO::PARAM_STR);
+		$command->execute();
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	/**
@@ -88,10 +78,10 @@ class ContentController extends ACiiController
 	 */
 	public function actionIndex()
 	{
-		$model=new Categories('search');
+		$model=new Content('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Categories']))
-			$model->attributes=$_GET['Categories'];
+		if(isset($_GET['Content']))
+			$model->attributes=$_GET['Content'];
 
 		$this->render('index',array(
 			'model'=>$model,
@@ -106,7 +96,7 @@ class ContentController extends ACiiController
 	 */
 	public function loadModel($id)
 	{
-		$model=Categories::model()->findByPk($id);
+		$model=Content::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -118,7 +108,7 @@ class ContentController extends ACiiController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='categories-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='Content-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

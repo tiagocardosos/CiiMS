@@ -26,8 +26,16 @@
 		*/
 		array(
 			'class'=>'CButtonColumn',
-			'template'=>'{view} {delete}',
-			'viewButtonUrl'=>'Yii::app()->createUrl(Content::model()->findByPk($data->content_id)->slug, array("#"=>"comment-$data->id"))'
+			'template'=>'{view} {update} {delete}',
+			'viewButtonUrl'=>'Yii::app()->createUrl(Content::model()->findByPk($data->content_id)->slug, array("#"=>"comment-$data->id"))',
+			'viewButtonImageUrl'=>false,
+			'viewButtonOptions'=>array('class'=>'button plain'),
+			'updateButtonImageUrl'=>false,
+			'updateButtonUrl'=>'approve',
+			'updateButtonLabel'=>'approve',
+			'updateButtonOptions'=>array('class'=>'button plain'),
+			'deleteButtonImageUrl'=>false,
+			'deleteButtonOptions'=>array('class'=>'button plain delete')
 
 		),
 	),

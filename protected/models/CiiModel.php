@@ -5,18 +5,20 @@ class CiiModel extends CActiveRecord
 	public function parseMeta($model)
 	{
 		$items = array();
-		foreach ($model as $v)
+		if (!empty($model))
 		{
-			if (isset($items[$v->key]))
+			foreach ($model as $v)
 			{
-				$v->key = $v->key . $v->id;
-			}
+				if (isset($items[$v->key]))
+				{
+					$v->key = $v->key . $v->id;
+				}
 			
-			$items[$v->key] = array(
-				'value'=>$v->value
-				);
+				$items[$v->key] = array(
+					'value'=>$v->value
+					);
+			}
 		}
-		
 		return $items;
 	}
 }

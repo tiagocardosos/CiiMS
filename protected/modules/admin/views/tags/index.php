@@ -20,7 +20,11 @@
 		'created',
 		array(
 			'class'=>'CButtonColumn',
-			'template'=>'{update} {delete}'
+			'template'=>'{update} {delete}',
+			'updateButtonImageUrl'=>false,
+			'updateButtonOptions'=>array('class'=>'button plain'),
+			'deleteButtonImageUrl'=>false,
+			'deleteButtonOptions'=>array('class'=>'button plain delete')
 		),
 	),
 )); ?>

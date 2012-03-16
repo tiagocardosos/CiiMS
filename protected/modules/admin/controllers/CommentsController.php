@@ -40,6 +40,11 @@ class CommentsController extends ACiiController
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
+	public function actionApprove()
+	{
+	
+	}
+	
 	/**
 	 * Lists all models.
 	 */

@@ -65,7 +65,7 @@ class CategoriesController extends CiiController
 			$offset = 6;			
 		}
 		
-		$command = Yii::app()->db->createCommand('SELECT id FROM content WHERE vid = (SELECT vid FROM content AS content2 WHERE content2.id = content.id) AND category_id = :id  AND type_id >= 2 ORDER BY type_id DESC, created DESC LIMIT ' . $limit . ',' . $offset);
+		$command = Yii::app()->db->createCommand('SELECT id FROM content WHERE vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) AND category_id = :id  AND type_id >= 2 ORDER BY type_id DESC, created DESC LIMIT ' . $limit . ',' . $offset);
 		$command->bindParam(':id',$id,PDO::PARAM_STR);
 		$response = $command->queryAll();
 		
@@ -76,7 +76,7 @@ class CategoriesController extends CiiController
 		{
 			$content[] = Content::model()->with('category')->with('metadata')->findByPk($v['id']);
 		}
-		$command = Yii::app()->db->createCommand('SELECT count(id) AS count FROM content WHERE vid = (SELECT vid FROM content AS content2 WHERE content2.id = content.id) AND category_id = :id  AND type_id >= 2');
+		$command = Yii::app()->db->createCommand('SELECT count(id) AS count FROM content WHERE vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) AND category_id = :id  AND type_id >= 2');
 		$command->bindParam(':id',$id,PDO::PARAM_STR);
 		$count = $command->queryAll();
 		$this->render('index', array('id'=>$id, 'page'=>$page, 'posts'=>$content, 'content'=>$category->attributes, 'meta'=>$meta, 'postCount'=>$count[0]['count']));

@@ -27,7 +27,7 @@
         
         <div class="action_bar">
           <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class'=>'blue button')); ?>
-          <a href="#modal" class="modal button">Cancel</a>
+          <a href="#modal" class="button">Cancel</a>
         </div>
         
       <?php $this->endWidget(); ?>
