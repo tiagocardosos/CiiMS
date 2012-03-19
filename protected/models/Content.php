@@ -170,6 +170,7 @@ class Content extends CiiModel
 	    	{
 	    		// Implicit flush to delete the URL rules
 			$this->created = new CDbExpression('NOW()');
+			$this->comment_count = 0;
 		}
 	   	else
 			$this->updated = new CDbExpression('NOW()');
