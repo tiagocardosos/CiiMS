@@ -133,7 +133,7 @@
 		 		<? $this->widget('zii.widgets.CMenu',array(
 					'id'=>'about-menu',
 					'items'=>array(
-						array('label'=>'Home', 'url'=>array('/home')),
+						array('label'=>'Home', 'url'=>array('/')),
 						array('label'=>'About', 'url'=>array('/about')),
 						array('label'=>'Projects', 'url'=>array('/projects')),
 						array('label'=>'Contact', 'url'=>array('/contact')),

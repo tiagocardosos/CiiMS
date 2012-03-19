@@ -34,7 +34,7 @@ class ACiiController extends CController
 		);
 	}
 	
-	public function beforeAction()
+	public function beforeAction($action)
 	{
 		Yii::app()->setTheme('admin');
 		return true;

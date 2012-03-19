@@ -2,7 +2,7 @@
 
 class CommentsController extends ACiiController
 {
-	public function beforeAction()
+	public function beforeAction($action)
 	{
 		$this->menu = array(
 			array('label'=>'Content', 'url'=>Yii::app()->createUrl('admin/content')),
@@ -11,7 +11,7 @@ class CommentsController extends ACiiController
 			array('label'=>'Tags', 'url'=>Yii::app()->createUrl('admin/tags')),
 			array('label'=>'', 'url'=>array('#'))
 		);
-		return parent::beforeAction();
+		return parent::beforeAction($action);
 		
 	}
 
