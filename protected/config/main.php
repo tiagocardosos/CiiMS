@@ -32,6 +32,9 @@ return array(
 	//'defaultController' => 'content',
 	// application components
 	'components'=>array(
+		'errorHandler'=>array(
+			'errorAction'=>'site/error'
+		),
 		'session' => array (
 		    'autoStart' => true,
 		),

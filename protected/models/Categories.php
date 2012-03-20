@@ -118,6 +118,7 @@ class Categories extends CiiModel
 	    	if ($this->isNewRecord)
 	    	{
 	    		Yii::app()->cache->delete('categories');
+			Yii::app()->cache->delete('WFF-categories-url-rules');
 			$this->created = new CDbExpression('NOW()');
 		}
 	   	else
@@ -130,7 +131,7 @@ class Categories extends CiiModel
 	{			
     		Yii::app()->cache->delete('categories');
     		Yii::app()->cache->delete('categories-listing');
-		
+		Yii::app()->cache->delete('WFF-categories-url-rules');
 		return parent::beforeDelete();
 	}
 }

@@ -48,9 +48,10 @@
                     <div class="mini-menu">
                         <span class="mini float-l">
                         	<span>
-                        		<? echo CHtml::link('Home', Yii::app()->createUrl('/')); ?>
+                        		<? echo CHtml::link('Home', Yii::app()->getBaseUrl(true)); ?>
                         		<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/v-sep.gif');?>
-                        		<? echo Yii::app()->user->isGuest ? CHtml::link('Login', array('/login')) : CHtml::link(Yii::app()->user->displayName, '') . CHtml::link('(logout)', Yii::app()->createUrl('/logout'), array('style'=>'margin-left: 5px;')); ?>
+                        		<? echo !Yii::app()->user->isGuest && Yii::app()->user->role == 5 ? CHtml::link('Admin', Yii::app()->createUrl('/admin')) . CHtml::image(Yii::app()->baseUrl.'/images/felis/v-sep.gif'): ''; ?>
+					<? echo Yii::app()->user->isGuest ? CHtml::link('Login', array('/login')) : CHtml::link(Yii::app()->user->displayName, '') . CHtml::link('(logout)', Yii::app()->createUrl('/logout'), array('style'=>'margin-left: 5px;')); ?>
                         	</span>
                         </span> 
                         <!-- <span class="phone">Toll free: +012 345 678 001</span> -->
@@ -70,12 +71,12 @@
                 </div>
 
                 <div class="logo-menu">
-                	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/felis/content/logo.png'), Yii::app()->createUrl('/'), array('class'=>'logo')); ?>
+                	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/felis/content/logo.png'), Yii::app()->getBaseUrl(true), array('class'=>'logo')); ?>
 			<? $this->widget('zii.widgets.CMenu',array(
 				'id'=>'about-menu',
 				'htmlOptions'=>array('class'=>'navmenu'),
 				'items'=>array(
-					array('label'=>'Home', 'url'=>Yii::app()->createUrl('/')),
+					array('label'=>'Home', 'url'=>Yii::app()->getBaseUrl(true)),
 					array('label'=>'About', 'url'=>Yii::app()->createUrl('/about')),
 					array('label'=>'Projects', 'url'=>Yii::app()->createUrl('/projects')),
 					array('label'=>'Contact', 'url'=>Yii::app()->createUrl('/contact')),
@@ -133,7 +134,7 @@
 		 		<? $this->widget('zii.widgets.CMenu',array(
 					'id'=>'about-menu',
 					'items'=>array(
-						array('label'=>'Home', 'url'=>array('/')),
+						array('label'=>'Home', 'url'=>Yii::app()->getBaseUrl(true)),
 						array('label'=>'About', 'url'=>array('/about')),
 						array('label'=>'Projects', 'url'=>array('/projects')),
 						array('label'=>'Contact', 'url'=>array('/contact')),

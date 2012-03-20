@@ -195,6 +195,7 @@ class Content extends CiiModel
 		{			
 	    		Yii::app()->cache->delete('content');
 	    		Yii::app()->cache->delete('content-listing');
+			Yii::app()->cache->delete('WFF-content-url-rules');
 		}
 		
 		return parent::beforeSave();
@@ -204,6 +205,7 @@ class Content extends CiiModel
 	{		
     		Yii::app()->cache->delete('content');
     		Yii::app()->cache->delete('content-listing');
+		Yii::app()->cache->delete('WFF-content-url-rules');
 		
 		return parent::beforeDelete();
 	}
