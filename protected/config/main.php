@@ -44,7 +44,7 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
-				'/search'=>'/content/search',
+				'/search'=>'/site/search',
 				'/contact'=>'/site/contact',
 				'/projects'=>'/categories/list',
 				'/register'=>'/site/register',
