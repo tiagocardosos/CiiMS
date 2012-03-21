@@ -17,7 +17,32 @@ class SiteController extends CiiController
 	        	$this->render('error', array('error'=>$error));
 	    }
 	}
+	
+	public function actionSearch($id=1)
+	{
+		$this->layout = '//layouts/main';
+		$data = array();
+		
+		if ($_GET['q'] != '')
+		{
+			// Load the search data
+			Yii::import('ext.sphinx.SphinxClient');
+			$sphinx = new SphinxClient();
+			$sphinx->setServer("localhost", 9312);
+			$sphinx->setMatchMode(SPH_MATCH_EXTENDED2);
+			$sphinx->setMaxQueryTime(15);
 
+			$result = $sphinx->query($_GET['q'], 'ethreal');
+		
+			$criteria=new CDbCriteria;
+			$criteria->addInCondition('id', array_keys(isset($result['matches']) ? $result['matches'] : array()));
+			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
+
+			$data = Content::model()->findAll($criteria);
+		}		
+		$this->render('search', array('data'=>$data));
+	}
+	
 	public function actionLogin() {
 		$this->layout = '//layouts/main';
 		$model=new LoginForm;

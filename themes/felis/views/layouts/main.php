@@ -57,9 +57,9 @@
                         <!-- <span class="phone">Toll free: +012 345 678 001</span> -->
 
                         <div class="search float-r">
-                            <form id="search" method="get">
+                            <form id="search" method="GET" action="<? echo Yii::app()->createUrl('/search'); ?>">
                                 <div>
-                                    <input class="field" type="text" placeholder="Search...">
+                                    <input name="q" class="field" type="text" placeholder="Search...">
                                 </div>
 
                                 <div class="search-btn">
