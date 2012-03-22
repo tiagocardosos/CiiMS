@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Ethreal Services',
+	'name'=>'Ethreal Systems',
 	// preloading 'log' component
 		'preload'=>array('log'),
 	// autoloading model and component classes
@@ -93,6 +93,9 @@ return array(
 	'params'=>array(
 	        'encryptionKey'=>'c2438e6dbca8d8c387ea845556edd125ca7956ak38fhj5470ee3b5c387807e9aeb23b39001abf18499d22a3427adf6b47062b11e9d7d9d2dc6f8617c',
 	        'reCaptchaPrivateKey'=>'6Lfaac0SAAAAAL7hTWNTsobtb808PnqoytZxjwDa',
-	        'reCaptchaPublicKey'=>'6Lfaac0SAAAAAJAgA3GMHAb1ytnik7iobMwEX24p'
+	        'reCaptchaPublicKey'=>'6Lfaac0SAAAAAJAgA3GMHAb1ytnik7iobMwEX24p',
+	        'sphinxHost'=>'localhost',
+	        'sphinxPort'=>'9312',
+	        'sphinxSource'=>'ethreal'
 	),
 );

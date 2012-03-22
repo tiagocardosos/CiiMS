@@ -7,19 +7,25 @@ class SiteController extends CiiController
 	 */
 	public function actionError()
 	{
-	    $this->layout = '//layouts/main';
-	    
-	    if($error=Yii::app()->errorHandler->error)
-	    {
-	    	if(Yii::app()->request->isAjaxRequest)
-	    		echo $error['message'];
-	    	else
-	        	$this->render('error', array('error'=>$error));
-	    }
+		$this->layout = '//layouts/main';
+
+		if($error=Yii::app()->errorHandler->error)
+		{
+			if(Yii::app()->request->isAjaxRequest)
+			{
+				echo $error['message'];
+			}
+			else
+			{
+				$this->setPageTitle(Yii::app()->name . ' | Error ' . $error['code']);
+				$this->render('error', array('error'=>$error));
+			}
+		}
 	}
 	
 	public function actionSearch($id=1)
 	{
+		$this->setPageTitle(Yii::app()->name . ' | Search');
 		$this->layout = '//layouts/main';
 		$data = array();
 		
@@ -28,11 +34,11 @@ class SiteController extends CiiController
 			// Load the search data
 			Yii::import('ext.sphinx.SphinxClient');
 			$sphinx = new SphinxClient();
-			$sphinx->setServer("localhost", 9312);
+			$sphinx->setServer(Yii::app()->params['sphinxHost'], (int)Yii::app()->params['sphinxPort']);
 			$sphinx->setMatchMode(SPH_MATCH_EXTENDED2);
 			$sphinx->setMaxQueryTime(15);
 
-			$result = $sphinx->query($_GET['q'], 'ethreal');
+			$result = $sphinx->query($_GET['q'], Yii::app()->params['sphinxSource']);
 		
 			$criteria=new CDbCriteria;
 			$criteria->addInCondition('id', array_keys(isset($result['matches']) ? $result['matches'] : array()));
@@ -43,7 +49,9 @@ class SiteController extends CiiController
 		$this->render('search', array('data'=>$data));
 	}
 	
-	public function actionLogin() {
+	public function actionLogin()
+	{
+		$this->setPageTitle(Yii::app()->name . ' | Contact Us');
 		$this->layout = '//layouts/main';
 		$model=new LoginForm;
 
@@ -72,6 +80,7 @@ class SiteController extends CiiController
 	 **/
 	public function actionRegister()
 	{
+		$this->setPageTitle(Yii::app()->name . ' | Sign Up');
 		$this->layout = '//layouts/main';
 		$model = new RegisterForm();
 		$user = new Users();
@@ -122,6 +131,7 @@ class SiteController extends CiiController
 	 */
 	public function actionContact()
 	{		
+		$this->setPageTitle(Yii::app()->name . ' | Contact Us');
 		Yii::import('ext.recaptchalib');
 		$captcha = new recaptchalib();
 		$error = '';

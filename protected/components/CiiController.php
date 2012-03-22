@@ -5,7 +5,7 @@
  */
 class CiiController extends CController
 {
-
+	
 	public $params = array();
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
@@ -24,6 +24,8 @@ class CiiController extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+	
+
 	
 	/**
 	 * Sets the layout for the view
@@ -45,6 +47,11 @@ class CiiController extends CController
 	    	if (isset($data['meta']))
 	    	{
 	    		$this->params['meta'] = $data['meta'];
+	    	}
+	    	
+	    	if (isset($data['data']))
+	    	{
+	    		$this->params['data'] = $data['data']->attributes;
 	    	}
 	    	
 		$output=$this->renderPartial($view,$data,true);

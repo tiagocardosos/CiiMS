@@ -44,7 +44,8 @@ class ContentMetadata extends CActiveRecord
 		return array(
 			array('content_id, key, value, created, updated', 'required'),
 			array('content_id', 'numerical', 'integerOnly'=>true),
-			array('key, value', 'length', 'max'=>50),
+			array('key', 'length', 'max'=>50),
+			array('value', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, content_id, key, value, created, updated', 'safe', 'on'=>'search'),
@@ -69,7 +70,6 @@ class ContentMetadata extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
 			'content_id' => 'Content',
 			'key' => 'Key',
 			'value' => 'Value',
@@ -89,7 +89,6 @@ class ContentMetadata extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
 		$criteria->compare('content_id',$this->content_id);
 		$criteria->compare('key',$this->key,true);
 		$criteria->compare('value',$this->value,true);
@@ -99,5 +98,13 @@ class ContentMetadata extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function beforeValidate()
+	{
+	    	if ($this->isNewRecord)
+			$this->created = new CDbExpression('NOW()');
+	   	else
+			$this->updated = new CDbExpression('NOW()');
 	}
 }

@@ -79,11 +79,16 @@ class CategoriesController extends CiiController
 		$command = Yii::app()->db->createCommand('SELECT count(id) AS count FROM content WHERE vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) AND category_id = :id  AND type_id >= 2');
 		$command->bindParam(':id',$id,PDO::PARAM_STR);
 		$count = $command->queryAll();
+		
+		$this->setPageTitle(Yii::app()->name . ' | ' . $category->name);
+		
 		$this->render('index', array('id'=>$id, 'page'=>$page, 'posts'=>$content, 'content'=>$category->attributes, 'meta'=>$meta, 'postCount'=>$count[0]['count']));
 	}
 	
 	public function actionList()
 	{
+		$this->setPageTitle(Yii::app()->name . ' | Categories');
+		
 		$this->layout = 'main';
 		$criteria = new CDbCriteria();
 		$criteria->addCondition('id != 1');

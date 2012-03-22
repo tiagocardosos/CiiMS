@@ -4,7 +4,6 @@
  * This is the model class for table "comment_metadata".
  *
  * The followings are the available columns in table 'comment_metadata':
- * @property integer $id
  * @property integer $comment_id
  * @property string $key
  * @property string $value
@@ -47,7 +46,7 @@ class CommentMetadata extends CActiveRecord
 			array('key, value', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, comment_id, key, value, created, updated', 'safe', 'on'=>'search'),
+			array('comment_id, key, value, created, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,7 +68,6 @@ class CommentMetadata extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
 			'comment_id' => 'Comment',
 			'key' => 'Key',
 			'value' => 'Value',
@@ -89,7 +87,6 @@ class CommentMetadata extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
 		$criteria->compare('comment_id',$this->comment_id);
 		$criteria->compare('key',$this->key,true);
 		$criteria->compare('value',$this->value,true);
@@ -99,5 +96,13 @@ class CommentMetadata extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function beforeValidate()
+	{
+	    	if ($this->isNewRecord)
+			$this->created = new CDbExpression('NOW()');
+	   	else
+			$this->updated = new CDbExpression('NOW()');
 	}
 }

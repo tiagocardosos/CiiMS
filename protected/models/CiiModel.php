@@ -11,7 +11,7 @@ class CiiModel extends CActiveRecord
 			{
 				if (isset($items[$v->key]))
 				{
-					$v->key = $v->key . $v->id;
+					$v->key = $v->key;
 				}
 			
 				$items[$v->key] = array(

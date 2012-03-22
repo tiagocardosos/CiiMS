@@ -165,7 +165,8 @@ class Content extends CiiModel
 		return parent::findByPk($pk, $conditions, $params);
 	}
 	
-	public function beforeValidate() {
+	public function beforeValidate()
+	{
 	    	if ($this->isNewRecord)
 	    	{
 	    		// Implicit flush to delete the URL rules
@@ -199,6 +200,32 @@ class Content extends CiiModel
 		}
 		
 		return parent::beforeSave();
+	}
+	
+	public function afterSave()
+	{
+		Yii::import('ext.autokeywords.*');
+		$params['content'] = $this->content; //page content
+		
+		//set the length of keywords you like
+		$params['min_word_length'] = 5;  //minimum length of single words
+		$params['min_word_occur'] = 2;  //minimum occur of single words
+
+		$params['min_2words_length'] = 3;  //minimum length of words for 2 word phrases
+		$params['min_2words_phrase_length'] = 10; //minimum length of 2 word phrases
+		$params['min_2words_phrase_occur'] = 2; //minimum occur of 2 words phrase
+
+		$params['min_3words_length'] = 3;  //minimum length of words for 3 word phrases
+		$params['min_3words_phrase_length'] = 10; //minimum length of 3 word phrases
+		$params['min_3words_phrase_occur'] = 2; //minimum occur of 3 words phrase
+
+		$keyword = new AutoKeywords($params, "iso-8859-1");
+		$command  = Yii::app()->db->createCommand('INSERT INTO content_metadata (content_id, `key`, value, created, updated) VALUES (:content_id, "keywords", :value, NOW(), NOW()) ON DUPLICATE KEY UPDATE content_id = :content_id, `key` = `key`, value = :value, created = created, updated = NOW()');
+		$command->bindParam(':content_id',$this->id,PDO::PARAM_INT);
+		$command->bindParam(':value',$keyword->get_keywords(),PDO::PARAM_STR);
+		$command->execute();
+		
+		return parent::afterSave();
 	}
 	
 	public function beforeDelete()
