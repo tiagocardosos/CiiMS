@@ -221,9 +221,10 @@ class Content extends CiiModel
 		$params['min_3words_phrase_occur'] = 2; //minimum occur of 3 words phrase
 
 		$keyword = new AutoKeywords($params, "iso-8859-1");
+		$keywords = $keyword->get_keywords();
 		$command  = Yii::app()->db->createCommand('INSERT INTO content_metadata (content_id, `key`, value, created, updated) VALUES (:content_id, "keywords", :value, NOW(), NOW()) ON DUPLICATE KEY UPDATE content_id = :content_id, `key` = `key`, value = :value, created = created, updated = NOW()');
 		$command->bindParam(':content_id',$this->id,PDO::PARAM_INT);
-		$command->bindParam(':value',$keyword->get_keywords(),PDO::PARAM_STR);
+		$command->bindParam(':value',$keywords,PDO::PARAM_STR);
 		$command->execute();
 		
 		return parent::afterSave();

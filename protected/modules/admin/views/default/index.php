@@ -32,7 +32,7 @@
 	<div class="box-content">	
 	<? foreach ($drafts as $k=>$v): ?>
 		<h5><? echo CHtml::link($v->title, Yii::app()->createUrl('/admin/content/edit/' . $v->id)); ?></h5>
-		<p>Posted in <? echo CHtml::link($v->category->name, Yii::app()->createUrl('/admin/categories/view/' . $v->category->id)); ?> by <? echo CHtml::link($v->author->displayName, Yii::app()->createUrl('/admin/users/view/' . $v->author->id)); ?></p>
+		<p>Posted in <? echo CHtml::link($v->category->name, Yii::app()->createUrl('/admin/categories/view/' . $v->category->id)); ?> by <? echo CHtml::link($v->author->displayName, Yii::app()->createUrl('/admin/users/update/id/' . $v->author->id)); ?></p>
 		<p><? echo $v->extract; ?></p>
 		<hr />
 	<? endforeach; ?>
@@ -45,7 +45,7 @@
 	</div>
 	<div class="box-content">	
 	<? foreach ($recentComments as $k=>$v): ?>
-		<p>Posted by <? echo CHtml::link($v->author->displayName, Yii::app()->createUrl('/admin/users/view/' . $v->author->id)); ?></p>
+		<p>Posted by <? echo CHtml::link($v->author->displayName, Yii::app()->createUrl('/admin/users/update/id/' . $v->author->id)); ?></p>
 		<p><? echo $v->comment; ?></p>
 		<hr />
 	<? endforeach; ?>

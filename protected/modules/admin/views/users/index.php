@@ -18,6 +18,7 @@
 			'email',
 			'displayName',
 			array('name'=>'user_role','value'=>'UserRoles::model()->findByPk($data->user_role)->name'),
+			array('name'=>'status', 'value'=>'$data->status ? "Active" : "Inactive"'),
 			'created',
 			array(
 				'class'=>'CButtonColumn',

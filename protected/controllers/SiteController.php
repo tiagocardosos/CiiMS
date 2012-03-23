@@ -39,7 +39,8 @@ class SiteController extends CiiController
 		$this->setPageTitle(Yii::app()->name . ' | Search');
 		$this->layout = '//layouts/main';
 		$data = array();
-		
+		$count = 0;
+
 		if ($_GET['q'] != '')
 		{
 			// Load the search data
@@ -50,14 +51,17 @@ class SiteController extends CiiController
 			$sphinx->setMaxQueryTime(15);
 
 			$result = $sphinx->query($_GET['q'], Yii::app()->params['sphinxSource']);
-		
+			
 			$criteria=new CDbCriteria;
 			$criteria->addInCondition('id', array_keys(isset($result['matches']) ? $result['matches'] : array()));
 			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
-
+			$criteria->limit = 15;
+			$criteria->offset = 15*($page-1);
 			$data = Content::model()->findAll($criteria);
+			$count = Content::model()->count($criteria);
 		}		
-		$this->render('search', array('data'=>$data));
+		
+		$this->render('search', array('id'=>$id, 'data'=>$data, 'count'=>$count));
 	}
 	
 	public function actionLogin()

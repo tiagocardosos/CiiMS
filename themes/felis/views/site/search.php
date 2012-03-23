@@ -48,6 +48,27 @@
 		                <? endforeach; ?>
 			</div>
                 </div>
+		
+		<div style="clear:both;"></div>
+        	<? if ($postCount > 15): ?>
+		<? $pages = $count % 15;?>
+        		<div class="portfolio-pagn">
+
+                		<? for ($i = 1; $i <= $pages; $i++): ?>
+                        		<? if ($i == 1): ?>
+                                		<? if ($id != 1): ?>
+                                        		<span><? echo CHtml::link('<<', Yii::app()->createUrl('/search/'.($id-1))); ?></span>
+                                		<? endif; ?>
+                        		<? endif; ?>
+                        		<span><? echo CHtml::link($i, Yii::app()->createUrl($category.'/'.$i), array('class'=>($i == $id ? 'page-active' : ''))); ?></span>
+                        		<? if ($i == $pages): ?>
+                                		<? if ($id != $pages): ?>
+                                        		<span><? echo CHtml::link('>>', Yii::app()->createUrl($category.'/'.($id+1))); ?></span>
+                                		<? endif; ?>
+                        		<? endif; ?>
+                		<? endfor; ?>
+        		</div>
+        		<? endif; ?>
                 <? endif; ?>
         </div>
 </div>

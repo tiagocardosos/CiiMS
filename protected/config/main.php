@@ -45,7 +45,8 @@ return array(
 			'showScriptName'=>false,
 			'rules'=>array(
 				'/sitemap.xml'=>'/site/sitemap',
-				'/search'=>'/site/search',
+				'/search/'=>'/site/search',
+				'/search/<id:\d+>'=>'/site/search',
 				'/contact'=>'/site/contact',
 				'/projects'=>'/categories/list',
 				'/register'=>'/site/register',
