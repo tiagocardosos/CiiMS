@@ -42,7 +42,7 @@ class ContentMetadata extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('content_id, key, value, created, updated', 'required'),
+			array('content_id, key, value', 'required'),
 			array('content_id', 'numerical', 'integerOnly'=>true),
 			array('key', 'length', 'max'=>50),
 			array('value', 'length', 'max'=>255),
@@ -100,11 +100,15 @@ class ContentMetadata extends CActiveRecord
 		));
 	}
 	
-	public function beforeValidate()
-	{
+	public function beforeSave() {
 	    	if ($this->isNewRecord)
+	    	{
 			$this->created = new CDbExpression('NOW()');
+			$this->updated = new CDbExpression('NOW()');
+		}
 	   	else
 			$this->updated = new CDbExpression('NOW()');
+	 
+	    	return parent::beforeSave();
 	}
 }

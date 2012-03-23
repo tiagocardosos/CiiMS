@@ -23,6 +23,17 @@ class SiteController extends CiiController
 		}
 	}
 	
+	public function actionSitemap()
+	{		
+		$this->layout = false;
+		
+		// Retrieve all contents and categories
+		$content = Yii::app()->db->createCommand('SELECT slug, type_id, updated FROM content AS t WHERE vid=(SELECT MAX(vid) FROM content WHERE id=t.id) AND status = 1;')->queryAll();
+		$categories = Yii::app()->db->createCommand('SELECT slug, updated FROM categories;')->queryAll();
+		
+		$this->render('sitemap', array('content'=>$content, 'categories'=>$categories));
+	}
+	
 	public function actionSearch($id=1)
 	{
 		$this->setPageTitle(Yii::app()->name . ' | Search');

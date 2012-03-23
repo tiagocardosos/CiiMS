@@ -44,6 +44,7 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
+				'/sitemap.xml'=>'/site/sitemap',
 				'/search'=>'/site/search',
 				'/contact'=>'/site/contact',
 				'/projects'=>'/categories/list',

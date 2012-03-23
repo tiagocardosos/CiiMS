@@ -32,27 +32,33 @@
 	<? if ($data->attributes['commentable']): ?>
 	<div class="inner-blank clearfix">
 		<div class="heading">
-			<h4><? echo $data['comment_count']; ?> Response(s):</h4>
+			<h4 id="comment_count" value="<? echo $data['comment_count']; ?>"><? echo $data['comment_count']; ?> Response(s):</h4>
 		</div>
 		<ul class="comments-list">
 			<? foreach ($comments as $k=>$v): ?>
 				<? if ($v->attributes['approved']): ?>
 				<li>
 					<a class="avatar float-l">
-						<? echo CHtml::image('https://gravatar.com/avatar/'.md5(strtolower(trim($v->user->attributes['email']))), '', array('class'=>'avatar avatar-60 photo', 'height'=>60, 'width'=>60));
+						<? echo CHtml::image('https://gravatar.com/avatar/'.md5(strtolower(trim($v->author->attributes['email']))), '', array('class'=>'avatar avatar-60 photo', 'height'=>60, 'width'=>60));
 ; ?>
 					</a>
 					<? echo CHtml::link('','', array('name'=>'comment-' . $v->attributes['id'])); ?>
 					<div class="post">
 						<p>
-							<span><strong><? echo CHtml::link($v->user->attributes['displayName'], '#'); ?></strong></span>
+							<span><strong><? echo CHtml::link($v->author->attributes['displayName'], '#'); ?></strong></span>
 							<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/auth-arr.gif');?>
 							<? echo date('F d, Y @ h:i a', strtotime($v->attributes['created'])); ?>
+							<? if (Yii::app()->user->role >= 4): ?>				
+								<a id="delete" value="<? echo $v->attributes['id']; ?>" class="button" style="float:right;"><span>Delete<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/repl.png');?></span></a>
+							<? endif; ?>
 						</p>
 						<p>
 							<? echo strip_tags($v->attributes['comment'], '<p><a><b><strong><i><em><u>'); ?>
 						</p>
-						<a href="#comment-box" class="button reply"><span>Reply<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/repl.png');?></span></a>
+						<a href="#comment-box" class="button reply"><span>Reply<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/repl.png');?></span></a>	
+						<? if (!Yii::app()->user->isGuest): ?>				
+							<a id="flag" value="<? echo $v->attributes['id']; ?>" class="button"><span>Flag Comment<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/repl.png');?></span></a>
+						<? endif; ?>
 					</div>
 				</li>
 				<? endif; ?>
@@ -77,7 +83,7 @@
 				)); ?>
 				<?php echo $form->error($model,'comment'); ?>
 				<? echo $form->hiddenField($model, 'content_id', array('class'=>'test', 'value'=>$id)); ?>	
-				<? echo $form->TextArea($model, 'comment', array('id'=>'comment')); ?>
+				<? echo $form->TextArea($model, 'comment', array('id'=>'comment', 'class'=>'wysiwyg')); ?>
 
 				        <div class="button float-r" style="margin-top: 0px;">
 				            <? echo CHtml::submitButton('Comment'); ?>
@@ -88,4 +94,8 @@
 	</div>
 	<? endif; ?>
 </div>
-<? Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/' . Yii::app()->theme->name .'/commentform.js'); ?>
+<? Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/' . Yii::app()->theme->name .'/commentform.js');
+			   //->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.wysiwyg/jquery.wysiwyg.js')
+			   //->registerCssFile(Yii::app()->baseUrl . '/js/jquery.wysiwyg/jquery.wysiwyg.css');
+			   //->registerScript('wysiwyg', "$('.wysiwyg').wysiwyg();", CClientScript::POS_READY)
+			   //->registerCss('wysiwgy', 'div.wysiwyg { background-color: #F0F0F0; border 1px solid #656565; }'); ?>

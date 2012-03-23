@@ -27,7 +27,7 @@ class ContentController extends CiiController
 		// If the route and the uri are the same, then a direct access attempt was made, and we need to block access to the controller
 		if ($requestUri == $route)
 		{
-			throw new CHttpException(404,'The specified post cannot be found.');
+			throw new CHttpException(404, 'The requested post cannot be found.');
 		}
 	}
 	

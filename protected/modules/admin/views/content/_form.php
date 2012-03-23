@@ -4,6 +4,7 @@
     
     <ul>
       <li class="active"><a href="#one"><? echo $model->isNewRecord ? 'Create' : 'Update'; ?></a></li>
+      <li><? echo CHtml::link('Preview', Yii::app()->createUrl('/admin/content/preview/' . $model->id), array('id'=>'preview-content')); ?></li>
     </ul>
   </div>
   
@@ -28,8 +29,8 @@
         ?>
         <p><?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>150, 'placeholder'=>'Title')); ?></p>
         <p><?php echo $form->dropDownList($model,'category_id', CHtml::listData(Categories::model()->findAll(array('order' => 'name')),'id','name'));?></p>
-        <p><? echo $form->textArea($model, 'content', array('placeholder'=>'Content')); ?></p>
-        <p id="extract" style="display:none;"><? echo $form->textArea($model, 'extract', array('placeholder'=>'Extract')); ?></p>
+        <p><? echo $form->textArea($model, 'content', array('placeholder'=>'Content', 'class'=>'wysiwyg')); ?></p>
+        <p id="extract" style="display:none;"><? echo $form->textArea($model, 'extract', array('placeholder'=>'Extract', 'class'=>'wysiwyg')); ?></p>
         
         <p><?php echo $form->dropDownList($model,'status', array(1=>'Publish', 0=>'Save as Draft'));?></p>
         <p><?php echo $form->dropDownList($model,'commentable', array(1=>'Allow Comments', 0=>'Disable Comments'));?></p>
@@ -43,7 +44,7 @@
         
         <div class="action_bar">
           <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class'=>'blue button')); ?>
-          <?php echo CHtml::link('Show Extract', '#', array('id'=>'show-extract', 'class'=>'button')); ?>
+          <?php echo CHtml::link('Extract', '#', array('id'=>'show-extract', 'class'=>'button')); ?>
           <a href="#modal" class="button">Cancel</a>
         </div>
         
@@ -54,6 +55,22 @@
 </div>
 
 <script>
-$("#show-extract").click(function() { $("#extract").toggle(); });
+$(document).ready(function(){
+	$("#show-extract").click(function() { $("#extract").toggle();});
+	$("#preview-content").click(function() { 
+		// Save the Data
+		$.ajax({
+			type: 'POST',
+			data: $('form').serialize(),
+			url: '<? echo $model->id; ?>',
+			success: function()
+			{
+				$(location).attr('href','../../preview/id/<? echo $model->id; ?>');
+			}
+		});
+		return false; 
+	});
+	$('.wysiwyg').wysiwyg();
+});
 </script>
 

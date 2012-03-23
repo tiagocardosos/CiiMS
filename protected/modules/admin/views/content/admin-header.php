@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-   
-    <title><? echo CHtml::encode($this->pageTitle); ?></title>
-    <? 
+   <? 
 		$themeName 	= 'admin'; 
 	   	$baseUrl 	= Yii::app()->request->baseUrl;
 	   	$themeCSSUrl 	= "{$baseUrl}/css/{$themeName}/";
@@ -12,23 +6,12 @@
 	   	
 	   	Yii::app()->clientScript->registerCssFile("{$themeCSSUrl}reset.css")
 	   				->registerCssFile("{$themeCSSUrl}icons.css")
-	   				->registerCssFile("{$themeCSSUrl}formalize.css")
-	   				->registerCssFile("{$themeCSSUrl}sourcerer.css")
-	   				->registerCssFile("{$themeCSSUrl}jqueryui.css")
-	   				->registerCssFile("{$themeCSSUrl}tipsy.css")
-	   				->registerCssFile("{$themeCSSUrl}calendar.css")
-	   				->registerCssFile("{$themeCSSUrl}tags.css")
-	   				->registerCssFile("{$themeCSSUrl}visualize.css")
-	   				->registerCssFile("{$themeCSSUrl}fonts.css")	   				
-	   				->registerCssFile("{$themeCSSUrl}selectboxes.css")
 	   				->registerCssFile("{$themeCSSUrl}960.css")
 	   				->registerCssFile("{$themeCSSUrl}main.css")
-	   				->registerCssFile("{$themeCSSUrl}portrait.css")
-	   				->registerCssFile("{$baseUrl}/js/jquery.wysiwyg/jquery.wysiwyg.css")
-	   				->registerCssFile(Yii::app()->baseUrl . '/css/jquery.gritter.css');;
+	   				->registerCssFile("{$themeCSSUrl}portrait.css");
 	   	
 	   	Yii::app()->clientScript->registerCoreScript('jquery')
-	   				->registerCoreScript('jquery.ui')
+	   				->registerCoreScript('jquery.ui')	   				
 	   				->registerScriptFile("{$themeJSUrl}jquery.cookies.js")
 	   				->registerScriptFile("{$themeJSUrl}jquery.pjax.js")
 	   				->registerScriptFile("{$themeJSUrl}formalize.min.js")
@@ -46,9 +29,20 @@
 	   				->registerScriptFile("{$themeJSUrl}jquery.livequery.js")
 	   				->registerScriptFile("{$themeJSUrl}jquery.flot.min.js")
 	   				->registerScriptFile("{$themeJSUrl}application.js")
-	   				->registerScriptFile("{$baseUrl}/js/jquery.wysiwyg/jquery.wysiwyg.js")
-	   				->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.gritter.min.js');
+	   				->registerScriptFile("{$baseUrl}/js/jquery.wysiwyg/jquery.wysiwyg.js");
 	?>
-  </head>
-  <? echo $content; ?>
-</html>
+
+<div id="login" style="margin-bottom: -8px; border-bottom: 9px solid white;">
+	<br />
+	<br />
+	<div id="login_container" style="margin-bottom: 50px; margin-top: 0px; width: 75%;">
+		<div id="login_form" style="top: 0px; width: 100%;">
+			<p style="width: 100%; text-align:center">This is what your post will look like once it is published.
+			
+			<? echo CHtml::Button('Go Back', array('class'=>'button blue', 'escape'=>false, 'style'=>'float:right;margin-top: 1px;', 'id'=>'button', 'onClick'=>'window.history.back()')); ?>
+			</p>
+			
+  		</div>
+	</div>
+	<br />
+</div>

@@ -45,7 +45,7 @@
 	</div>
 	<div class="box-content">	
 	<? foreach ($recentComments as $k=>$v): ?>
-		<p>Posted in <? echo CHtml::link($v->category->name, Yii::app()->createUrl('/admin/categories/view/' . $v->category->id)); ?> by <? echo CHtml::link($v->author->displayName, Yii::app()->createUrl('/admin/users/view/' . $v->author->id)); ?></p>
+		<p>Posted by <? echo CHtml::link($v->author->displayName, Yii::app()->createUrl('/admin/users/view/' . $v->author->id)); ?></p>
 		<p><? echo $v->comment; ?></p>
 		<hr />
 	<? endforeach; ?>

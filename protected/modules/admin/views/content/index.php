@@ -18,11 +18,10 @@ $this->menu[]=array('label'=>'Create New Post', 'url'=>array('save'));
 		),
 		'pagerCssClass'=>'dataTables_paginate paging_full_numbers',
 		'columns'=>array(
-			'title',
-			'slug',
+			'title',			
+			array('name'=>'status', 'value'=>'$data->status == 1 ? "Published" : "Draft"'),
 			'created',
 			'updated',
-			array('name'=>'status', 'value'=>'$data->status == 1 ? "Published" : "Draft"'),
 			array(
 				'class'=>'CButtonColumn',
 				'template'=>'{view} {update} {delete}',

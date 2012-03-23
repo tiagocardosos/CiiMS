@@ -17,6 +17,9 @@ body {
 body#login {
   background: url(../../images/admin/login_bg.png);
 }
+div#login {
+  background: url(../../images/admin/login_bg.png);
+}
 
 /* Primary navigation */
 

@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 	<title><? echo CHtml::encode($this->pageTitle); ?></title>
-	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="<? echo isset($this->params['meta']['keywords']) ? $this->params['meta']['keywords'] : ''; ?>" />
+	<meta name="description" content="<? echo strip_tags($this->params['data']['extract']); ?>" />
 	<? 
 		$themeName 	= Yii::app()->theme->name; 
 	   	$baseUrl 	= Yii::app()->request->baseUrl;
@@ -16,7 +18,8 @@
 	   				->registerCssFile("{$themeCSSUrl}prettyPhoto.css")
 	   				->registerCssFile("{$themeCSSUrl}tipSwift.css")
 	   				->registerCssFile("{$themeCSSUrl}nivo-slider.css")
-	   				->registerCssFile("{$themeCSSUrl}jFlicker.css");
+	   				->registerCssFile("{$themeCSSUrl}jFlicker.css")
+			   		->registerCssFile(Yii::app()->baseUrl . '/css/jquery.gritter.css');
 	   	
 	   	Yii::app()->clientScript->registerCoreScript('jquery')
 	   				->registerCoreScript('jquery.ui')
@@ -34,7 +37,8 @@
 	   				->registerScriptFile("{$themeJSUrl}jquery.scrollTo-min.js")
 	   				->registerScriptFile("{$themeJSUrl}column-height.js")
 	   				->registerScriptFile("{$themeJSUrl}custom.js")
-	   				->registerScriptFile("{$themeJSUrl}html5.js");	
+	   				->registerScriptFile("{$themeJSUrl}html5.js")
+	   				->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.gritter.min.js');	
 	?>
 </head>
 <body>
@@ -42,7 +46,6 @@
     	<div class="shine-top"></div>
         <div class="top-wrap">
             <!-- header -->
-
             <header>
                 <div class="top-info">
                     <div class="mini-menu">
@@ -149,7 +152,7 @@
 						$content = Yii::app()->cache->get('content-listing');
 						if ($content == false)
 						{
-							$content = Yii::app()->db->createCommand('SELECT title, extract, content.slug AS content_slug, categories.slug AS category_slug, categories.name AS category_name, comment_count, content.created FROM content LEFT JOIN categories ON content.category_id = categories.id WHERE vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 AND status = 1 ORDER BY content.created ASC LIMIT 5')->queryAll();
+							$content = Yii::app()->db->createCommand('SELECT title, extract, content.slug AS content_slug, categories.slug AS category_slug, categories.name AS category_name, comment_count, content.created FROM content LEFT JOIN categories ON content.category_id = categories.id WHERE vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 AND status = 1 ORDER BY content.created DESC LIMIT 5')->queryAll();
 							Yii::app()->cache->set('content-listing', $content);							
 						}
 						

@@ -20,7 +20,6 @@ class CommentController extends CiiController
 	{
 		return array(
 			array('allow',  // allow authenticated users to perform any action
-				'actions'=>array('comment'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -50,6 +49,24 @@ class CommentController extends CiiController
 				$this->renderPartial('comment', array('v'=>$comment));
 			}
 		}
+	}
+	
+	public function actionFlag($id=NULL)
+	{
+		if (Yii::app()->request->isPostRequest)
+		{
+			$comment = Comments::model()->findByPk($id);
+			if ($comment == NULL)
+				throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+			
+			$comment->approved = '-1';
+			if($comment->save())
+				return 1;
+			else
+				throw new CHttpException(400, 'Something went wrong');
+		}
+		else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 }
 

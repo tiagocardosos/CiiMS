@@ -119,7 +119,8 @@ class Categories extends CiiModel
 	    	{
 	    		Yii::app()->cache->delete('categories');
 			Yii::app()->cache->delete('WFF-categories-url-rules');
-			$this->created = new CDbExpression('NOW()');
+			$this->created = new CDbExpression('NOW()');			
+			$this->updated = new CDbExpression('NOW()');
 		}
 	   	else
 			$this->updated = new CDbExpression('NOW()');

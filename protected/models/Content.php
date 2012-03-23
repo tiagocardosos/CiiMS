@@ -171,6 +171,7 @@ class Content extends CiiModel
 	    	{
 	    		// Implicit flush to delete the URL rules
 			$this->created = new CDbExpression('NOW()');
+			$this->updated = new CDbExpression('NOW()');
 			$this->comment_count = 0;
 		}
 	   	else
@@ -178,7 +179,7 @@ class Content extends CiiModel
 		
 		if ($this->extract == '')
 		{
-    			$this->extract = $this->myTruncate($this->content, 200, '.', '');
+    			$this->extract = $this->myTruncate($this->content, 250, '.', '');
 	 	}
 		
 		if ($this->slug == '')
@@ -205,7 +206,7 @@ class Content extends CiiModel
 	public function afterSave()
 	{
 		Yii::import('ext.autokeywords.*');
-		$params['content'] = $this->content; //page content
+		$params['content'] = strip_tags($this->content); //page content
 		
 		//set the length of keywords you like
 		$params['min_word_length'] = 5;  //minimum length of single words

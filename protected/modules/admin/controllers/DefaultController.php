@@ -8,7 +8,7 @@ class DefaultController extends ACiiController
 		// Retrieve Basic Status for Display
 		$stats = Yii::app()->db->createCommand('SELECT (SELECT count(id) FROM content WHERE type_id = 2  AND status = 1 AND vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id)) AS posts, (SELECT count(id) FROM content WHERE type_id = 2 AND status = 1 AND vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id)) AS pages, (SELECT count(id) FROM categories) AS categories, (SELECT count(id) FROM tags) AS tags')->query();
 		
-		$comments = Yii::app()->db->createCommand('SELECT (SELECT count(id) FROM comments WHERE approved = 1) AS comments, (SELECT count(id) FROM comments WHERE approved = 0) AS needs_approval, (SELECT count(id) FROM comments WHERE approved = -1) AS flagged')->query();
+		$comments = Yii::app()->db->createCommand('SELECT (SELECT count(id) FROM comments WHERE approved != 0) AS comments, (SELECT count(id) FROM comments WHERE approved = 0) AS needs_approval, (SELECT count(id) FROM comments WHERE approved = -1) AS flagged')->query();
 		
 		// Retrieve list of drafts
 		$draftsCriteria = new CDbCriteria;

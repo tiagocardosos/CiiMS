@@ -41,7 +41,7 @@ class CommentMetadata extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('comment_id, key, value, created, updated', 'required'),
+			array('comment_id, key, value', 'required'),
 			array('comment_id', 'numerical', 'integerOnly'=>true),
 			array('key, value', 'length', 'max'=>50),
 			// The following rule is used by search().
@@ -98,11 +98,15 @@ class CommentMetadata extends CActiveRecord
 		));
 	}
 	
-	public function beforeValidate()
-	{
+	public function beforeSave() {
 	    	if ($this->isNewRecord)
+	    	{
 			$this->created = new CDbExpression('NOW()');
+			$this->updated = new CDbExpression('NOW()');
+		}
 	   	else
 			$this->updated = new CDbExpression('NOW()');
+	 
+	    	return parent::beforeSave();
 	}
 }
