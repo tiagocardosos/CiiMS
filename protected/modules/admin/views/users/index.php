@@ -1,11 +1,16 @@
-<? $this->menu[]=array('label'=>'Manage Users', 'url'=>array('index'));?>
+<? $this->menu[]=array('label'=>'Manage Active Users', 'url'=>array('index?Users[status]=0'));?>
+<? $this->menu[]=array('label'=>'Manage Inactive Users', 'url'=>array('index?Users[status]=0'));?>
 <div class="box">
 	<div class="box-header">
 		<h1>Manage Users</h1>
 	</div>
 	<div class="dataTables_wrapper">
-
-
+	<? /*
+		<div class="dataTables_filter">
+			<label><span class="icon search"></span> 
+				<input id="filter" name="User[email]" type="text" placeholder="Search..."></label>
+		</div>
+*/ ?>
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
 		'id'=>'users-grid',
 		'dataProvider'=>$model->search(),

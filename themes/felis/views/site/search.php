@@ -50,20 +50,21 @@
                 </div>
 		
 		<div style="clear:both;"></div>
-        	<? if ($postCount > 15): ?>
-		<? $pages = $count % 15;?>
+        	<? if ($count > $limit): ?>
+		<? $pages = ceil($count/$limit-1);?>
         		<div class="portfolio-pagn">
-
                 		<? for ($i = 1; $i <= $pages; $i++): ?>
                         		<? if ($i == 1): ?>
                                 		<? if ($id != 1): ?>
-                                        		<span><? echo CHtml::link('<<', Yii::app()->createUrl('/search/'.($id-1))); ?></span>
+                                        		<span><? echo CHtml::link('<<', Yii::app()->createUrl('/search/'.($id-1) . '?q='.$_GET['q'])); ?></span>
                                 		<? endif; ?>
                         		<? endif; ?>
-                        		<span><? echo CHtml::link($i, Yii::app()->createUrl($category.'/'.$i), array('class'=>($i == $id ? 'page-active' : ''))); ?></span>
+                        		
+                        		<span><? echo CHtml::link($i, Yii::app()->createUrl('/search/'.$i . '?q='.$_GET['q']), array('class'=>($i == $id ? 'page-active' : ''))); ?></span>
+                        		
                         		<? if ($i == $pages): ?>
                                 		<? if ($id != $pages): ?>
-                                        		<span><? echo CHtml::link('>>', Yii::app()->createUrl($category.'/'.($id+1))); ?></span>
+                                        		<span><? echo CHtml::link('>>', Yii::app()->createUrl('/search/'.($id+1) . '?q='.$_GET['q'])); ?></span>
                                 		<? endif; ?>
                         		<? endif; ?>
                 		<? endfor; ?>

@@ -55,7 +55,7 @@ class ContentController extends ACiiController
 		$this->setPageTitle(Yii::app()->name . ' | ' . $content->title);
 		
 		
-		Yii::app()->setTheme('felis');	
+		Yii::app()->setTheme(Configuration::model()->findByAttributes(array('key'=>'theme'))->value);
 		$this->layout = '//layouts/blog';
 		$this->renderPartial('admin-header');
 		$this->render('../../../../../themes/felis/views/content/'.$view, array('id'=>$id, 'data'=>$content, 'meta'=>$meta, 'comments'=>$content->comments, 'model'=>Comments::model()));

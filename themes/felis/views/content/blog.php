@@ -5,10 +5,12 @@
 				<div class="heading bott-15">
            				<h3><? echo $data->attributes['title']; ?></h3>
        				</div>
-		            	<div class="proj-img bott-15">
-					<? echo CHtml::link('', Yii::app()->createUrl($meta['disp-image']['value']), array('class'=>'prettyPhoto zoom')); ?>
-					<? echo CHtml::image(Yii::app()->baseUrl . $meta['disp-image']['value']); ?>
-				</div>
+       				<? if (isset($meta['disp-image']['value'])): ?>
+				    	<div class="proj-img bott-15">
+						<? echo CHtml::link('', Yii::app()->createUrl($meta['disp-image']['value']), array('class'=>'prettyPhoto zoom')); ?>
+						<? echo CHtml::image(Yii::app()->baseUrl . $meta['disp-image']['value']); ?>
+					</div>
+				<? endif; ?>
 				<a href="#comments" class="col1-12 null">
 					<span><? echo date('j', strtotime($data->attributes['created'])); ?></span>
 					<span class="post-date"><? echo date('M', strtotime($data->attributes['created'])); ?></span>
@@ -48,7 +50,7 @@
 							<span><strong><? echo CHtml::link($v->author->attributes['displayName'], '#'); ?></strong></span>
 							<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/auth-arr.gif');?>
 							<? echo date('F d, Y @ h:i a', strtotime($v->attributes['created'])); ?>
-							<? if (Yii::app()->user->role >= 4): ?>				
+							<? if (!Yii::app()->user->isGuest && Yii::app()->user->role >= 4): ?>				
 								<a id="delete" value="<? echo $v->attributes['id']; ?>" class="button" style="float:right;"><span>Delete<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/repl.png');?></span></a>
 							<? endif; ?>
 						</p>

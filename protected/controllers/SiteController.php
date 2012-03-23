@@ -43,6 +43,9 @@ class SiteController extends CiiController
 
 		if ($_GET['q'] != '')
 		{
+			// Limit for Posts. Adjust here to affect others
+			$limit = 15;
+			
 			// Load the search data
 			Yii::import('ext.sphinx.SphinxClient');
 			$sphinx = new SphinxClient();
@@ -55,13 +58,13 @@ class SiteController extends CiiController
 			$criteria=new CDbCriteria;
 			$criteria->addInCondition('id', array_keys(isset($result['matches']) ? $result['matches'] : array()));
 			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
-			$criteria->limit = 15;
-			$criteria->offset = 15*($page-1);
+			$criteria->limit = $limit;
+			$criteria->offset = $criteria->limit*($id-1);
 			$data = Content::model()->findAll($criteria);
-			$count = Content::model()->count($criteria);
+			
+			$count = Content::model()->countBySQL('SELECT count(id) FROM content AS t WHERE vid=(SELECT MAX(vid) FROM content WHERE id=t.id)');
 		}		
-		
-		$this->render('search', array('id'=>$id, 'data'=>$data, 'count'=>$count));
+		$this->render('search', array('id'=>$id, 'limit'=>$limit, 'data'=>$data, 'count'=>$count));
 	}
 	
 	public function actionLogin()

@@ -28,7 +28,6 @@ return array(
 		),
 		
 	),
-	'theme'=>'felis',
 	//'defaultController' => 'content',
 	// application components
 	'components'=>array(
@@ -83,7 +82,7 @@ return array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
 				array(
-					'class'=>'CFileLogRoute',
+					'class'=>'CWebLogRoute',
 					'levels'=>'trace,error,warning,notice',
 				),			
 			),

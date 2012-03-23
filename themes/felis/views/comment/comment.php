@@ -9,7 +9,7 @@
 			<span><strong><? echo CHtml::link($v->author->attributes['displayName'], '#'); ?></strong></span>
 			<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/auth-arr.gif');?>
 			<? echo date('F d, Y @ h:i a', time()); ?>
-			<? if (Yii::app()->user->role >= 4): ?>				
+			<? if (!Yii::app()->user->isGuest && Yii::app()->user->role >= 4): ?>				
 				<a id="delete" value="<? echo $v->attributes['id']; ?>" class="button" style="float:right;"><span>Delete<? echo CHtml::image(Yii::app()->baseUrl.'/images/felis/repl.png');?></span></a>
 			<? endif; ?>
 		</p>

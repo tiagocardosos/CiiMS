@@ -23,11 +23,13 @@
 			   		<div class="heading bott-15">
 		   					<h3><? echo CHtml::link($v->attributes['title'], Yii::app()->createUrl($v->attributes['slug'])); ?></h3>
 	       				</div>
-				    	<div class="proj-img bott-15">
-				    		<? echo CHtml::link('', Yii::app()->createUrl($metadata['disp-image']['value']), array('class'=>'prettyPhoto zoom')); ?>
-				    		<? echo CHtml::link('', Yii::app()->createUrl($v->attributes['slug'])); ?>
-					    	<? echo CHtml::image(Yii::app()->baseUrl . $metadata['disp-image']['value']); ?>
-				    	</div>
+	       				<? if (isset($metadata['disp-image']['value'])): ?>
+					    	<div class="proj-img bott-15">
+					    		<? echo CHtml::link('', Yii::app()->createUrl($metadata['disp-image']['value']), array('class'=>'prettyPhoto zoom')); ?>
+					    		<? echo CHtml::link('', Yii::app()->createUrl($v->attributes['slug'])); ?>
+						    	<? echo CHtml::image(Yii::app()->baseUrl . $metadata['disp-image']['value']); ?>
+					    	</div>
+				    	<? endif; ?>
 			    		<? 
 			    			$d = date('j', strtotime($v['created']));
 			    			$m = date('M', strtotime($v['created']));
@@ -62,11 +64,13 @@
         				<div class="heading bott-15">
                 				<h3><? echo CHtml::link($v->attributes['title'], Yii::app()->createUrl($v->attributes['slug'])); ?></h3>
          		   		</div>
-            				<div class="proj-img bott-15">
-				    		<? echo CHtml::link('', Yii::app()->createUrl($metadata['disp-image-mini']['value']), array('class'=>'prettyPhoto zoom')); ?>
-				    		<? echo CHtml::link('', Yii::app()->createUrl($v->attributes['slug'])); ?>
-					    	<? echo CHtml::image(Yii::app()->baseUrl . $metadata['disp-image-mini']['value']); ?>
-				    	</div>
+         		   		<? if (isset($metadata['disp-image-mini']['value'])): ?>
+		    				<div class="proj-img bott-15">
+					    		<? echo CHtml::link('', Yii::app()->createUrl($metadata['disp-image-mini']['value']), array('class'=>'prettyPhoto zoom')); ?>
+					    		<? echo CHtml::link('', Yii::app()->createUrl($v->attributes['slug'])); ?>
+						    	<? echo CHtml::image(Yii::app()->baseUrl . $metadata['disp-image-mini']['value']); ?>
+					    	</div>
+					<? endif; ?>
 					<? 
 			    			$d = date('j', strtotime($v['created']));
 			    			$m = date('M', strtotime($v['created']));
@@ -91,7 +95,7 @@
 
 	<div style="clear:both;"></div>
 	<? if ($postCount > 5): ?>
-	<? $pages = (($postCount - 5) / 6) + 1; ?>
+	<? $pages = ceil((($postCount - 5) / 6) + 1); ?>
 	<div class="portfolio-pagn">
 		
 		<? for ($i = 1; $i <= $pages; $i++): ?>

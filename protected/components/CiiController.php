@@ -6,6 +6,12 @@
 class CiiController extends CController
 {
 	
+	public function beforeAction($action)
+	{
+		Yii::app()->setTheme(Configuration::model()->findByAttributes(array('key'=>'theme'))->value);
+		return true;
+	}
+	
 	public $params = array();
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
