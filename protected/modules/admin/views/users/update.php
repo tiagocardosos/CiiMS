@@ -1,7 +1,5 @@
 <?php
-
-
-$this->menu[] = array('label'=>'Manager Users', 'url'=>array('index'));
+$this->menu[] = array('label'=>'Manage Users', 'url'=>array('index'));
 ?>
 
 

@@ -31,7 +31,7 @@
 			'viewButtonImageUrl'=>false,
 			'viewButtonOptions'=>array('class'=>'button plain'),
 			'updateButtonImageUrl'=>false,
-			'updateButtonUrl'=>'approve',
+			'updateButtonUrl'=>'Yii::app()->createUrl("/admin/comments/approve/id/".$data->id)',
 			'updateButtonLabel'=>'approve',
 			'updateButtonOptions'=>array('class'=>'button plain'),
 			'deleteButtonImageUrl'=>false,

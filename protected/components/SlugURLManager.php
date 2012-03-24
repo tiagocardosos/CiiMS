@@ -7,10 +7,17 @@ class SlugURLManager extends CUrlManager
 {
 
 	// Content URL Set
-	public $contentUrlRulesId = 'WFF-content-url-rules';
+	public $contentUrlRulesId;
 	
 	// Categories URL set
-	public $categoriesUrlRulesId = 'WFF-categories-url-rules';
+	public $categoriesUrlRulesId;
+	
+	
+	public function __construct()
+	{
+		$this->contentUrlRulesId = md5( md5( Yii::getPathOfAlias('webroot') ) . md5( Yii::app()->name ) . md5('WFF-content-url-rules') );
+		$this->categoriesUrlRulesId  = md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-categories-url-rules') );
+	}
 	
 	/**
 	 * Overrides processRules, allowing us to inject our own ruleset into the URL Manager

@@ -39,7 +39,7 @@
 	</div>
 </div>
 
-<div class="box column-left">
+<div class="box column-right">
 	<div class="box-header">
 		<span class="glyph note"></span><h1>Recent Comments</h1>
 	</div>

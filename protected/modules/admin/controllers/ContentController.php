@@ -115,6 +115,52 @@ class ContentController extends ACiiController
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
+	
+	
+	public function actionMetaSave($id=NULL, $key=NULL)
+	{
+		if ($key == NULL)
+			$model = new ContentMetadata();
+		else
+			$model = ContentMetadata::model()->findByAttributes(array('content_id'=>$id, 'key'=>$key));
+	
+		if (isset($_POST['ContentMetadata']))
+		{
+			$model->attributes = $_POST['ContentMetadata'];
+			try
+			{
+				if ($model->save())
+				{
+					$this->redirect(array('metasave','id'=>$model->content_id, 'key'=>$model->key));
+				}
+			}
+			catch(CDbException $e)
+			{
+				$model->addError('key', $e->getMessage());
+			}
+		}
+		
+		$this->render('metasave', array(
+			'model'=>$model,
+			'id'=>$id, 
+			'key'=>$key
+			));
+	}
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionMetaDelete($id, $key)
+	{
+		// we only allow deletion via POST request
+		// and we delete /everything/
+		ContentMetadata::model()->findByAttributes(array('content_id'=>$id, 'key'=>$key))->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+	}
 
 	/**
 	 * Lists all models.
@@ -128,6 +174,23 @@ class ContentController extends ACiiController
 
 		$this->render('index',array(
 			'model'=>$model,
+		));
+	}
+	
+	/**
+	 * Lists all models.
+	 */
+	public function actionMeta($id=NULL)
+	{
+		$_GET['ContentMetadata']['content_id'] = $id;
+		$model=new ContentMetadata('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['ContentMetadata']))
+			$model->attributes=$_GET['ContentMetadata'];
+
+		$this->render('meta',array(
+			'model'=>$model,
+			'id'=>$id,
 		));
 	}
 
