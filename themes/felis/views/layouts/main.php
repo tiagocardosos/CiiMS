@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="logo-menu">
-                	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/felis/content/logo.png'), Yii::app()->getBaseUrl(true), array('class'=>'logo')); ?>
+                	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/felis/logo.png'), Yii::app()->getBaseUrl(true), array('class'=>'logo')); ?>
 			<? $this->widget('zii.widgets.CMenu',array(
 				'id'=>'about-menu',
 				'htmlOptions'=>array('class'=>'navmenu'),
