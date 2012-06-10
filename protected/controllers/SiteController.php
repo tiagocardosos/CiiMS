@@ -37,15 +37,15 @@ class SiteController extends CiiController
 	public function actionSearch($id=1)
 	{
 		$this->setPageTitle(Yii::app()->name . ' | Search');
-		$this->layout = '//layouts/main';
+		$this->layout = '//layouts/default';
 		$data = array();
-		$count = 0;
-
-		if ($_GET['q'] != '')
+		$pages = array();
+		$itemCount = 0;
+		$pageSize = Configuration::model()->findByAttributes(array('key'=>'searchPaginationSize'))->value;
+		
+		if (isset($_GET['q']) && $_GET['q'] != '')
 		{
-			// Limit for Posts. Adjust here to affect others
-			$limit = 15;
-			
+					
 			// Load the search data
 			Yii::import('ext.sphinx.SphinxClient');
 			$sphinx = new SphinxClient();
@@ -55,16 +55,24 @@ class SiteController extends CiiController
 
 			$result = $sphinx->query($_GET['q'], Yii::app()->params['sphinxSource']);
 			
+			
 			$criteria=new CDbCriteria;
 			$criteria->addInCondition('id', array_keys(isset($result['matches']) ? $result['matches'] : array()));
 			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
-			$criteria->limit = $limit;
-			$criteria->offset = $criteria->limit*($id-1);
-			$data = Content::model()->findAll($criteria);
+			$criteria->limit = $pageSize;			
 			
-			$count = Content::model()->countBySQL('SELECT count(id) FROM content AS t WHERE vid=(SELECT MAX(vid) FROM content WHERE id=t.id)');
+			$itemCount = Content::model()->count($criteria);
+			$pages=new CPagination($itemCount);
+			$pages->pageSize=$pageSize;
+			
+			
+			$criteria->offset = $criteria->limit*($pages->getCurrentPage()-1);			
+			$data = Content::model()->findAll($criteria);
+    		$pages->applyLimit($criteria);
+			
 		}		
-		$this->render('search', array('id'=>$id, 'limit'=>$limit, 'data'=>$data, 'count'=>$count));
+		
+		$this->render('search', array('id'=>$id, 'data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
 	}
 	
 	public function actionLogin()
@@ -108,36 +116,38 @@ class SiteController extends CiiController
 		$error = '';
 		if (isset($_POST) && !empty($_POST))
 		{
-			$resp = $captcha->recaptcha_check_answer(Yii::app()->params['reCaptchaPrivateKey'], $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+			$model->attributes = $_POST['RegisterForm'];
+			
+			if ($model->validate())
+			{
+				$user->attributes = array(
+					'email'=>$_POST['RegisterForm']['email'],
+					'password'=>Users::model()->encryptHash($_POST['RegisterForm']['email'], $_POST['RegisterForm']['password'], Yii::app()->params['encryptionKey']),
+					'firstName'=>$_POST['RegisterForm']['firstName'],
+					'lastName'=>$_POST['RegisterForm']['lastName'],
+					'displayName'=>$_POST['RegisterForm']['displayName'],
+					'user_role'=>1,
+					'status'=>1
+				);
+				
+				$resp = $captcha->recaptcha_check_answer(Yii::app()->params['reCaptchaPrivateKey'], $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
 
-			if (!$resp->is_valid) {
-				$error = 'The CAPTCHA that you entered was invalid. Please try again';
-			} 
-			else {
-				$model->attributes = $_POST['RegisterForm'];
-				if ($model->validate())
+				if (!$resp->is_valid) {
+					$error = 'The CAPTCHA that you entered was invalid. Please try again';
+					$this->render('register', array('captcha'=>$captcha, 'model'=>$model, 'error'=>$error, 'user'=>$user));
+					return;
+				} 
+				
+				try 
 				{
-					$user->attributes = array(
-						'email'=>$_POST['RegisterForm']['email'],
-						'password'=>Users::model()->encryptHash($_POST['RegisterForm']['email'], $_POST['RegisterForm']['password'], Yii::app()->params['encryptionKey']),
-						'firstName'=>$_POST['RegisterForm']['firstName'],
-						'lastName'=>$_POST['RegisterForm']['lastName'],
-						'displayName'=>$_POST['RegisterForm']['displayName'],
-						'user_role'=>1,
-						'status'=>1
-					);
-					
-					try 
+					if($user->save())
 					{
-						if($user->save())
-						{
-							$this->render('register-success');
-						}
+						$this->render('register-success');
 					}
-					catch(CDbException $e) 
-					{
-						$model->addError(null, 'The email address has already been associated to an account. Do you want to login instead?');
-					}
+				}
+				catch(CDbException $e) 
+				{
+					$model->addError(null, 'The email address has already been associated to an account. Do you want to login instead?');
 				}
 			}
 		}

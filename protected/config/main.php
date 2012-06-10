@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Ethreal Systems',
+	'name'=>'Erianna',
 	// preloading 'log' component
 		'preload'=>array('log'),
 	// autoloading model and component classes
@@ -40,6 +40,7 @@ return array(
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'class'=>'SlugURLManager',
+			'cache'=>true,
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
@@ -51,29 +52,21 @@ return array(
 				'/register'=>'/site/register',
 				'/login'=>'/site/login',
 				'/logout'=>'/site/logout'
-				//'/projects/<page:\d+>'=>'/categories/index/id/2',
 			),
 		),
 		// uncomment the following to use a MySQL database
 		'db'=>array(
 			'class'=>'CDbConnection', 
-			'connectionString' => 'mysql:host=localhost;dbname=wildfire',
+			'connectionString' => 'mysql:host=localhost;dbname=er-wildfire',
 			'emulatePrepare' => true,
-			'username' => 'wildfire',
-			'password' => '3xNQV7KDHKWScpWB',
+			'username' => 'er-wildfire',
+			'password' => 'uwB6GbHYRGntqjCH',
 			'charset' => 'utf8',
 			'schemaCachingDuration'=>3600,
 			'enableProfiling'=>true, 
 			),
 		'cache'=>array(
-			'class'=>'system.caching.CMemCache',
-			'servers'=>array(
-				array(
-					'host'=>'127.0.0.1', 
-					'port'=>11211, 
-					'weight'=>60
-				),
-		    	),
+			'class'=>'system.caching.CFileCache',
 		),
 		'apccache'=>array(
 			'class'=>'CApcCache',
@@ -91,12 +84,12 @@ return array(
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
-	'params'=>array(
-	        'encryptionKey'=>'c2438e6dbca8d8c387ea845556edd125ca7956ak38fhj5470ee3b5c387807e9aeb23b39001abf18499d22a3427adf6b47062b11e9d7d9d2dc6f8617c',
+	'params'=>array(	        			'encryptionKey'=>'c2438e6dbca8d8c387ea845556edd125ca7956ak38fhj5470ee3b5c387807e9aeb23b39001abf18499d22a3427adf6b47062b11e9d7d9d2dc6f8617c',
 	        'reCaptchaPrivateKey'=>'6Lfaac0SAAAAAL7hTWNTsobtb808PnqoytZxjwDa',
 	        'reCaptchaPublicKey'=>'6Lfaac0SAAAAAJAgA3GMHAb1ytnik7iobMwEX24p',
 	        'sphinxHost'=>'localhost',
 	        'sphinxPort'=>'9312',
-	        'sphinxSource'=>'ethreal'
+	        'sphinxSource'=>'erianna',
+	        'enviroment'=>1
 	),
 );

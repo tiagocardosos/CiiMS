@@ -5,7 +5,11 @@
  **/
 class SlugURLManager extends CUrlManager
 {
-
+	
+	// Whether or not to perform database caching
+	// Set to false in urlManager array in config/main to disable caching (useful for debugging).
+	public $cache = true;
+	
 	// Content URL Set
 	public $contentUrlRulesId;
 	
@@ -32,7 +36,9 @@ class SlugURLManager extends CUrlManager
 		// Append our cache rules BEFORE we run the defaults
 		$this->rules['<controller:\w+>/<action:\w+>/<id:\d+>'] = '<controller>/<action>';
 		$this->rules['<controller:\w+>/<action:\w+>']='<controller>/<action>';
+		
 		parent::processRules();
+		
 
 	}
 	
@@ -48,11 +54,16 @@ class SlugURLManager extends CUrlManager
 		if($urlRules===false)
 		{
 		    $urlRules = Yii::app()->db->createCommand("SELECT id, slug FROM {$fromString}")->queryAll();
-		    Yii::app()->cache->set($item, $urlRules);
+			
+			if ($this->cache)
+		    	Yii::app()->cache->set($item, $urlRules);
 		}
 		
 		foreach ($urlRules as $route)
 		{
+			if ($route['slug'] == NULL)
+				continue;
+			
 			$this->rules['/'.$route['slug'] . '/<page:\d+>'] = "/{$fromString}/index/id/{$route['id']}";
 			$this->rules['/'.$route['slug']] = "/{$fromString}/index/id/{$route['id']}";
 		}

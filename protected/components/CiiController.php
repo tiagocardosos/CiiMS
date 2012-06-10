@@ -12,7 +12,20 @@ class CiiController extends CController
 		return true;
 	}
 	
-	public $params = array();
+	/**
+	 * @var array the default params for any request
+	 * 
+	 */
+	public $params = array(
+		'meta'=>array(
+			'keywords'=>'',
+			'description'=>'',
+		),
+		'data'=>array(
+			'extract'=>''
+		)
+	);
+	
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
 	 * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
@@ -55,7 +68,7 @@ class CiiController extends CController
 	    		$this->params['meta'] = $data['meta'];
 	    	}
 	    	
-	    	if (isset($data['data']))
+	    	if (isset($data['data']) && is_object($data['data']))
 	    	{
 	    		$this->params['data'] = $data['data']->attributes;
 	    	}
@@ -76,12 +89,32 @@ class CiiController extends CController
 	}
 
 	/**
+	 * Performs default isset()/empty() type checking on an object, as well as
+	 * addition methods if requested
+	 * @param	mixed	$var	The variable we want to do data checking on
+	 * @param 	string	$default	The default value we want to return if false
+	 * @param  	$mode 	array 	The method(s) we would like to apply to the variable
+	 * @return 	$var	mixed	The variable depending upon the mode setting
+	 */
+	public function displayVar(&$var, $default = '')
+	{
+		if (is_array($var))
+			return is_array($var) && !empty($var) ? $var : $default;
+		else
+			return isset($var) ? $var : $default;
+		
+	}
+	
+	/**
 	 * Outputs readable debug information at request
 	 * @param $array - Data to be outputted
 	 * @action - Outputs readable debug info
 	 **/
 	public function debug($array)
 	{
+		if (!YII_DEBUG)
+			return;
+		
 		echo '<pre class="cii-debug">';
 		print_r($array);
 		echo '</pre>';

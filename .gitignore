@@ -1,2 +1,8 @@
 assets/*
 protected/runtime/*
+.settings
+.project
+index.php
+protected/config/main.php
+protected/config/console.php
+.htaccess

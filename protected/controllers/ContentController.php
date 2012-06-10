@@ -69,7 +69,6 @@ class ContentController extends CiiController
 		
 		$view = isset($meta['view']) ? $meta['view']['value'] : 'blog';
 		
-		
 		$this->setPageTitle(Yii::app()->name . ' | ' . $content->title);
 		
 		$this->render($view, array('id'=>$id, 'data'=>$content, 'meta'=>$meta, 'comments'=>$content->comments, 'model'=>Comments::model()));
