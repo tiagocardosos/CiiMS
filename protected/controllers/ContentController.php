@@ -64,6 +64,7 @@ class ContentController extends CiiController
 		$meta = Content::model()->parseMeta($content->metadata);
 		
 		$layout = isset($meta['layout']) ? $meta['layout']['value'] : 'blog';
+		
 		// Set the layout
 		$this->setLayout($layout);
 		
@@ -114,6 +115,34 @@ class ContentController extends CiiController
 		$this->layout = 'main';
 		$this->render('password', array('id'=>$id));
 	}
+	
+	/*
+	 * Displays a listing of all blog posts for all time in all categories
+	 * Is used as a generic catch all behavior
+	 */
+	public function actionList()
+	{
+		$this->setPageTitle('All Content');
+		$this->layout = '//layouts/default';
+		$data = array();
+		$pages = array();
+		$itemCount = 0;
+		$pageSize = $this->displayVar((Configuration::model()->findByAttributes(array('key'=>'contentPaginationSize'))->value), 10);		
+		
+		$criteria=new CDbCriteria;
+		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
+		$criteria->order = 'created DESC';
+		$criteria->limit = $pageSize;			
+		
+		$itemCount = Content::model()->count($criteria);
+		$pages=new CPagination($itemCount);
+		$pages->pageSize=$pageSize;		
+		
+		$criteria->offset = $criteria->limit*($pages->getCurrentPage()-1);			
+		$data = Content::model()->findAll($criteria);
+		$pages->applyLimit($criteria);	
+		
+		$this->render('all', array('data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
+	}
 }
-
 ?>

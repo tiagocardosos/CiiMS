@@ -48,7 +48,8 @@ return array(
 				'/search/'=>'/site/search',
 				'/search/<id:\d+>'=>'/site/search',
 				'/contact'=>'/site/contact',
-				'/projects'=>'/categories/list',
+				'/blogs'=>'/categories/list',
+				'/blog'=>'/content/list',
 				'/register'=>'/site/register',
 				'/login'=>'/site/login',
 				'/logout'=>'/site/logout'

@@ -41,7 +41,7 @@ class SiteController extends CiiController
 		$data = array();
 		$pages = array();
 		$itemCount = 0;
-		$pageSize = Configuration::model()->findByAttributes(array('key'=>'searchPaginationSize'))->value;
+		$pageSize = $this->displayVar((Configuration::model()->findByAttributes(array('key'=>'searchPaginationSize'))->value), 10);
 		
 		if (isset($_GET['q']) && $_GET['q'] != '')
 		{
@@ -52,9 +52,7 @@ class SiteController extends CiiController
 			$sphinx->setServer(Yii::app()->params['sphinxHost'], (int)Yii::app()->params['sphinxPort']);
 			$sphinx->setMatchMode(SPH_MATCH_EXTENDED2);
 			$sphinx->setMaxQueryTime(15);
-
-			$result = $sphinx->query($_GET['q'], Yii::app()->params['sphinxSource']);
-			
+			$result = $sphinx->query($_GET['q'], Yii::app()->params['sphinxSource']);			
 			
 			$criteria=new CDbCriteria;
 			$criteria->addInCondition('id', array_keys(isset($result['matches']) ? $result['matches'] : array()));
@@ -63,8 +61,7 @@ class SiteController extends CiiController
 			
 			$itemCount = Content::model()->count($criteria);
 			$pages=new CPagination($itemCount);
-			$pages->pageSize=$pageSize;
-			
+			$pages->pageSize=$pageSize;			
 			
 			$criteria->offset = $criteria->limit*($pages->getCurrentPage()-1);			
 			$data = Content::model()->findAll($criteria);

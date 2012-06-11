@@ -9,7 +9,7 @@
 <br /><br />
 <div class="horizontal-rule"></div>
 
-<div class="two-third">		
+<div class="three-fourth">		
 	<? if ($this->displayVar($_GET['q'])): ?>
 		<? if ($itemCount == 0): ?>
 			<h2>No Results Found</h2>
@@ -21,12 +21,12 @@
         <h1><? echo CHtml::link($v->title, Yii::app()->createUrl($v->slug)); ?></h1>
         <div class="horizontal-rule"></div>
         <div class="blog-data">
-        	Posted <span class="black"><? echo date('d M Y @', strtotime($v->created)); ?></span> 
-        	by <span class="black"><? echo $v->author->firstName . ' ' . $v->author->lastName; ?></span> 
+        	Posted <span class="black"><? echo date('F jS, Y @ H:i', strtotime($v->created)); ?</span> 
+        	by <span class="black"><? echo $v->author->displayName; ?></span> 
         	in <? echo CHtml::link($v->category->name, Yii::app()->createUrl($v->category->slug)); ?> - 
         	<span class="black"><? echo $v->comment_count; ?></span> Comments</div>
         <div class="horizontal-rule"></div>
-        <p><? echo strip_tags($v->extract, '<br>'); ?></p>
+        <p><? echo strip_tags($v->extract, '<p><br>'); ?></p>
         <? echo CHtml::link('Read More', Yii::app()->createUrl($v->slug), array('class'=>'medium button')); ?>
         
         <div class="thirty-margin-filler"></div>
@@ -49,5 +49,5 @@
 		}
 	?>
 	</center>
-	<META NAME="robots" CONTENT="noindex,nofollow">W
+	<META NAME="robots" CONTENT="noindex,nofollow">
 </div>

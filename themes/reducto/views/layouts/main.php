@@ -29,7 +29,6 @@
 									->registerScriptFile("{$themeJSUrl}jquery.prettyPhoto.js")
 									->registerScriptFile("{$themeJSUrl}jquery.slider.js")
 									->registerScriptFile("{$themeJSUrl}jquery.twitter.js")
-									->registerScriptFile("{$themeJSUrl}slides.jquery.js")
 									->registerScriptFile("{$themeJSUrl}swfobject.js")
 					   				->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.gritter.min.js');	
 		?>
@@ -37,7 +36,9 @@
 	<body>
 	    <div id="page-wrapper">
 	    	<div id="logo">
-	            <div class="default-logo"><a href="index.htm" class="default-logo"></a></div>
+	            <div class="default-logo">
+	            	<? echo CHtml::link(NULL, Yii::app()->getBaseUrl(), array('class'=>'default-logo')); ?>
+	            </div>
 	        </div>
 			
 	        <div id="nav-wrapper">
@@ -45,7 +46,6 @@
 					'id'=>'nav',
 					'items'=>array(
 						array('label'=>'Home', 'url'=>Yii::app()->getBaseUrl(true)),
-						array('label'=>'About', 'url'=>Yii::app()->createUrl('/about')),
 						array('label'=>'Portfolio', 'url'=>Yii::app()->createUrl('/portfolio')),
 						array('label'=>'Blog', 'url'=>Yii::app()->createUrl('/blog')),
 						array('label'=>'Projects', 'url'=>Yii::app()->createUrl('/projects'))
@@ -53,6 +53,24 @@
 				?>
 	        </div>         
 	        <div class="horizontal-rule"></div>
+	        <div>
+	        	<div class="top-info" style="float: right;">
+	        		<ul class="widget-list" style="margin: 4px;">
+	        			<li style="margin-top: 0px;">
+	        				<? echo $this->displayVar($this->params['data']['title'], ucwords($this->getAction()->getId())); ?> |
+		        			<? if (Yii::app()->user->isGuest) : ?>
+		        				<? echo CHtml::link('Login', Yii::app()->createUrl('/login')); ?> |
+		        				<? echo CHtml::link('Register', Yii::app()->createUrl('/register')); ?>
+		        			<? else: ?>
+		        				<? echo Yii::app()->user->displayName; ?>
+		        				<? if (Yii::app()->user->role == 5): ?>
+		        					| <? echo CHtml::link('Admin', Yii::app()->createUrl('/admin')); ?>
+		        				<? endif; ?>
+		        			<? endif; ?>
+	        			</li>
+	        		</ul>
+	        	</div>
+	        </div>
 	        
 	        <? echo $content; ?>
 	        
@@ -106,7 +124,7 @@
 						?>
 					</ul>        	
 	        </div>
-	        <div class="one-third-last">
+	        <div class="one-third-last" style="margin: 30px 0;">
 	        	<h6>Search</h6>
 	                <div class="horizontal-rule"></div>
 	                <form id="search" method="GET" action="<? echo Yii::app()->createUrl('/search'); ?>">
@@ -129,7 +147,6 @@
 	            <? $this->widget('zii.widgets.CMenu',array(
 					'items'=>array(
 						array('label'=>'Home', 'itemOptions'=>array('class'=>'footer-link'), 'url'=>Yii::app()->getBaseUrl(true)),
-						array('label'=>'About', 'itemOptions'=>array('class'=>'footer-link'), 'url'=>Yii::app()->createUrl('/about')),
 						array('label'=>'Portfolio', 'itemOptions'=>array('class'=>'footer-link'), 'url'=>Yii::app()->createUrl('/portfolio')),
 						array('label'=>'Blog', 'itemOptions'=>array('class'=>'footer-link'), 'url'=>Yii::app()->createUrl('/blog')),
 						array('label'=>'Projects', 'itemOptions'=>array('class'=>'footer-link'), 'url'=>Yii::app()->createUrl('/projects'))

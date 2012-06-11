@@ -131,7 +131,7 @@
 	.one-fourth-last,.one-third-last,.one-half-last,.two-third-last,.three-fourth-last,.full-width{
 		height:auto;
 		height:100%;
-		margin:30px 0 30px 0;
+		margin:0 0 30px 0;
 		float:left;}
 	
 	.three-fourth .one-fourth{margin-bottom:0px;}	
@@ -525,7 +525,7 @@
 	a.pp_previous{background:url(../../images/reducto/btnPrevious.png) center left no-repeat;display:block;float:left;height:100%;text-indent:-10000px;width:49%;}
 		.pp_previous:hover{background:url(../../images/reducto/btnPrevious.png) center left no-repeat;cursor:pointer;}
 	.pp_loaderIcon{
-		background:url(../../images/reducto/loader.gif) center center no-repeat;
+		background:url(../../images/reducto/loading.gif) center center no-repeat;
 		display:block;
 		height:24px;
 		left:50%;
@@ -629,6 +629,10 @@
 	.pages li > a {
 		color: #FFF;		
 	}
+	
+	.social-icon {
+		margin: 5px;		
+	  }
 	
 	
 	
