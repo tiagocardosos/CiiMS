@@ -33,16 +33,20 @@ $(document).ready(function(){
 	{
 		if(!message.val())
 		{
-			message.animate({"border-color":"#ffbfbf"},200);
-			message.animate({"background-color":"#ffe7e7"},200);
+			$.gritter.add({
+				// (string | mandatory) the heading of the notification
+				title: 'Comment missing',
+				// (string | mandatory) the text inside the notification
+				text: 'Please provide a comment before posting.',
+				// (bool | optional) if you want it to fade out on its own or just sit there
+				sticky: false,
+				// (int | optional) the time you want it to be alive for before fading out
+				time: ''
+			});
 			return false;
 		}
-		else
-		{			
-			message.animate({"border-color":"#e0e0e0"},200);
-			message.animate({"background-color":"#fff"},200);
-			return true;
-		}
+		
+		return true;
 	}
 	
 	$("a#delete").click(function() { 
@@ -60,7 +64,7 @@ $(document).ready(function(){
 				// (int | optional) the time you want it to be alive for before fading out
 				time: ''
 			});
-		$(this).parent().parent().parent().slideUp();
+		$(this).parent().parent().slideUp();
 		return false;
 	});
 	

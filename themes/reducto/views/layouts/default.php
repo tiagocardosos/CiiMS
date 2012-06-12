@@ -27,6 +27,7 @@
 				<h5>Categories</h5>
 				<div class="horizontal-rule"></div>
 				<ul class="widget-list">
+					<li><? echo CHtml::link('All Blogs', Yii::app()->createUrl('/blogs')); ?></li>
 					<?
 						$categories = Yii::app()->cache->get(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-listing') ));
 						if ($categories == false)

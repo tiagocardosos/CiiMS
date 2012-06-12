@@ -21,10 +21,14 @@
         <h1><? echo CHtml::link($v->title, Yii::app()->createUrl($v->slug)); ?></h1>
         <div class="horizontal-rule"></div>
         <div class="blog-data">
-        	Posted <span class="black"><? echo date('F jS, Y @ H:i', strtotime($v->created)); ?</span> 
+        	<? echo $v->created == $v->updated ? 'Posted' : 'Updated'; ?>
+        	<span class="black"><? echo date('F jS, Y @ H:i', strtotime($v->created)); ?></span> 
         	by <span class="black"><? echo $v->author->displayName; ?></span> 
         	in <? echo CHtml::link($v->category->name, Yii::app()->createUrl($v->category->slug)); ?> - 
-        	<span class="black"><? echo $v->comment_count; ?></span> Comments</div>
+        	<? if ($v->commentable): ?>
+        		<span class="black"><? echo $v->comment_count; ?></span> Comments
+        	<? endif; ?>
+        </div>
         <div class="horizontal-rule"></div>
         <p><? echo strip_tags($v->extract, '<p><br>'); ?></p>
         <? echo CHtml::link('Read More', Yii::app()->createUrl($v->slug), array('class'=>'medium button')); ?>

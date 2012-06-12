@@ -5,7 +5,7 @@
 	    <meta http-equiv="X-UA-Compatible" content="IE=8" />
 	    <title><? echo CHtml::encode($this->pageTitle); ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="keywords" content="<? echo isset($this->params['meta']['keywords']) && !is_array(isset($this->params['meta']['keywords'])) ? $this->params['meta']['keywords'] : ''; ?>" />
+		<? /*<meta name="keywords" content="<? echo isset($this->params['meta']['keywords']) && !is_array(isset($this->params['meta']['keywords'])) ? $this->params['meta']['keywords'] : ''; ?>" /> */ ?>
 		<meta name="description" content="<? echo strip_tags($this->params['data']['extract']); ?>" />
 		<? 
 			$themeName 	= Yii::app()->theme->name; 
@@ -28,8 +28,8 @@
 									->registerScriptFile("{$themeJSUrl}jquery.imagefade.js")
 									->registerScriptFile("{$themeJSUrl}jquery.prettyPhoto.js")
 									->registerScriptFile("{$themeJSUrl}jquery.slider.js")
-									->registerScriptFile("{$themeJSUrl}jquery.twitter.js")
 									->registerScriptFile("{$themeJSUrl}swfobject.js")
+									->registerScriptFile('js/jquery.gritter.min.js')
 					   				->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.gritter.min.js');	
 		?>
 	</head>
@@ -65,7 +65,8 @@
 		        				<? echo Yii::app()->user->displayName; ?>
 		        				<? if (Yii::app()->user->role == 5): ?>
 		        					| <? echo CHtml::link('Admin', Yii::app()->createUrl('/admin')); ?>
-		        				<? endif; ?>
+		        				<? endif; ?> |
+		        				<? echo CHtml::link('Logout', Yii::app()->createUrl('/logout')); ?>
 		        			<? endif; ?>
 	        			</li>
 	        		</ul>
@@ -79,7 +80,8 @@
 	        <div class="one-third">
 	        	<h6>Categories</h6>        	
 	                <div class="horizontal-rule"></div>
-					<ul class="widget-list">
+					<ul class="widget-list">						
+						<li><? echo CHtml::link('All Blogs', Yii::app()->createUrl('/blogs')); ?></li>
 						<?
 							$categories = Yii::app()->cache->get(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-listing') ));
 							if ($categories == false)

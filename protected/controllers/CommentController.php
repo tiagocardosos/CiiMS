@@ -43,10 +43,10 @@ class CommentController extends CiiController
 			
 			if ($comment->save())
 			{
-				$content = Content::model()->findByPk($comment->attributes['content_id']);
+				$content = Content::model()->findByPk($_POST['Comments']['content_id']);
 				$content->comment_count++;
 				$content->save();
-				$this->renderPartial('comment', array('v'=>$comment));
+				$this->renderPartial('comment', array('count'=>$_POST['count'], 'comment'=>$comment));
 			}
 		}
 	}

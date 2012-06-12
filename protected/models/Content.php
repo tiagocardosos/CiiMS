@@ -167,36 +167,30 @@ class Content extends CiiModel
 	
 	public function beforeValidate()
 	{
-	    	if ($this->isNewRecord)
-	    	{
-	    		// Implicit flush to delete the URL rules
+    	if ($this->isNewRecord)
+    	{
+    		// Implicit flush to delete the URL rules
 			$this->created = new CDbExpression('NOW()');
-			$this->updated = new CDbExpression('NOW()');
 			$this->comment_count = 0;
 		}
-	   	else
-			$this->updated = new CDbExpression('NOW()');
+	   	
+	   	$this->updated = new CDbExpression('NOW()');
 		
 		if ($this->extract == '')
-		{
-    			$this->extract = $this->myTruncate($this->content, 250, '.', '');
-	 	}
+    		$this->extract = $this->myTruncate($this->content, 250, '.', '');
 		
 		if ($this->slug == '')
-		{
 			$this->slug = $this->checkSlug(str_replace(' ', '-', $this->title));
-		}
-
 	 	
-	    	return parent::beforeValidate();
+	    return parent::beforeValidate();
 	}
 	
 	public function beforeSave()
 	{
 		if ($this->isNewRecord)
 		{			
-	    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content') ));
-	    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing') ));
+    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content') ));
+    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing') ));
 			Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-content-url-rules') ));
 		}
 		
@@ -223,7 +217,8 @@ class Content extends CiiModel
 		$keyword = new AutoKeywords($params, "iso-8859-1");
 		$keywords = $keyword->get_keywords();
 		$command  = Yii::app()->db->createCommand('INSERT INTO content_metadata (content_id, `key`, value, created, updated) VALUES (:content_id, "keywords", :value, NOW(), NOW()) ON DUPLICATE KEY UPDATE content_id = :content_id, `key` = `key`, value = :value, created = created, updated = NOW()');
-		$command->bindParam(':content_id',$this->id,PDO::PARAM_INT);
+		$id = $this->id;
+		$command->bindParam(':content_id',$id,PDO::PARAM_INT);
 		$command->bindParam(':value',$keywords,PDO::PARAM_STR);
 		$command->execute();
 		
@@ -232,8 +227,8 @@ class Content extends CiiModel
 	
 	public function beforeDelete()
 	{		
-    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content') ));
-    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing') ));
+		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content') ));
+		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing') ));
 		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-content-url-rules') ));
 		
 		return parent::beforeDelete();
