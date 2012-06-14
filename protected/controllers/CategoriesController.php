@@ -44,12 +44,13 @@ class CategoriesController extends CiiController
 		
 		// Retrieve the data
 		$category = Categories::model()->findByPk($id);
+		$this->breadcrumbs = Categories::model()->getParentCategories($id);
 		
 		// Parse Metadata
 		$meta = Categories::model()->parseMeta($category->metadata);		
 		
 		$this->setPageTitle(Yii::app()->name . ' | ' . $category->name);
-		$layout = isset($meta['layout']) ? $meta['layout']['value'] : 'blog';		
+		$layout = isset($meta['layout']) ? $meta['layout']['value'] : 'default';		
 
 		// Set the layout
 		$this->setLayout($layout);
@@ -79,8 +80,8 @@ class CategoriesController extends CiiController
 	public function actionList()
 	{
 		$this->setPageTitle(Yii::app()->name . ' | Categories');
-		
-		$this->layout = 'main';
+		$this->setLayout('main');
+		$this->breadcrumbs = array('All Categories');
 		$criteria = new CDbCriteria();
 		$criteria->addCondition('id != 1');
 		$categories = Categories::model()->findAll($criteria);

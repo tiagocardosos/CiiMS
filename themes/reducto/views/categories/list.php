@@ -1,7 +1,7 @@
 <? $count = 1; ?>
 <? foreach ($categories as $category): ?>
 	<? $meta = Categories::model()->parseMeta($category->metadata); ?>
-	<div class="one-third<? echo $count % 3 == 0 ? '-last' : ''?>">
+	<div class="one-third<? echo $count % 3 == 0 ? '-last' : ''?>" <? echo $count % 3 == 0 ? 'style="margin: 30px 0;"' : ''?>
 		<? 
 			if ($this->displayVar($meta['category-image']['value'])):
 	    		echo CHtml::link(

@@ -16,17 +16,32 @@ class JTwitterParser {
 			$this->username = $options['username'];
 		
 		if (isset($options['max']))
-		$this->maxTweets = $options['max'];
+			$this->maxTweets = $options['max'];
 			
-			return $this;		
+		return $this;		
 	}
 	
 	public function fetch_tweets()
 	{
 		 //Using simplexml to load URL
-
-		$tweets = @simplexml_load_file("http://twitter.com/statuses/user_timeline/" . $this->username . ".rss");
-
+		$tweets = Yii::app()->cache->get(md5(md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('tweet-listing')));
+		
+		if ($tweets === FALSE)
+		{
+			$tweets = @simplexml_load_file("http://twitter.com/statuses/user_timeline/" . $this->username . ".rss");
+			
+			// Cache the response for 10 Minutes. 10*6*24 = 144 Requests/Day < Max of 150 Requests API regulation
+			if (!empty($tweets))
+			{
+				$items = array();
+				foreach ($tweets->channel->item as $item)
+					$items[] = (array)$item;
+				
+				$tweets = $items;
+				Yii::app()->cache->set(md5(md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('tweet-listing') ), $tweets, 600);
+			}
+		}
+		
 		if(!$tweets)
 		{
 			$tweet_array = array();
@@ -39,50 +54,45 @@ class JTwitterParser {
 		}
 		
 		$tweet_array = array();  //Initialize empty array to store tweets
-		foreach ( $tweets->channel->item as $tweet ) {
-			 
-			//Loop to limitate number of tweets.
-			if ($this->maxTweets == 0)
-			{
+		
+		foreach($tweets as $k=>$tweet)
+		{
+			$twit = $tweet['description'];  //Fetch the tweet itself
+				
+			//Remove the preceding 'username: '
+			$twit = substr(strstr($twit, ': '), 2, strlen($twit));
+			
+			// Convert URLs into hyperlinks
+			$twit = preg_replace("/(http:\/\/)(.*?)\/([\w\.\/\&\=\?\-\,\:\;\#\_\~\%\+]*)/", "<a href=\"\\0\">\\0</a>", $twit);
+			
+			// Convert usernames (@) into links 
+			$twit = preg_replace("(@([a-zA-Z0-9\_]+))", "<a href=\"http://www.twitter.com/\\1\">\\0</a>", $twit);
+			
+			// Convert hash tags (#) to links 
+			$twit = preg_replace('/(^|\s)#(\w+)/', '\1<a href="http://search.twitter.com/search?q=%23\2">#\2</a>', $twit);
+			
+			//Specifically for non-English tweets, converts UTF-8 into ISO-8859-1
+			$twit = iconv("UTF-8", "ISO-8859-1//TRANSLIT", $twit);
+			
+			//Get the date it was posted
+			$pubdate = strtotime($tweet['pubDate']); 
+			$propertime = gmdate('F jS Y @ H:i', $pubdate);  //Customize this to your liking
+			
+			//Store tweet and time into the array
+			$tweet_item = array(
+				'desc' => $twit,
+				'date' => $propertime,
+				'link' => $tweet['link'],
+				);
+			$tweet_array[] = $tweet_item;
+			
+			if (sizeof($tweet_array) == $this->maxTweets)
 				break;
-			} 
-			else 
-			{
-				$twit = $tweet->description;  //Fetch the tweet itself
-				
-				//Remove the preceding 'username: '
-				$twit = substr(strstr($twit, ': '), 2, strlen($twit));
-				
-				// Convert URLs into hyperlinks
-				$twit = preg_replace("/(http:\/\/)(.*?)\/([\w\.\/\&\=\?\-\,\:\;\#\_\~\%\+]*)/", "<a href=\"\\0\">\\0</a>", $twit);
-				
-				// Convert usernames (@) into links 
-				$twit = preg_replace("(@([a-zA-Z0-9\_]+))", "<a href=\"http://www.twitter.com/\\1\">\\0</a>", $twit);
-				
-				// Convert hash tags (#) to links 
-				$twit = preg_replace('/(^|\s)#(\w+)/', '\1<a href="http://search.twitter.com/search?q=%23\2">#\2</a>', $twit);
-				
-				//Specifically for non-English tweets, converts UTF-8 into ISO-8859-1
-				$twit = iconv("UTF-8", "ISO-8859-1//TRANSLIT", $twit);
-				
-				//Get the date it was posted
-				$pubdate = strtotime($tweet->pubDate); 
-				$propertime = gmdate('F jS Y @ H:i', $pubdate);  //Customize this to your liking
-				
-				//Store tweet and time into the array
-				$tweet_item = array(
-					'desc' => $twit,
-					'date' => $propertime,
-					'link' => $tweet->link,
-					);
-				array_push($tweet_array, $tweet_item);
-				
-				$this->maxTweets--;
-			}
-
-		//Return array
-		return $tweet_array;
 		}
+		
+
+	//Return array
+	return $tweet_array;
 	}
 }
 ?>

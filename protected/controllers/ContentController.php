@@ -1,7 +1,7 @@
 <?php
 
 class ContentController extends CiiController
-{
+{	
 	/**
 	 * Verifies that our request does not produce duplicate content (/about == /content/index/2), and prevents direct access to the controller
 	 * protecting it from possible attacks.
@@ -47,7 +47,8 @@ class ContentController extends CiiController
 		
 		// Retrieve the data
 		$content = Content::model()->with('category')->findByPk($id);
-
+		$this->breadcrumbs = array_merge(Categories::model()->getParentCategories($content['category_id']), array($content['title']));
+		
 		// Check for a password
 		if ($content->attributes['password'] != '')
 		{
@@ -123,7 +124,10 @@ class ContentController extends CiiController
 	public function actionList()
 	{
 		$this->setPageTitle('All Content');
-		$this->layout = '//layouts/default';
+		$this->setLayout('default');
+		
+		$this->breadcrumbs = array('Blogroll');
+		
 		$data = array();
 		$pages = array();
 		$itemCount = 0;

@@ -115,24 +115,56 @@ class Categories extends CiiModel
 	}
 	
 	public function beforeSave() {
-	    	if ($this->isNewRecord)
-	    	{
-	    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories') ));
+    	if ($this->isNewRecord)
+    	{
+    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories') ));
 			Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-categories-url-rules') ));
+			Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-pid') ));
 			$this->created = new CDbExpression('NOW()');			
 			$this->updated = new CDbExpression('NOW()');
 		}
 	   	else
 			$this->updated = new CDbExpression('NOW()');
 	 
-	    	return parent::beforeSave();
+	    return parent::beforeSave();
 	}
 	
 	public function beforeDelete()
 	{			
-    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories') ));
-    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('ctegories-listing') ));
+		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories') ));
+		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('ctegories-listing') ));
 		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-categories-url-rules') ));
+		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-pid') ));
 		return parent::beforeDelete();
+	}
+	
+	public function getParentCategories($id)
+	{
+		// Retrieve the data from cache if necessary
+		$response = Yii::app()->cache->get(md5(md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-pid')));
+		if ($response == NULL)
+		{
+			$response = Yii::app()->db->createCommand('SELECT id, parent_id, name, slug FROM categories')->queryAll();
+			Yii::app()->cache->set(md5(md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-pid')), $response);
+		}
+		
+		return $this->__getParentCategories($response, $id);
+	}
+	
+	private function __getParentCategories($all_categories, $id, array $stack = array())
+	{
+		if ($id == 1)
+		{
+			return array_reverse($stack);
+		}
+		
+		foreach ($all_categories as $k=>$v)
+		{
+			if ($v['id'] == $id)
+			{
+				$stack[$v['name']] = array(str_replace(Yii::app()->baseUrl, NULL, Yii::app()->createUrl($v['slug'])));
+				return $this->__getParentCategories($all_categories, $v['parent_id'], $stack);
+			}
+		}
 	}
 }

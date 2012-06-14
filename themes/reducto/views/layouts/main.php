@@ -54,6 +54,13 @@
 	        </div>         
 	        <div class="horizontal-rule"></div>
 	        <div>
+	        	<div class="top-info" style="float:left;">
+	        		<?
+	        		$this->widget('zii.widgets.CBreadcrumbs', array(
+					    'links'=>$this->breadcrumbs,
+					));
+	        		?>
+	        	</div>
 	        	<div class="top-info" style="float: right;">
 	        		<ul class="widget-list" style="margin: 4px;">
 	        			<li style="margin-top: 0px;">
@@ -72,9 +79,11 @@
 	        		</ul>
 	        	</div>
 	        </div>
-	        
-	        <? echo $content; ?>
-	        
+	        <br />
+	        <br />
+	        <div class="full-width">
+	        	<? echo $content; ?>
+	        </div>
 	     	<div class="horizontal-rule"></div>
 	        
 	        <div class="one-third">
@@ -109,7 +118,7 @@
 					<ul class="widget-list posts">
 						<?
 						
-							$content = Yii::app()->cache->get(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing') ));
+							$content = Yii::app()->cache->get(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing')));
 							if ($content == false)
 							{
 								$content = Yii::app()->db->createCommand('SELECT title, extract, content.slug AS content_slug, categories.slug AS category_slug, categories.name AS category_name, comment_count, content.created FROM content LEFT JOIN categories ON content.category_id = categories.id WHERE vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 AND status = 1 ORDER BY content.created DESC LIMIT 5')->queryAll();
