@@ -23,10 +23,7 @@ class ContentController extends ACiiController
 	 * @return $this->render() - Render of page that we want to display
 	 **/
 	public function actionPreview($id=NULL)
-	{
-		// Session is not automatically starting. VM issue?
-		session_start();
-			
+	{			
 		// Retrieve the data
 		$content = Content::model()->with('category')->findByPk($id);
 
@@ -58,7 +55,7 @@ class ContentController extends ACiiController
 		Yii::app()->setTheme(Configuration::model()->findByAttributes(array('key'=>'theme'))->value);
 		$this->layout = '//layouts/blog';
 		$this->renderPartial('admin-header');
-		$this->render('../../../../../themes/felis/views/content/'.$view, array('id'=>$id, 'data'=>$content, 'meta'=>$meta, 'comments'=>$content->comments, 'model'=>Comments::model()));
+		$this->render('../../../../../themes/'.Configuration::model()->findByAttributes(array('key'=>'theme'))->value.'/views/content/'.$view, array('id'=>$id, 'data'=>$content, 'meta'=>$meta, 'comments'=>$content->comments, 'model'=>Comments::model()));
 	}
 	
 	/**
@@ -67,6 +64,7 @@ class ContentController extends ACiiController
 	 */
 	public function actionSave($id=NULL)
 	{
+		$version = 0;
 		if ($id == NULL)
 		{
 			$model = new Content;
@@ -77,7 +75,7 @@ class ContentController extends ACiiController
 			$model=$this->loadModel($id);
 			if ($model == NULL)
 				throw new CHttpException(400,'We were unable to retrieve a post with that id. Please do not repeat this request again.');
-			$versions = sizeof(Content::model()->findAllByAttributes(array('id' => $id)));
+			$version = sizeof(Content::model()->findAllByAttributes(array('id' => $id)));
 		}
 
 		if(isset($_POST['Content']))
@@ -94,7 +92,7 @@ class ContentController extends ACiiController
 		$this->render('save',array(
 			'model'=>$model,
 			'id'=>$id,
-			'versions'=>$versions
+			'version'=>$version
 		));
 	}
 

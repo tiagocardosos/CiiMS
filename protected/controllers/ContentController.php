@@ -47,6 +47,8 @@ class ContentController extends CiiController
 		
 		// Retrieve the data
 		$content = Content::model()->with('category')->findByPk($id);
+		if ($content->status != 1)
+			throw new CHttpException('404', 'The article you specified does not exist. If you bookmarked this page, please delete it.');
 		$this->breadcrumbs = array_merge(Categories::model()->getParentCategories($content['category_id']), array($content['title']));
 		
 		// Check for a password
@@ -135,6 +137,7 @@ class ContentController extends CiiController
 		
 		$criteria=new CDbCriteria;
 		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
+		$criteria->addCondition('type_id >= 2');
 		$criteria->order = 'created DESC';
 		$criteria->limit = $pageSize;			
 		

@@ -1,3 +1,4 @@
+
 <div class="box">
   <div class="box-header">
     <h1><? echo $model->isNewRecord ? 'Create' : 'Update' . ' ' . get_class($model); ?></h1>
@@ -19,7 +20,6 @@
         
         <div class="column">
         
-        <? echo $versions; ?>
         <?php if (!$model->isNewRecord)
         	echo $form->hiddenField($model, 'id'); 
         	echo $form->hiddenField($model, 'vid'); 
