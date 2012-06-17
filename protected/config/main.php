@@ -9,7 +9,7 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Erianna',
 	// preloading 'log' component
-		'preload'=>array('log'),
+//		'preload'=>array('log'),
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
@@ -58,16 +58,23 @@ return array(
 		// uncomment the following to use a MySQL database
 		'db'=>array(
 			'class'=>'CDbConnection', 
-			'connectionString' => 'mysql:host=localhost;dbname=er-wildfire',
+			'connectionString' => 'mysql:host=localhost;dbname=erianna-yii',
 			'emulatePrepare' => true,
-			'username' => 'er-wildfire',
-			'password' => 'uwB6GbHYRGntqjCH',
+			'username' => 'erianna-yii',
+			'password' => 'EwsTC6DXhSjCUDv4',
 			'charset' => 'utf8',
 			'schemaCachingDuration'=>3600,
 			'enableProfiling'=>true, 
 			),
 		'cache'=>array(
-			'class'=>'system.caching.CFileCache',
+			'class'=>'system.caching.CMemCache',
+			'servers'=>array(
+				array(
+					'host'=>'127.0.0.1', 
+					'port'=>11211, 
+					'weight'=>60
+				),
+		    	),
 		),
 		'apccache'=>array(
 			'class'=>'CApcCache',
