@@ -176,7 +176,7 @@ class AutoKeywords {
 		$x = explode(" ", $this->contents);
 		//initilize array
 
-		//$y = array();
+		$y = array();
 		for ($i=0; $i < count($x)-1; $i++) {
 			//delete phrases lesser than 5 characters
 			if( (mb_strlen(trim($x[$i])) >= $this->word2WordPhraseLengthMin ) && (mb_strlen(trim($x[$i+1])) >= $this->word2WordPhraseLengthMin) )

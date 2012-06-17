@@ -79,10 +79,8 @@ class ContentController extends ACiiController
 		}
 
 		if(isset($_POST['Content']))
-		{	
+		{
 			$model2 = new Content;
-			$model2->id = $_POST['Content']['id'];
-			$model2->vid+=1;
 			$model2->attributes=$_POST['Content'];
 			$model2->vid+=1;
 			if($model2->save())

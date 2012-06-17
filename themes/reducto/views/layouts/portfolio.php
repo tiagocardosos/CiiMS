@@ -39,24 +39,6 @@
 			?>
 		</div>
 		<div class="one-fourth-last">
-			<h5>Twitter Feed</h5>
-			<div class="horizontal-rule"></div>
-			<ul class="widget-list twitter">
-				<?  Yii::import('ext.JTwitterParser');
-					$JTwitterParser = new JTwitterParser(array('username'=>'charlesportwood'));
-					foreach ($JTwitterParser->fetch_tweets() as $k=>$v): 
-				?>
-					<li>
-						<span class="widget-twitter-time">
-							<? echo CHtml::link($v['date'], $v['link']); ?>
-						</span>
-						<br />
-						<? echo $v['desc']; ?>
-					</li>
-				<?	endforeach; ?>
-			</ul>
-		</div>
-		<div class="one-fourth-last">
 			<h5>Connect</h5>
 			<div class="horizontal-rule"></div>
 			<br />
@@ -93,6 +75,24 @@
 			
 			
 			?>
+		</div>
+		<div class="one-fourth-last">
+			<h5>Twitter Feed</h5>
+			<div class="horizontal-rule"></div>
+			<ul class="widget-list twitter">
+				<?  Yii::import('ext.JTwitterParser');
+					$JTwitterParser = new JTwitterParser(array('username'=>'charlesportwood'));
+					foreach ($JTwitterParser->fetch_tweets() as $k=>$v): 
+				?>
+					<li>
+						<span class="widget-twitter-time">
+							<? echo CHtml::link($v['date'], $v['link']); ?>
+						</span>
+						<br />
+						<? echo $v['desc']; ?>
+					</li>
+				<?	endforeach; ?>
+			</ul>
 		</div>
 	</div>
 <?php $this->endContent(); ?>
