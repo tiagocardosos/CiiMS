@@ -37,7 +37,7 @@
 	    <div id="page-wrapper">
 	    	<div id="logo">
 	            <div class="default-logo">
-	            	<? echo CHtml::link(NULL, Yii::app()->getBaseUrl(), array('class'=>'default-logo')); ?>
+	            	<? echo CHtml::link('', Yii::app()->getBaseUrl(true), array('class'=>'default-logo')); ?>
 	            </div>
 	        </div>
 			
