@@ -5,5 +5,4 @@ protected/runtime/*
 protected/config/*.php
 .htaccess
 uploads
-index.php
 rsvp
