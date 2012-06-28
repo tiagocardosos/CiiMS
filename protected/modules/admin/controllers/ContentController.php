@@ -6,58 +6,13 @@ class ContentController extends ACiiController
 	public function beforeAction($action)
 	{
 		$this->menu = array(
-			array('label'=>'Content', 'url'=>Yii::app()->createUrl('admin/content')),
-			array('label'=>'Categories', 'url'=>Yii::app()->createUrl('admin/categories')),
-			array('label'=>'Comments', 'url'=>Yii::app()->createUrl('admin/comments')),
-			array('label'=>'Tags', 'url'=>Yii::app()->createUrl('admin/tags')),
-			array('label'=>'', 'url'=>array('#'))
+			array('label'=>'Content Options'),
+			array('label'=>'New Post', 'url'=>Yii::app()->createUrl('admin/content/save'))
 		);
 		return parent::beforeAction($action);
 		
 	}
 
-	/**
-	 * Handles all incoming requests for the entire site that are not previous defined in CUrlManager
-	 * Requests come in, are verified, and then pulled from the database dynamically
-	 * @param $id	- The content ID that we want to pull from the database
-	 * @return $this->render() - Render of page that we want to display
-	 **/
-	public function actionPreview($id=NULL)
-	{			
-		// Retrieve the data
-		$content = Content::model()->with('category')->findByPk($id);
-
-		// Check for a password
-		if ($content->attributes['password'] != '')
-		{
-			// Check SESSION to see if a password is set
-			$tmpPassword = $_SESSION['password'][$id];
-			
-			if ($tmpPassword != $content->attributes['password'])
-			{
-				$this->redirect(Yii::app()->createUrl('/content/password/' . $id));
-			}
-		}
-		
-		// Parse Metadata
-		$meta = Content::model()->parseMeta($content->metadata);
-		
-		$layout = isset($meta['layout']) ? $meta['layout']['value'] : 'blog';
-		// Set the layout
-		$this->setLayout($layout);
-		
-		$view = isset($meta['view']) ? $meta['view']['value'] : 'blog';
-		
-		
-		$this->setPageTitle(Yii::app()->name . ' | ' . $content->title);
-		
-		
-		Yii::app()->setTheme(Configuration::model()->findByAttributes(array('key'=>'theme'))->value);
-		$this->layout = '//layouts/blog';
-		$this->renderPartial('admin-header');
-		$this->render('../../../../../themes/'.Configuration::model()->findByAttributes(array('key'=>'theme'))->value.'/views/content/'.$view, array('id'=>$id, 'data'=>$content, 'meta'=>$meta, 'comments'=>$content->comments, 'model'=>Comments::model()));
-	}
-	
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -82,9 +37,18 @@ class ContentController extends ACiiController
 		{
 			$model2 = new Content;
 			$model2->attributes=$_POST['Content'];
-			$model2->vid+=1;
-			if($model2->save())
+			$model2->id = $id;
+			$model2->vid = $model->vid+1;
+			if($model2->save()) 
+			{
+				Yii::app()->user->setFlash('success', 'Content has been updated');
 				$this->redirect(array('save','id'=>$model2->id));
+			}
+			else
+			{
+				$this->Debug($model2->getErrors());
+				Yii::app()->user->setFlash('error', 'There was an error saving your content. Please try again');
+			}
 		}
 
 		$this->render('save',array(

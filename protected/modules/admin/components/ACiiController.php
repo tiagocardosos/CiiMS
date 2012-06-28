@@ -5,7 +5,9 @@
  */
 class ACiiController extends CController
 {
-
+	
+	public $main_menu = array();
+	
 	/**
 	 * @return array action filters
 	 */
@@ -37,6 +39,51 @@ class ACiiController extends CController
 	public function beforeAction($action)
 	{
 		Yii::app()->setTheme('admin');
+		$this->main_menu = array(
+        array('label'=>'Administration Panel'),
+        array(
+        	'label'=>'Dashboard', 
+        	'icon'=>'home', 
+        	'url'=>Yii::app()->createUrl('/admin/'),
+        	'active'=>($this->id == 'default' ? true : false)
+		),
+        array(
+        	'label'=>'Content', 
+        	'icon'=>'book', 
+        	'url'=>Yii::app()->createUrl('/admin/content/'), 
+        	'active'=>$this->id == 'content' ? true : false
+		),
+		array(
+			'label'=>'Categories', 
+			'icon'=>'th-list',
+			'url'=>Yii::app()->createUrl('admin/categories'),
+			'active'=>$this->id == 'categories' ? true : false
+		),/*
+		array(
+			'label'=>'Comments', 
+			'icon'=>'comment',
+			'url'=>Yii::app()->createUrl('admin/comments'),
+			'active'=>$this->id == 'comments' ? true : false
+		),
+		array(
+			'label'=>'Tags', 
+			'icon'=>'tag', 
+			'url'=>Yii::app()->createUrl('admin/tags'),
+			'active'=>$this->id == 'tags' ? true : false
+		),*/
+        array(
+        	'label'=>'Users', 
+        	'icon'=>'user', 
+        	'url'=>Yii::app()->createUrl('/admin/users/'), 
+        	'active'=>$this->id == 'users' ? true : false
+		),
+        array(
+        	'label'=>'Settings', 
+        	'icon'=>'cog', 
+        	'url'=>Yii::app()->createUrl('/admin/settings/'), 
+        	'active'=>$this->id == 'settings' ? true : false
+		),
+	);
 		return true;
 	}
 	

@@ -11,10 +11,10 @@
 			in <? echo CHtml::link($content->category->name, Yii::app()->createUrl($content->category->slug)); ?>
 			<span class="black"><? echo $content->comment_count; ?></span> Comments</div>
 		<div class="horizontal-rule"></div>
-		<? if ($this->displayVar($meta['post-image']['value'])): ?>
-			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['post-image']['value'], NULL, array('class'=>'image')); ?></p>
+		<? if ($this->displayVar($meta['blog-image']['value'])): ?>
+			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image')); ?></p>
 		<? endif; ?>
-		<p><? echo strip_tags($content->extract, '<p><br>'); ?></p>
+		<? $md = new CMarkdownParser; echo $md->transform($content->extract); ?>
 		<? echo CHtml::link('Read More', Yii::app()->createUrl($content->slug), array('class'=>'medium button')); ?>
 		
 		<div class="thirty-margin-filler"></div>

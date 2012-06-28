@@ -2,7 +2,7 @@
 
 class UsersController extends ACiiController
 {
-
+	
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -23,8 +23,11 @@ class UsersController extends ACiiController
 				unset($_POST['Users']['password']);
 				
 			$model->attributes=$_POST['Users'];
-			if($model->save())
+			if($model->save()) 
+			{
+				Yii::app()->user->setFlash('success', 'User has been updated.');
 				$this->redirect(array('index','id'=>$model->id));
+			}
 		}
 
 		$this->render('update',array(
@@ -46,6 +49,7 @@ class UsersController extends ACiiController
 			$m->status = 0;
 			$m->save();
 
+			Yii::app()->user->setFlash('success', 'User has been deleted');
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));

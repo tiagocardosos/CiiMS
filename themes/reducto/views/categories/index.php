@@ -6,6 +6,7 @@
 	</p>
 <? else: ?>
 	<? foreach ($data as $v): ?>
+		<? $meta = Content::model()->parseMeta($v->metadata); ?>
 		<h1><? echo CHtml::link($v->title, Yii::app()->createUrl($v->slug)); ?></h1>
         <div class="horizontal-rule"></div>
         <div class="blog-data">
@@ -18,7 +19,11 @@
         	<? endif; ?>
         </div>
         <div class="horizontal-rule"></div>
-        <p><? echo strip_tags($v->extract, '<p><br>'); ?></p>
+		<? if (isset($meta['blog-image'])): ?>
+			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image')); ?></p>
+		<? endif; ?>
+        <div class="horizontal-rule"></div>
+        <? $md = new CMarkdownParser; echo $md->transform($v->extract); ?>
         <? echo CHtml::link('Read More', Yii::app()->createUrl($v->slug), array('class'=>'medium button')); ?>
         
         <div class="thirty-margin-filler"></div>

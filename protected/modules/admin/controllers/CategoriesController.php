@@ -4,38 +4,8 @@ class CategoriesController extends ACiiController
 {
 	public function beforeAction($action)
 	{
-		$this->menu = array(
-			array('label'=>'Content', 'url'=>Yii::app()->createUrl('admin/content')),
-			array('label'=>'Categories', 'url'=>Yii::app()->createUrl('admin/categories')),
-			array('label'=>'Comments', 'url'=>Yii::app()->createUrl('admin/comments')),
-			array('label'=>'Tags', 'url'=>Yii::app()->createUrl('admin/tags')),
-			array('label'=>'', 'url'=>array('#'))
-		);
 		return parent::beforeAction($action);
 		
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new Categories;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Categories']))
-		{
-			$model->attributes=$_POST['Categories'];
-			if($model->save())
-				$this->redirect(array('update','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -43,9 +13,12 @@ class CategoriesController extends ACiiController
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionSave($id=NULL)
 	{
-		$model=$this->loadModel($id);
+		if ($id == NULL)
+			$model = new Categories;
+		else
+			$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -54,10 +27,14 @@ class CategoriesController extends ACiiController
 		{
 			$model->attributes=$_POST['Categories'];
 			if($model->save())
-				$this->redirect(array('update','id'=>$model->id));
+			{
+				Yii::app()->user->setFlash('success', 'Category has been updated');
+				$this->redirect(array('save','id'=>$model->id));
+			}
+			Yii::app()->user->setFlash('error', 'There was an error in your submission, please verify you data before trying again.');
 		}
 
-		$this->render('update',array(
+		$this->render('save',array(
 			'model'=>$model,
 		));
 	}

@@ -3,7 +3,17 @@
 class SettingsController extends ACiiController
 {
 
-
+	
+	public function beforeAction($action)
+	{
+		$this->menu = array(
+			array('label'=>'Configuration Options'),
+			array('label'=>'New Settings', 'url'=>Yii::app()->createUrl('admin/settings/save')),
+		);
+		return parent::beforeAction($action);
+		
+	}
+	
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
