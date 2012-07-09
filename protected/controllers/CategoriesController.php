@@ -65,6 +65,7 @@ class CategoriesController extends CiiController
 		$criteria->addCondition('type_id >= 2');
 		$criteria->addCondition("category_id = " . $id);
 		$criteria->limit = $pageSize;			
+		$criteria->order = 'created DESC';
 		
 		$itemCount = Content::model()->count($criteria);
 		$pages=new CPagination($itemCount);

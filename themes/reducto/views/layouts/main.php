@@ -17,20 +17,20 @@
 					   				->registerCssFile("{$themeCSSUrl}build.css")
 							   		->registerCssFile(Yii::app()->baseUrl . '/css/jquery.gritter.css');
 		   	
-		   	Yii::app()->clientScript->registerCoreScript('jquery')
-					   				->registerScriptFile("{$themeJSUrl}scripts.js")					
-					   				->registerScriptFile("{$themeJSUrl}cufon-yui.js")
-									->registerScriptFile("{$themeJSUrl}cufon.fonts.js")
-									->registerScriptFile("{$themeJSUrl}Amperzand.font.js")
-									->registerScriptFile("{$themeJSUrl}Avenir.font.js")
-									->registerScriptFile("{$themeJSUrl}Coolvetica.font.js")
-									->registerScriptFile("{$themeJSUrl}jquery.droppy.js")
-									->registerScriptFile("{$themeJSUrl}jquery.imagefade.js")
-									->registerScriptFile("{$themeJSUrl}jquery.prettyPhoto.js")
-									->registerScriptFile("{$themeJSUrl}jquery.slider.js")
-									->registerScriptFile("{$themeJSUrl}swfobject.js")
-									->registerScriptFile('js/jquery.gritter.min.js')
-					   				->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.gritter.min.js');	
+		   	Yii::app()->clientScript->registerCoreScript('jquery', CClientScript::POS_END)
+					   				->registerScriptFile("{$themeJSUrl}scripts.js", CClientScript::POS_END)					
+					   				->registerScriptFile("{$themeJSUrl}cufon-yui.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}cufon.fonts.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}Amperzand.font.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}Avenir.font.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}Coolvetica.font.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}jquery.droppy.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}jquery.imagefade.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}jquery.prettyPhoto.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}jquery.slider.js", CClientScript::POS_END)
+									->registerScriptFile("{$themeJSUrl}swfobject.js", CClientScript::POS_END)
+									->registerScriptFile('js/jquery.gritter.min.js', CClientScript::POS_END)
+					   				->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.gritter.min.js', CClientScript::POS_END);	
 		?>
 	</head>
 	<body>
@@ -168,7 +168,6 @@
 	        </div>        
 	    </div>
 	
-	<script type="text/javascript"> Cufon.now(); </script> 
 	<!-- Piwik --> 
 	<script type="text/javascript">
 	var pkBaseURL = (("https:" == document.location.protocol) ? "https://erianna.com:2080/" : "http://erianna.com:2080/");
@@ -196,4 +195,6 @@
 	
 	</script>
 	</body>
+	
+	<script type="text/javascript"> Cufon.now(); </script> 
 </html>
