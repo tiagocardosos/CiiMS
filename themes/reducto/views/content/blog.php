@@ -14,7 +14,10 @@
 	<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image')); ?></p>
 <? endif; ?>
 <div class="clear"></div>
-<? $md = new CMarkdownParser; echo $md->transform($data->content); ?>
+<div class="content">
+	<? $md = new CMarkdownParser; echo $md->transform($data->content); ?>
+</div>
+
 
 <!-- TODO: // Post Hook Expression -->
 

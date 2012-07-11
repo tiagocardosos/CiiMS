@@ -647,3 +647,33 @@
 		margin-left: 70px; 
 		clear:none;
 	}	
+
+	.content ul li{
+		background:transparent url(../../images/reducto/green-icons.png) no-repeat scroll 0px -121px;
+		padding-left:20px;
+		float:left;
+		clear:both;
+	}
+	
+	.content ol {
+		margin:0px 0 0 5px;
+		margin-bottom: 10px;
+		counter-reset:item;
+		clear:both;
+	}
+	
+	.content ol li:before {
+		content:counter(item) ". ";
+		counter-increment:item;
+		padding-right:2px;
+	}
+	
+	.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	
+	.content p {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
