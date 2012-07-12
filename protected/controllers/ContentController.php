@@ -126,6 +126,8 @@ class ContentController extends CiiController
 	 */
 	public function actionList()
 	{
+		
+ 		echo $this->createUrl('content/list', array('page'=>2));
 		$this->setPageTitle('All Content');
 		$this->setLayout('default');
 		
