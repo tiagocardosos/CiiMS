@@ -38,8 +38,6 @@ class SlugURLManager extends CUrlManager
 		$this->rules['<controller:\w+>/<action:\w+>']='<controller>/<action>';
 		
 		parent::processRules();
-		
-
 	}
 	
 	/**

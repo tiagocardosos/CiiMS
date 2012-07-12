@@ -24,6 +24,8 @@ class CategoriesController extends CiiController
 		// Retrieve the route
 		$route = '/' . $this->getRoute() . '/' . $id;
 		
+		$requestUri = preg_replace('/\?(.*)/','',$requestUri);
+		
 		// If the route and the uri are the same, then a direct access attempt was made, and we need to block access to the controller
 		if ($requestUri == $route)
 		{
@@ -72,11 +74,11 @@ class CategoriesController extends CiiController
 		$pages->pageSize=$pageSize;
 		
 		
-		$criteria->offset = $criteria->limit*($pages->getCurrentPage()-1);			
+		$criteria->offset = $criteria->limit*($pages->getCurrentPage());			
 		$data = Content::model()->findAll($criteria);
 		$pages->applyLimit($criteria);		
 		
-		$this->render('index', array('id'=>$id, 'data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
+		$this->render('index', array('id'=>$id, 'category'=>$category, 'data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
 	}
 	
 	public function actionList()

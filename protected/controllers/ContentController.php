@@ -23,6 +23,7 @@ class ContentController extends CiiController
 		
 		// Retrieve the route
 		$route = '/' . $this->getRoute() . '/' . $id;
+		$requestUri = preg_replace('/\?(.*)/','',$requestUri);
 		
 		// If the route and the uri are the same, then a direct access attempt was made, and we need to block access to the controller
 		if ($requestUri == $route)
@@ -145,7 +146,7 @@ class ContentController extends CiiController
 		$pages=new CPagination($itemCount);
 		$pages->pageSize=$pageSize;		
 		
-		$criteria->offset = $criteria->limit*($pages->getCurrentPage()-1);			
+		$criteria->offset = $criteria->limit*($pages->getCurrentPage());			
 		$data = Content::model()->findAll($criteria);
 		$pages->applyLimit($criteria);	
 		

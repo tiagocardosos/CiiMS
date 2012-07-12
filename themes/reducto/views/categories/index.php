@@ -29,4 +29,21 @@
         <div class="thirty-margin-filler"></div>
         <div class="horizontal-rule"></div>
 	<? endforeach; ?>
+	<br />
+	<center>
+    <?php 
+		// Auto pagination
+		if ($pages != array())
+		{
+			$this->widget('CLinkPager', array(
+	            'currentPage'=>$pages->getCurrentPage(),
+	            'itemCount'=>$itemCount,
+	            'pageSize'=>$pages->pageSize,
+	            'maxButtonCount'=>10,
+	            'header'=>'',
+	       		'htmlOptions'=>array('class'=>'pages'),
+	        ));
+		}
+	?>
+	</center>
 <? endif; ?>
