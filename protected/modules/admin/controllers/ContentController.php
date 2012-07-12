@@ -37,8 +37,11 @@ class ContentController extends ACiiController
 		{
 			$model2 = new Content;
 			$model2->attributes=$_POST['Content'];
+			// For some reason this isn't setting with the other data
+			$model2->extract = $_POST['Content']['extract'];
 			$model2->id = $id;
 			$model2->vid = $model->vid+1;
+			
 			if($model2->save()) 
 			{
 				Yii::app()->user->setFlash('success', 'Content has been updated');
@@ -46,7 +49,6 @@ class ContentController extends ACiiController
 			}
 			else
 			{
-				$this->Debug($model2->getErrors());
 				Yii::app()->user->setFlash('error', 'There was an error saving your content. Please try again');
 			}
 		}

@@ -3,7 +3,6 @@
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
 		'author_id'=>array(
 			'header'=>'Author',
 			'value'=>'Users::model()->findByPk($data->author_id)->displayName'

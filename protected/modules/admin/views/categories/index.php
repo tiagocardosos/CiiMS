@@ -3,7 +3,6 @@
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
 		'parent_id'=>array(
 			'header'=>'Parent',
 			'value'=>'Categories::model()->findByPk($data->parent_id)->name'

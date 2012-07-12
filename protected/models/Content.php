@@ -134,7 +134,8 @@ class Content extends CiiModel
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('updated',$this->updated,true);
 		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
-			
+		$criteria->order = "created DESC";
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -176,7 +177,7 @@ class Content extends CiiModel
 	   	
 	   	$this->updated = new CDbExpression('NOW()');
 		
-		if ($this->extract == '')
+		if (strlen($this->extract) == 0)
     		$this->extract = $this->myTruncate($this->content, 250, '.', '');
 		
 		if ($this->slug == '')

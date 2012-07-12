@@ -2,8 +2,7 @@
 	'id'=>'users-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
-	'columns'=>array(
-		'id',
+	'columns'=>array(S
 		'email',
 		'displayName',
 		'user_role'=>array(

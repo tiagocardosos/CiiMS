@@ -127,7 +127,8 @@ class Users extends CiiModel
 		$criteria->compare('activation_key',$this->activation_key,true);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('updated',$this->updated,true);
-
+		$criteria->order = "created DESC";
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
