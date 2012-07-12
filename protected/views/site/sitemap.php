@@ -12,7 +12,7 @@
 	<? endforeach; ?>
 	<? foreach ($categories as $v): ?>
 		<url>
-			<loc><? echo $url .'/'. htmlspecialcharts(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></loc>
+			<loc><? echo $url .'/'. htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></loc>
 			<lastmod><? echo date('c', strtotime($v['updated']));?></lastmod>
 			<changefreq>weekly</changefreq>
 			<priority>0.7</priority>
