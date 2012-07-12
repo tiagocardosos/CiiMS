@@ -62,8 +62,17 @@ class SlugURLManager extends CUrlManager
 			if ($route['slug'] == NULL)
 				continue;
 			
-			$this->rules['/'.$route['slug'] . '/<page:\d+>'] = "/{$fromString}/index/id/{$route['id']}";
-			$this->rules['/'.$route['slug']] = "/{$fromString}/index/id/{$route['id']}";
+			$pageRule = '/'.$route['slug'] . '/<page:\d+>';
+			$rule = '/'.$route['slug'];
+			
+			// Handle the case of the slug being just /
+			if($route['slug'] == '/')
+			{
+				$pageRule = '/<page:\d+>';
+				$rule = '/';
+			}
+			$this->rules[$pageRule] = "/{$fromString}/index/id/{$route['id']}";
+			$this->rules[$rule] = "/{$fromString}/index/id/{$route['id']}";
 		}
 	}
 
