@@ -4,7 +4,7 @@
 	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<? foreach ($content as $v): ?>
 		<url>
-			<loc><? echo $url .'/'. html_entity_decode(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></loc>
+			<loc><? echo $url .'/'. htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></loc>
 			<lastmod><? echo date('c', strtotime($v['updated']));?></lastmod>
 			<changefreq>weekly</changefreq>
 			<priority><? echo $v['type_id'] == 1 ? '0.6': '0.8'; ?></priority>
@@ -12,7 +12,7 @@
 	<? endforeach; ?>
 	<? foreach ($categories as $v): ?>
 		<url>
-			<loc><? echo $url .'/'. html_entity_decode(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></loc>
+			<loc><? echo $url .'/'. htmlspecialcharts(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></loc>
 			<lastmod><? echo date('c', strtotime($v['updated']));?></lastmod>
 			<changefreq>weekly</changefreq>
 			<priority>0.7</priority>
