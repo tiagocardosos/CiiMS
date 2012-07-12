@@ -34,9 +34,8 @@ class SlugURLManager extends CUrlManager
 		$this->cacheRules('categories', $this->categoriesUrlRulesId);
 		
 		// Append our cache rules BEFORE we run the defaults
-		$this->rules['<controller:\w+>/<action:\w+>/<id:\d+>'] = '<controller>/<action>';
-		$this->rules['<controller:\w+>/<action:\w+>']='<controller>/<action>';
-		
+		$this->addRules(array('<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>'));
+		$this->addRules(array('<controller:\w+>/<action:\w+>'=>'<controller>/<action>'));
 		parent::processRules();
 	}
 	
@@ -62,17 +61,19 @@ class SlugURLManager extends CUrlManager
 			if ($route['slug'] == NULL)
 				continue;
 			
-			$pageRule = '/'.$route['slug'] . '/<page:\d+>';
-			$rule = '/'.$route['slug'];
+			$pageRule = $route['slug'] . '/<page:\d+>';
+			$rule = $route['slug'];
 			
 			// Handle the case of the slug being just /
 			if($route['slug'] == '/')
 			{
-				$pageRule = '/<page:\d+>';
-				$rule = '/';
+				$pageRule = '';
+				$rule = '';
 			}
-			$this->rules[$pageRule] = "/{$fromString}/index/id/{$route['id']}";
-			$this->rules[$rule] = "/{$fromString}/index/id/{$route['id']}";
+			
+			$this->addRules(array($pageRule=>"{$fromString}/index/id/{$route['id']}"));
+			$this->addRules(array($rule=>"{$fromString}/index/id/{$route['id']}"));
+			
 		}
 	}
 

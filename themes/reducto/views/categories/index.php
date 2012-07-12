@@ -35,7 +35,7 @@
 		// Auto pagination
 		if ($pages != array())
 		{
-			$this->widget('CLinkPager', array(
+			$this->widget('CiiLinkPager', array(
 	            'currentPage'=>$pages->getCurrentPage(),
 	            'itemCount'=>$itemCount,
 	            'pageSize'=>$pages->pageSize,
