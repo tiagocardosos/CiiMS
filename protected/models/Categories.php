@@ -108,7 +108,7 @@ class Categories extends CiiModel
 		$criteria->compare('slug',$this->slug,true);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('updated',$this->updated,true);
-		$criteria->order = "created DESC";
+		$criteria->order = "id DESC";
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

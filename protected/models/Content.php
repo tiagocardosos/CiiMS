@@ -134,7 +134,7 @@ class Content extends CiiModel
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('updated',$this->updated,true);
 		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
-		$criteria->order = "created DESC";
+		$criteria->order = "id DESC";
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -217,6 +217,7 @@ class Content extends CiiModel
 
 		$keyword = new AutoKeywords($params, "iso-8859-1");
 		$keywords = $keyword->get_keywords();
+		
 		$command  = Yii::app()->db->createCommand('INSERT INTO content_metadata (content_id, `key`, value, created, updated) VALUES (:content_id, "keywords", :value, NOW(), NOW()) ON DUPLICATE KEY UPDATE content_id = :content_id, `key` = `key`, value = :value, created = created, updated = NOW()');
 		$id = $this->id;
 		$command->bindParam(':content_id',$id,PDO::PARAM_INT);

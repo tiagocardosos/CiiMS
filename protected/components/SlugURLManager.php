@@ -73,6 +73,12 @@ class SlugURLManager extends CUrlManager
 			}
 			
 			$this->rules[$pageRule] = "{$fromString}/index/id/{$route['id']}";
+			
+			if ($fromString == 'categories')
+			{
+				$this->rules[$rule.'.rss'] = "content/rss/id/{$route['id']}";
+			}
+			
 			$this->rules[$rule] = "{$fromString}/index/id/{$route['id']}";
 			
 		}

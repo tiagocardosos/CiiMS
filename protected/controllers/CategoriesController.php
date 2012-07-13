@@ -36,6 +36,7 @@ class CategoriesController extends CiiController
 	/**
 	 * Handles all incoming requests for the entire site that are not previous defined in CUrlManager
 	 * Requests come in, are verified, and then pulled from the database dynamically
+	 * Shows all blog posts for a particular category_id
 	 * @param $id	- The content ID that we want to pull from the database
 	 * @return $this->render() - Render of page that we want to display
 	 **/
@@ -81,6 +82,9 @@ class CategoriesController extends CiiController
 		$this->render('index', array('id'=>$id, 'category'=>$category, 'data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
 	}
 	
+	/**
+	 * Displays a listing of all blog posts
+	 */
 	public function actionList()
 	{
 		$this->setPageTitle(Yii::app()->name . ' | Categories');

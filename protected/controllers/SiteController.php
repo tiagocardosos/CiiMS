@@ -43,6 +43,7 @@ class SiteController extends CiiController
 		$content = Yii::app()->db->createCommand('SELECT slug, type_id, updated FROM content AS t WHERE vid=(SELECT MAX(vid) FROM content WHERE id=t.id) AND status = 1;')->queryAll();
 		$categories = Yii::app()->db->createCommand('SELECT slug, updated FROM categories;')->queryAll();
 		$this->renderPartial('sitemap', array('content'=>$content, 'categories'=>$categories));
+		return;
 	}
 	
 	public function actionSearch($id=1)

@@ -152,5 +152,26 @@ class ContentController extends CiiController
 		
 		$this->render('all', array('data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
 	}
+	
+	/**
+	 * Displays either all posts or all posts for a particular category_id if an $id is set in RSS Format
+	 * So that RSS Readers can access the website
+	 */
+	public function actionRss($id=NULL)
+	{
+		$this->layout=false;
+		$criteria=new CDbCriteria;
+		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
+		$criteria->addCondition('type_id >= 2');
+		
+		if ($id != NULL)
+			$criteria->addCondition("category_id = " . $id);
+					
+		$criteria->order = 'created DESC';
+		$data = Content::model()->findAll($criteria);
+		
+		$this->renderPartial('application.views.site/rss', array('data'=>$data));
+		return;
+	}
 }
 ?>
