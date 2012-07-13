@@ -16,7 +16,7 @@
 	<?php foreach ($data as $k=>$v): ?>
 	<item>
 		<title><?php echo $v['title']; ?></title>
-		<link><?php echo $url.'/'.$v['slug']; ?></link>
+		<link><?php echo $url.'/'.htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8");; ?></link>
 		<description>
 			<?php 
 				$md = new CMarkdownParser; 
@@ -28,7 +28,7 @@
 		<pubDate><?php echo date('D, d M Y H:i:s T', strtotime($v['created'])); ?></pubDate>
 		<guid><?php echo $url.'/'.$v['slug']; ?></guid>
 		<?php if ($v['commentable']): ?>
-			<comments><?php echo $url.'/'.$v['slug']; ?>#comments</comments>
+			<comments><?php echo $url.'/'.htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8");; ?>#comments</comments>
 		<? endif; ?>
 	</item>
 	<?php endforeach; ?>	
