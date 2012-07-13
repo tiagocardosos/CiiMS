@@ -15,18 +15,18 @@
 	
 	<?php foreach ($data as $k=>$v): ?>
 	<item>
-		<title><?php echo $v['title']; ?></title>
-		<link><?php echo $url.'/'.htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8");; ?></link>
+		<title><?php echo htmlspecialchars(str_replace('/', '', $v['title']), ENT_QUOTES, "utf-8"); ?></title>
+		<link><?php echo $url.'/'.htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></link>
 		<description>
 			<?php 
 				$md = new CMarkdownParser; 
-				echo strip_tags($md->transform($v['extract'])); 
+				echo htmlspecialchars(strip_tags($md->transform($v['extract'])), ENT_QUOTES, "utf-8"); 
 			?>
 		</description>
-		<category><?php echo Categories::model()->findByPk($v['category_id'])->name; ?></category>
+		<category><?php echo htmlspecialchars(Categories::model()->findByPk($v['category_id'])->name,  ENT_QUOTES, "utf-8"); ?></category>
 		<author><?php echo Users::model()->findByPk($v['author_id'])->email; ?> (<?php echo Users::model()->findByPk($v['author_id'])->displayName; ?>)</author>
 		<pubDate><?php echo date('D, d M Y H:i:s T', strtotime($v['created'])); ?></pubDate>
-		<guid><?php echo $url.'/'.$v['slug']; ?></guid>
+		<guid><?php echo $url.'/'.htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></guid>
 		<?php if ($v['commentable']): ?>
 			<comments><?php echo $url.'/'.htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8");; ?>#comments</comments>
 		<? endif; ?>
