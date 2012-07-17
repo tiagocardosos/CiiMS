@@ -110,6 +110,134 @@ class SiteController extends CiiController
 	}
 	
 	/**
+	 * Handles resetting a users password should they forgot it
+	 * @param hash $id
+	 */
+	public function actionForgot($id=NULL)
+	{
+		$this->layout = '//layouts/main';
+		if ($id == NULL)
+		{
+			if (isset($_POST['email']))
+			{
+				// Verify the email is a real email
+				$validator=new CEmailValidator;
+				if (!$validator->validateValue($_POST['email']))
+				{
+					Yii::app()->user->setFlash('reset-error', 'The email your provided is not a valid email address.');
+					$this->render('forgot', array('id'=>$id));
+					return;
+				}
+				
+				// Check to see if we have a user with that email address
+				$user = Users::model()->findByAttributes(array('email'=>$_POST['email']));
+				if (count($user) == 1)
+				{
+					// Generate hash and populate db
+					$hash = mb_strimwidth(hash("sha256", md5(hash("sha512", time()))), 0, 16);
+					$expires = strtotime("+5 minutes");
+					
+					$meta = UserMetadata::model()->findByAttributes(array('user_id'=>$user->id, 'key'=>'passwordResetCode'));
+					if ($meta === NULL)
+						$meta = new UserMetadata;
+					
+					$meta->user_id = $user->id;
+					$meta->key = 'passwordResetCode';
+					$meta->value = $hash;
+					$meta->save();
+					
+					$meta = UserMetadata::model()->findByAttributes(array('user_id'=>$user->id, 'key'=>'passwordResetExpires'));
+					if ($meta === NULL)
+						$meta = new UserMetadata;
+					
+					$meta->user_id = $user->id;
+					$meta->key = 'passwordResetExpires';
+					$meta->value = $expires;
+					$meta->save();
+					
+					// Create the message to be sent to the user
+					$message = "
+					{$user->displayName},<br /><br />
+					You recently notified us that you forgot your password. Don't worry, it happens to all of us. To reset your password, please " . CHtml::link('click here', Yii::app()->createAbsoluteUrl('/forgot/' . $hash)) .
+					".<br /><br />Thank you,<br />" . Yii::app()->name . 
+					" Team<br /><br />P.S. If you did not request this email, you may safely ignore it.";
+					
+					// Send email
+					Yii::import('application.extensions.phpmailer.JPhpMailer');
+					$mail = new JPhpMailer;
+					$mail->IsSMTP();
+					$mail->SetFrom(Configuration::model()->findByAttributes(array('key'=>'adminEmail'))->value, Yii::app()->name . ' Administrator');
+					$mail->Subject = 'Your Password Reset Information';
+					$mail->MsgHTML($message);
+					$mail->AddAddress($user->email, $user->displayName);
+					$mail->Send();
+					
+					// Set success flash
+					Yii::app()->user->setFlash('reset-sent', 'An email has been sent to ' . $_POST['email'] . ' with further instructions on how to reset your password');
+				}
+				else
+				{
+					Yii::app()->user->setFlash('reset-error', 'No user with that email address was found');
+					$this->render('forgot', array('id'=>$id));
+					return;
+				}
+				
+			}
+		}
+		else
+		{
+			$hash = UserMetadata::model()->findByAttributes(array('key'=>'passwordResetCode', 'value'=>$id));
+			$expires = UserMetadata::model()->findByAttributes(array('user_id'=>$hash->user_id, 'key'=>'passwordResetExpires'));
+			
+			if ($hash == NULL || $expires == NULL || time() > $expires->value)
+			{
+				$this->render('forgot', array('id'=>$id, 'badHash'=>true));
+				return;
+			}
+			
+			if (isset($_POST['password']))
+			{
+				if ($this->displayVar($_POST['password']) != NULL && $this->displayVar($_POST['password2']) != NULL)
+				{
+					if ($_POST['password'] === $_POST['password2'])
+					{
+						if (strlen($_POST['password']) >= 8)
+						{
+						// Reset the password
+						$user = Users::model()->findByPk($hash->user_id);
+						$user->password = Users::model()->encryptHash($user->email, $_POST['password'], Yii::app()->params['encryptionKey']);
+						$user->save();
+						
+						// Delete the password hash and expires from the database
+						$hash->delete();
+						$expires->delete();
+						
+						// Set a success flash message
+						Yii::app()->user->setFlash('reset', 'Your password has been reset, and you may now login with your new password');
+						
+						// Redirect to the login page
+						$this->redirect('/login');
+						}
+	
+						Yii::app()->user->setFlash('reset-error', 'The password you provided must be at least 8 characters.');
+						$this->render('forgot', array('id'=>$id, 'badHash'=>false));
+						return;
+					}
+					
+					Yii::app()->user->setFlash('reset-error', 'The passwords you provided do not match');
+					$this->render('forgot', array('id'=>$id, 'badHash'=>false));
+					return;
+				}
+				
+				Yii::app()->user->setFlash('reset-error', 'You must provide your password twice for us to reset your password.');
+				$this->render('forgot', array('id'=>$id, 'badHash'=>false));
+				return;
+			}
+		}
+		$this->render('forgot', array('id'=>$id, 'badHash'=>false));
+	}
+	
+	/**
 	 * Registration page
 	 *
 	 **/
