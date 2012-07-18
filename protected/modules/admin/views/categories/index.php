@@ -4,7 +4,7 @@
 	'filter'=>$model,
 	'columns'=>array(
 		'parent_id'=>array(
-			'header'=>'Parent',
+			'name'=>'parent_id',
 			'value'=>'Categories::model()->findByPk($data->parent_id)->name'
 		),
 		'name',

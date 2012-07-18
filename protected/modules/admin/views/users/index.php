@@ -2,11 +2,11 @@
 	'id'=>'users-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
-	'columns'=>array(S
+	'columns'=>array(
 		'email',
 		'displayName',
 		'user_role'=>array(
-			'header'=>'Role',
+			'name'=>'user_role',
 			'value'=>'UserRoles::model()->findByPk($data->user_role)->name'
 		),
 		'status',

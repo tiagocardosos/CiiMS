@@ -24,7 +24,7 @@ class JTwitterParser {
 	public function fetch_tweets()
 	{
 		 //Using simplexml to load URL
-		$tweets = Yii::app()->cache->get(md5(md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('tweet-listing')));
+		$tweets = Yii::app()->cache->get('tweet-listing');
 		
 		if ($tweets === FALSE)
 		{
@@ -38,7 +38,7 @@ class JTwitterParser {
 					$items[] = (array)$item;
 				
 				$tweets = $items;
-				Yii::app()->cache->set(md5(md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('tweet-listing') ), $tweets, 600);
+				Yii::app()->cache->set('tweet-listing', $tweets, 600);
 			}
 		}
 		

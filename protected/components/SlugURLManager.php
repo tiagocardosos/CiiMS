@@ -19,8 +19,8 @@ class SlugURLManager extends CUrlManager
 	
 	public function __construct()
 	{
-		$this->contentUrlRulesId = md5( md5( Yii::getPathOfAlias('webroot') ) . md5( Yii::app()->name ) . md5('WFF-content-url-rules') );
-		$this->categoriesUrlRulesId  = md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-categories-url-rules') );
+		$this->contentUrlRulesId = 'WFF-content-url-rules';
+		$this->categoriesUrlRulesId  = 'WFF-categories-url-rules';
 	}
 	
 	/**

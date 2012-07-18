@@ -3,11 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <title><? echo CHtml::encode($this->pageTitle); ?></title>
+    <? Yii::app()->clientScript->registerCoreScript('jquery')
+    						   ->registerCssFile(Yii::app()->baseUrl .'/css/admin/main.css'); 
+    ?>
   </head>
   <? $this->widget('bootstrap.widgets.BootNavbar', array(
-    'fixed'=>false,
-    'brand'=>CHtml::encode(Yii::app()->name) . ' | Admin',
-	'items'=>array(
+	    'fixed'=>false,
+	    'brand'=>CHtml::encode(Yii::app()->name) . ' | Admin',
+		'items'=>array(
+			array(
+	            'class'=>'bootstrap.widgets.BootMenu',
+	            'htmlOptions'=>array('class'=>'pull-right'),
+	            'items'=>array(
+	                array('label'=>'Logout', 'url'=>Yii::app()->createUrl('/logout')),
+	            ),
+		     ),
 		),
 	));
 	

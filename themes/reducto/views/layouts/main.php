@@ -92,11 +92,11 @@
 					<ul class="widget-list">						
 						<li><? echo CHtml::link('All Blogs', Yii::app()->createUrl('/blogs')); ?></li>
 						<?
-							$categories = Yii::app()->cache->get(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-listing') ));
+							$categories = Yii::app()->cache->get('categories-listing');
 							if ($categories == false)
 							{
 								$categories = Yii::app()->db->createCommand('SELECT categories.id AS id, categories.name AS name, categories.slug AS slug, COUNT(DISTINCT(content.id)) AS content_count FROM categories LEFT JOIN content ON categories.id = content.category_id WHERE content.type_id = 2 AND content.status = 1 GROUP BY categories.id')->queryAll();
-								Yii::app()->cache->set(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-listing') ), $categories);							
+								Yii::app()->cache->set('categories-listing', $categories);							
 							}
 							
 							foreach ($categories as $k=>$v)
@@ -118,11 +118,11 @@
 					<ul class="widget-list posts">
 						<?
 						
-							$content = Yii::app()->cache->get(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing')));
+							$content = Yii::app()->cache->get('content-listing');
 							if ($content == false)
 							{
 								$content = Yii::app()->db->createCommand('SELECT title, extract, content.slug AS content_slug, categories.slug AS category_slug, categories.name AS category_name, comment_count, content.created FROM content LEFT JOIN categories ON content.category_id = categories.id WHERE vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) AND type_id = 2 AND status = 1 ORDER BY content.created DESC LIMIT 5')->queryAll();
-								Yii::app()->cache->set(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing') ), $content);							
+								Yii::app()->cache->set('content-listing', $content);							
 							}
 							
 							foreach ($content as $k=>$v)
@@ -167,33 +167,13 @@
 	            <div id="footer-copyright">Copyright 2012. All Rights Reserved</div>
 	        </div>        
 	    </div>
+	    
+	<? if (!YII_DEBUG): ?>
+		<!-- Analytics Plugin -->
+		<? $this->widget('ext.analytics.EPiwikAnalyticsWidget', array('id'=>2, 'baseUrl'=>'http://www.erianna.com:2080')); ?>
+		<? $this->widget('ext.analytics.EGoogleAnalyticsWidget', array('account'=>'UA-21577234-3', 'addThis'=>true, 'addThisSocial'=>'true')); ?>
+	<? endif; ?>
 	
-	<!-- Piwik --> 
-	<script type="text/javascript">
-	var pkBaseURL = (("https:" == document.location.protocol) ? "https://erianna.com:2080/" : "http://erianna.com:2080/");
-	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-	</script><script type="text/javascript">
-	try {
-	var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
-	piwikTracker.trackPageView();
-	piwikTracker.enableLinkTracking();
-	} catch( err ) {}
-	</script><noscript><p><img src="http://erianna.com:2080/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
-	<!-- End Piwik Tracking Code -->   
-	<script type="text/javascript">
-	
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-21577234-3']);
-	  _gaq.push(['_setDomainName', 'auto']);
-	  _gaq.push(['_trackPageview']);
-	
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	
-	</script>
 	</body>
 	
 	<script type="text/javascript"> Cufon.now(); </script> 

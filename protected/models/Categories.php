@@ -118,9 +118,9 @@ class Categories extends CiiModel
 	public function beforeSave() {
     	if ($this->isNewRecord)
     	{
-    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories') ));
-			Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-categories-url-rules') ));
-			Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-pid') ));
+    		Yii::app()->cache->delete('categories');
+			Yii::app()->cache->delete('WFF-categories-url-rules');
+			Yii::app()->cache->delete('categories-pid');
 			$this->created = new CDbExpression('NOW()');			
 			$this->updated = new CDbExpression('NOW()');
 		}
@@ -132,21 +132,21 @@ class Categories extends CiiModel
 	
 	public function beforeDelete()
 	{			
-		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories') ));
-		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('ctegories-listing') ));
-		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-categories-url-rules') ));
-		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-pid') ));
+		Yii::app()->cache->delete('categories');
+		Yii::app()->cache->delete('ctegories-listing');
+		Yii::app()->cache->delete('WFF-categories-url-rules');
+		Yii::app()->cache->delete('categories-pid');
 		return parent::beforeDelete();
 	}
 	
 	public function getParentCategories($id)
 	{
 		// Retrieve the data from cache if necessary
-		$response = Yii::app()->cache->get(md5(md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-pid')));
+		$response = Yii::app()->cache->get('categories-pid');
 		if ($response == NULL)
 		{
 			$response = Yii::app()->db->createCommand('SELECT id, parent_id, name, slug FROM categories')->queryAll();
-			Yii::app()->cache->set(md5(md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('categories-pid')), $response);
+			Yii::app()->cache->set('categories-pid', $response);
 		}
 		
 		return $this->__getParentCategories($response, $id);

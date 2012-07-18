@@ -109,7 +109,7 @@ class Content extends CiiModel
 			'category_id' => 'Category',
 			'type_id' => 'Type',
 			'password' => 'Password',
-			'comment_count' => 'Comment Count',
+			'comment_count' => 'Comments',
 			'slug' => 'Slug',
 			'created' => 'Created',
 			'updated' => 'Updated',
@@ -190,9 +190,9 @@ class Content extends CiiModel
 	{
 		if ($this->isNewRecord)
 		{			
-    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content') ));
-    		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing') ));
-			Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-content-url-rules') ));
+    		Yii::app()->cache->delete('content');
+    		Yii::app()->cache->delete('content-listing');
+			Yii::app()->cache->delete('WFF-content-url-rules');
 		}
 		
 		return parent::beforeSave();
@@ -229,9 +229,9 @@ class Content extends CiiModel
 	
 	public function beforeDelete()
 	{		
-		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content') ));
-		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('content-listing') ));
-		Yii::app()->cache->delete(md5( md5(Yii::getPathOfAlias('webroot')) . md5(Yii::app()->name) . md5('WFF-content-url-rules') ));
+		Yii::app()->cache->delete('content');
+		Yii::app()->cache->delete('content-listing');
+		Yii::app()->cache->delete('WFF-content-url-rules');
 		
 		return parent::beforeDelete();
 	}

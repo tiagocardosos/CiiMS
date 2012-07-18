@@ -4,14 +4,13 @@
 	'filter'=>$model,
 	'columns'=>array(
 		'author_id'=>array(
-			'header'=>'Author',
+			'name'=>'author_id',
 			'value'=>'Users::model()->findByPk($data->author_id)->displayName'
 		),
 		'title',
 		'status',
-		'parent_id',
 		'category_id'=>array(
-			'header'=>'Category', 
+			'name'=>'category_id',
 			'value'=>'Categories::model()->findByPk($data->category_id)->name'
 		),
 		'comment_count',

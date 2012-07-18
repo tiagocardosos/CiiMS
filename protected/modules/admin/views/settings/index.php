@@ -8,7 +8,7 @@
 		array(
 			'class'=>'bootstrap.widgets.BootButtonColumn',
 			'template'=>'{update}{delete}',
-			'updateButtonUrl'=>"Yii::app()->createUrl('/admin/settings/save')"
+			'updateButtonUrl'=>'Yii::app()->createUrl("/admin/settings/save/id/" . $data->key)',
 		),
 	),
 )); ?>
