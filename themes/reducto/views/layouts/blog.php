@@ -28,6 +28,7 @@
 		<div class="one-fourth-last">
 			<br />
 			<h5>Share This Post</h5>
+			<div class="horizontal-rule"></div>
 			<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
 				<a class="addthis_button_facebook"></a>
 				<a class="addthis_button_linkedin"></a>
