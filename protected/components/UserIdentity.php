@@ -10,13 +10,13 @@ class UserIdentity extends CUserIdentity
 	private $_id;
 			
 	public function authenticate()
-    	{
+	{
 		$record=Users::model()->findByAttributes(array('email'=>$this->username));
 		if($record===null)
 		    $this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
 		else if($record->password!==Users::model()->encryptHash($this->username, $this->password, Yii::app()->params['encryptionKey']))
 		    $this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
-		else if ($record->status == 3)
+		else if ($record->status == 3 || $record->status == 0)
 			$this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
 		else
 		{
@@ -27,8 +27,8 @@ class UserIdentity extends CUserIdentity
 		  	$this->setState('role', $record->user_role);
 		    	$this->errorCode=self::ERROR_NONE;
 		}
-		return !$this->errorCode;
-	    }
+return !$this->errorCode;
+    }
 
 		
 	public function getId()

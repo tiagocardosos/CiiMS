@@ -134,7 +134,7 @@ class SiteController extends CiiController
 				if (count($user) == 1)
 				{
 					// Generate hash and populate db
-					$hash = mb_strimwidth(hash("sha256", md5(hash("sha512", time()))), 0, 16);
+					$hash = mb_strimwidth(hash("sha256", md5(time() . md5(hash("sha512", time())))), 0, 16);
 					$expires = strtotime("+5 minutes");
 					
 					$meta = UserMetadata::model()->findByAttributes(array('user_id'=>$user->id, 'key'=>'passwordResetCode'));
@@ -238,6 +238,46 @@ class SiteController extends CiiController
 	}
 	
 	/**
+	 * Activation handler
+	 */
+	public function actionActivation($email=NULL, $id=NULL) 
+	{
+		$this->layout = '//layouts/main';
+		if ($id != NULL || $email=NULL)
+		{
+			$user = Users::model()->findByPk($email);
+			if ($user != NULL && $user->status == 0)
+			{
+				$meta = UserMetadata::model()->findByAttributes(array('user_id'=>$email, 'key'=>'activationKey', 'value'=>$id));
+				if ($meta != NULL)
+				{
+					// Update the user status
+					$user->status = 1;
+					$user->save();
+					
+					// Delete the activationKey
+					$meta->delete();
+					Yii::app()->user->setFlash('activation-success', 'You may now login');
+				}
+				else
+				{
+					Yii::app()->user->setFlash('activation-error', 'The activation key your provided was invalid.');
+				}
+			}
+			else
+			{
+				Yii::app()->user->setFlash('activation-error', 'The user requested either does not exist, or has already been activated.');
+			}
+		}
+		else
+		{
+			Yii::app()->user->setFlash('activation-error', 'The activation key your provided was invalid.');
+		}
+		
+		$this->render('activation');
+	}
+	
+	/**
 	 * Registration page
 	 *
 	 **/
@@ -264,7 +304,7 @@ class SiteController extends CiiController
 					'lastName'=>$_POST['RegisterForm']['lastName'],
 					'displayName'=>$_POST['RegisterForm']['displayName'],
 					'user_role'=>1,
-					'status'=>1
+					'status'=>0
 				);
 				
 				$resp = $captcha->recaptcha_check_answer(Yii::app()->params['reCaptchaPrivateKey'], $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
@@ -279,6 +319,30 @@ class SiteController extends CiiController
 				{
 					if($user->save())
 					{
+						$hash = mb_strimwidth(hash("sha256", md5(time() . md5(hash("sha512", time())))), 0, 16);
+						$meta = new UserMetadata;
+						$meta->user_id = $user->id;
+						$meta->key = 'activationKey';
+						$meta->value = $hash;
+						$meta->save();
+						
+						// Create the message to be sent to the user
+						$message = "
+						{$user->displayName},<br /><br />
+						Thanks for registering your account! To activate your account, " . CHtml::link('click here', Yii::app()->createAbsoluteUrl('/activation/'.$user->id.'/'.$hash)) .
+						".<br /><br />Thank you,<br />" . Yii::app()->name . 
+						" Team<br /><br />P.S. If you did not request this email, you may safely ignore it.";
+						
+						// Send email
+						Yii::import('application.extensions.phpmailer.JPhpMailer');
+						$mail = new JPhpMailer;
+						$mail->IsSMTP();
+						$mail->SetFrom(Configuration::model()->findByAttributes(array('key'=>'adminEmail'))->value, Yii::app()->name . ' Administrator');
+						$mail->Subject = 'Activate Your Account';
+						$mail->MsgHTML($message);
+						$mail->AddAddress($user->email, $user->displayName);
+						$mail->Send();
+					
 						$this->render('register-success');
 					}
 				}
