@@ -12,7 +12,6 @@
  * @property string $displayName
  * @property integer $user_role
  * @property integer $status
- * @property string $activation_key
  * @property string $created
  * @property string $updated
  *
@@ -62,10 +61,10 @@ class Users extends CiiModel
 			array('email, password, firstName, lastName, displayName, user_role, status', 'required'),
 			array('user_role, status', 'numerical', 'integerOnly'=>true),
 			array('email, firstName, lastName, displayName', 'length', 'max'=>255),
-			array('password, activation_key', 'length', 'max'=>64),
+			array('password', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, email, password, firstName, lastName, displayName, user_role, status, activation_key, created, updated', 'safe', 'on'=>'search'),
+			array('id, email, password, firstName, lastName, displayName, user_role, status, created, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,7 +98,6 @@ class Users extends CiiModel
 			'displayName' => 'Display Name',
 			'user_role' => 'User Role',
 			'status' => 'Status',
-			'activation_key' => 'Activation Key',
 			'created' => 'Created',
 			'updated' => 'Updated',
 		);
@@ -124,7 +122,6 @@ class Users extends CiiModel
 		$criteria->compare('displayName',$this->displayName,true);
 		$criteria->compare('user_role',$this->user_role);
 		$criteria->compare('status',$this->status);
-		$criteria->compare('activation_key',$this->activation_key,true);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('updated',$this->updated,true);
 		$criteria->order = "id DESC";
