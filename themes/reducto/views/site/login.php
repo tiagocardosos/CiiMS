@@ -32,6 +32,8 @@
 		<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/social-icons/LinkDeck/32/facebook.png'), Yii::app()->createUrl('/hybridauth/facebook'), array('escape'=>true)); ?>
 		<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/social-icons/LinkDeck/32/googleplusalt.png'), Yii::app()->createUrl('/hybridauth/google'), array('escape'=>true)); ?>
 		<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/social-icons/LinkDeck/32/twitter.png'), Yii::app()->createUrl('/hybridauth/twitter'), array('escape'=>true)); ?>
+		<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/social-icons/LinkDeck/32/linkedin.png'), Yii::app()->createUrl('/hybridauth/linkedin'), array('escape'=>true)); ?>
+		<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/social-icons/LinkDeck/32/github.png'), Yii::app()->createUrl('/hybridauth/github'), array('escape'=>true)); ?>
 	</center>
 </div>
 
