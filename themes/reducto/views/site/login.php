@@ -22,6 +22,17 @@
 	<br />
 	<br />
 	<? echo CHtml::link('Forgot your password?', Yii::app()->createUrl('/forgot'), array('style'=>'float:right;')); ?>
+	
+	<br /><br /><div class="horizontal-rule"></div><br />
+	<h4>Social Login</h4>
+	<div class="horizontal-rule"></div>
+	<p>Don't feel like making an account? That's OK. You can still sign in using one of these social networks!</p>
+	<br />
+	<center>
+		<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/social-icons/LinkDeck/32/facebook.png'), Yii::app()->createUrl('/hybridauth/facebook'), array('escape'=>true)); ?>
+		<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/social-icons/LinkDeck/32/googleplusalt.png'), Yii::app()->createUrl('/hybridauth/google'), array('escape'=>true)); ?>
+		<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/images/social-icons/LinkDeck/32/twitter.png'), Yii::app()->createUrl('/hybridauth/twitter'), array('escape'=>true)); ?>
+	</center>
 </div>
 
 <div class="one-half-last">
