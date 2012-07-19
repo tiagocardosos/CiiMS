@@ -31,11 +31,11 @@ class UserIdentity extends CUserIdentity
 			$this->setState('displayName', $record->displayName);
 			$this->setState('status', $record->status);
 		  	$this->setState('role', $record->user_role);
-		    $this->errorCode=self::ERROR_NONE;
+		    	$this->errorCode=self::ERROR_NONE;
 		}
 		
 		return !$this->errorCode;
-    }
+    	}
 
 		
 	public function getId()

@@ -51,7 +51,6 @@ class LoginForm extends CFormModel
 	 */
 	public function authenticate($attribute,$params)
 	{
-		print_r($this->getErrors());
 		if(!$this->hasErrors())
 		{
 			$this->_identity=new UserIdentity($this->username,$this->password);

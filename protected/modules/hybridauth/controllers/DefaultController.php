@@ -14,6 +14,7 @@ class DefaultController extends CiiController
 		}
 		catch (Exception $e)
 		{
+			//$this->debug($e);
 			throw new CHttpException('400', 'Oh Snap! Something went wrong. Please try again later.');
 		}
 		return;
@@ -33,7 +34,7 @@ class DefaultController extends CiiController
 		
 		$identity = new RemoteUserIdentity();
 		if ($identity->authenticate($provider))
-		{			
+		{		
 			// If we found a user and authenticated them, bind this data to the user if it does not already exist
 			$user = UserMetadata::model()->findByAttributes(array('key'=>$provider.'Provider', 'value'=>$identity->userData['id']));
 			if ($user === NULL)
@@ -45,19 +46,22 @@ class DefaultController extends CiiController
 				$user->save();
 			}
 			
+			$user = Users::model()->findByPk($user->user_id);
 			// Log the user in with just their email address
 			$model=new LoginForm(true);
 			
 			$model->attributes=array(
-				'username'=>$identity->userData['email'],
+				'username'=>isset($user->email) ? $user->email : $identity->userData['email'],
 				'password'=>md5('PUBUSER'),
 			);
 			
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
-			{ 
+			{
 				$this->redirect(Yii::app()->user->returnUrl);
 			}
+
+			throw new CException('Unable to bind to local user');
 		}
 		else if ($identity->errorCode == RemoteUserIdentity::ERROR_USERNAME_INVALID)
 		{
@@ -96,6 +100,7 @@ class DefaultController extends CiiController
 			{ 
 				$this->redirect(Yii::app()->user->returnUrl);
 			}
+			throw new CException('Unable to bind new user locally');
 		}
 		else 
 		{
