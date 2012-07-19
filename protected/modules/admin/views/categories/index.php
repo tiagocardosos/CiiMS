@@ -1,4 +1,7 @@
-<?php $this->widget('bootstrap.widgets.BootGridView',array(
+<div class="well">
+	<?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'New Category', 'url'=>Yii::app()->createUrl('/admin/categories/save'), 'type'=>'primary', 'size'=>'normal', 'htmlOptions'=>array('style'=>'float:right;'))); ?>
+	<br />
+	<?php $this->widget('bootstrap.widgets.BootGridView',array(
 	'id'=>'categories-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
@@ -16,3 +19,4 @@
 		),
 	),
 )); ?>
+</div>
