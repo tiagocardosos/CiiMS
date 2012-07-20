@@ -15,7 +15,7 @@
 <? endif; ?>
 <div class="clear"></div>
 <div class="content">
-	<? $md = new CMarkdownParser; echo $md->transform($data->content); ?>
+	<? $md = new CMarkdownParser; echo $md->safeTransform($data->content); ?>
 </div>
 
 
@@ -68,7 +68,7 @@
 		<?php $form=$this->beginWidget('CActiveForm', array(
 				'id'=>'reply',
 				'focus'=>array($model,'comment'),
-				'enableAjaxValidation'=>true,
+				'enableAjaxValidation'=>false,
 				'errorMessageCssClass'=>'alertBox-alert',
 			)); ?>
 			<? echo $form->error($model,'comment'); ?>

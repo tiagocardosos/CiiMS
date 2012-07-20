@@ -23,7 +23,7 @@
 			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image')); ?></p>
 		<? endif; ?>
         <div class="horizontal-rule"></div>
-        <? $md = new CMarkdownParser; echo strip_tags($md->transform($v->extract), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
+        <? $md = new CMarkdownParser; echo strip_tags($md->safeTransform($v->extract), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
         <? echo CHtml::link('Read More', Yii::app()->createUrl($v->slug), array('class'=>'medium button')); ?>
         
         <div class="thirty-margin-filler"></div>
