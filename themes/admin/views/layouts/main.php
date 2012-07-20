@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title><? echo CHtml::encode($this->pageTitle); ?></title>
-    <? Yii::app()->clientScript->registerCoreScript('jquery')
-    						   ->registerCssFile(Yii::app()->baseUrl .'/css/admin/main.css'); 
+    <? Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl .'/css/admin/main.css'); 
     ?>
   </head>
   <? $this->widget('bootstrap.widgets.BootNavbar', array(

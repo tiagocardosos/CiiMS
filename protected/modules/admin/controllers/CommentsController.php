@@ -23,21 +23,17 @@ class CommentsController extends ACiiController
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$comment = $this->loadModel($id);
-			$c = Content::model()->findByPk($comment->content_id);			
-			$comment->delete();
-			$c->comment_count = $c->comment_count - 1;
-			$c->save();
-
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		// we only allow deletion via POST request
+		$comment = $this->loadModel($id);
+		$c = Content::model()->findByPk($comment->content_id);			
+		$comment->delete();
+		$c->comment_count = $c->comment_count - 1;
+		$c->save();
+		
+		Yii::app()->user->setFlash('success', 'Comment has been deleted.');
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	public function actionApprove($id)

@@ -11,8 +11,13 @@ class LoginForm extends CFormModel
 	public $password;
 	public $rememberMe;
 
+	private $force = false;
 	private $_identity;
 
+	public function __construct($force=false)
+	{
+		$this->force = $force;
+	}
 	/**
 	 * Declares the validation rules.
 	 * The rules state that username and password are required,
@@ -49,7 +54,7 @@ class LoginForm extends CFormModel
 		if(!$this->hasErrors())
 		{
 			$this->_identity=new UserIdentity($this->username,$this->password);
-			if(!$this->_identity->authenticate())
+			if(!$this->_identity->authenticate($this->force))
 				$this->addError('password','Incorrect username or password.');
 		}
 	}

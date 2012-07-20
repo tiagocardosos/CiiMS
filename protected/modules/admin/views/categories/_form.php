@@ -1,6 +1,7 @@
 <?php $form=$this->beginWidget('bootstrap.widgets.BootActiveForm',array(
 	'id'=>'categories-form',
 	'enableAjaxValidation'=>false,
+	'action'=>Yii::app()->createUrl('/admin/categories/save')
 )); ?>
 
 	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
