@@ -14,6 +14,7 @@
 	</channel>
 	
 	<?php foreach ($data as $k=>$v): ?>
+	<? if ($v->password != '') { continue; } ?>
 	<item>
 		<title><?php echo htmlspecialchars(str_replace('/', '', $v['title']), ENT_QUOTES, "utf-8"); ?></title>
 		<link><?php echo $url.'/'.htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></link>

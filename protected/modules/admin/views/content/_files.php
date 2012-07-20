@@ -1,3 +1,10 @@
+<? $meta = Content::model()->parseMeta($model->metadata); ?>
+<ul>
+	<? foreach ($meta as $k=>$v): ?>
+		<li><strong><? echo $k; ?></strong>: <? echo $v['value']; ?></li>
+	<? endforeach; ?>
+</ul>
+
 <?php echo CHtml::textField('titlehdr', 'blog-image', array('placeholder'=>'Title', 'style'=>'float:left;', 'rel'=>'tooltip', 'class'=>'left span4', 'title'=>'How you want Cii to reference this file as')); ?>
 <? $this->widget('ext.EAjaxUpload.EAjaxUpload',
 	array(

@@ -111,36 +111,7 @@ class ContentController extends ACiiController
         echo $return;
 		}		
 	}
-	
-	public function actionMetaSave($id=NULL, $key=NULL)
-	{
-		if ($key == NULL)
-			$model = new ContentMetadata();
-		else
-			$model = ContentMetadata::model()->findByAttributes(array('content_id'=>$id, 'key'=>$key));
-	
-		if (isset($_POST['ContentMetadata']))
-		{
-			$model->attributes = $_POST['ContentMetadata'];
-			try
-			{
-				if ($model->save())
-				{
-					$this->redirect(array('metasave','id'=>$model->content_id, 'key'=>$model->key));
-				}
-			}
-			catch(CDbException $e)
-			{
-				$model->addError('key', $e->getMessage());
-			}
-		}
-		
-		$this->render('metasave', array(
-			'model'=>$model,
-			'id'=>$id, 
-			'key'=>$key
-			));
-	}
+
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -171,24 +142,6 @@ class ContentController extends ACiiController
 			'model'=>$model,
 		));
 	}
-	
-	/**
-	 * Lists all models.
-	 */
-	public function actionMeta($id=NULL)
-	{
-		$_GET['ContentMetadata']['content_id'] = $id;
-		$model=new ContentMetadata('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ContentMetadata']))
-			$model->attributes=$_GET['ContentMetadata'];
-
-		$this->render('meta',array(
-			'model'=>$model,
-			'id'=>$id,
-		));
-	}
-
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

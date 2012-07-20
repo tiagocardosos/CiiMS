@@ -1,8 +1,3 @@
-<?php $this->menu = array_merge($this->menu, array(
-	array('label'=>'Manage Metadata', 'url'=>'')
-)); ?>
-
-
 <p class="help-block">Fields with <span class="required">*</span> are required.</p>
 
 <?php echo $form->errorSummary($model); ?>
@@ -14,7 +9,7 @@
 
 <?php echo $form->textFieldRow($model,'title',array('class'=>'span12','maxlength'=>150)); ?>
 
-<?php echo $form->textAreaRow($model,'content',array('rows'=>6, 'cols'=>50, 'class'=>'span12')); ?>
+<?php echo $form->textAreaRow($model,'content',array('rows'=>12, 'cols'=>50, 'class'=>'span12')); ?>
 
 <div id="extractForm" class="hidden"><?php echo $form->textAreaRow($model,'extract',array('rows'=>6, 'cols'=>50, 'class'=>'span12')); ?></div>
 		

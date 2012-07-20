@@ -13,10 +13,10 @@
 		<?php echo $this->renderPartial('_form',array('model'=>$model, 'form'=>$form)); ?>
 	</div>
 	<? if (!$model->isNewRecord): ?>
-	<div class="well span4 right">
-		<h2 class="top">Associated Files</h2>
-		<?php echo $this->renderPartial('_files'); ?>
-	</div>
+		<div class="well span4 right">
+			<h2 class="top">Associated Data</h2>
+			<?php echo $this->renderPartial('_files', array('model'=>$model)); ?>
+		</div>
 	<? endif; ?>
 	<div class="well span4 right">
 		<h2 class="top">Additional Details</h2>
