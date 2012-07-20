@@ -69,8 +69,9 @@ class SiteController extends CiiController
 			$criteria=new CDbCriteria;
 			$criteria->addInCondition('id', array_keys(isset($result['matches']) ? $result['matches'] : array()));
 			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
-			$criteria->limit = $pageSize;			
 			
+			$criteria->limit = $pageSize;	
+			$criteria->order = 'id DESC';		
 			$itemCount = Content::model()->count($criteria);
 			$pages=new CPagination($itemCount);
 			$pages->pageSize=$pageSize;			
