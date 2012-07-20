@@ -42,20 +42,15 @@ class UsersController extends ACiiController
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$m = $this->loadModel($id);
-			$m->status = 0;
-			$m->save();
+		// we only allow deletion via POST request
+		$m = $this->loadModel($id);
+		$m->status = 0;
+		$m->save();
 
-			Yii::app()->user->setFlash('success', 'User has been deleted');
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		Yii::app()->user->setFlash('success', 'User has been deleted');
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	/**

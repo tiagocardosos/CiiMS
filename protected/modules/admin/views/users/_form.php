@@ -3,7 +3,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
+	<p class="help-block">Fields with <span class="required">*</span> are required. To change a users password, provide a new one. If left blank the old password will be retained.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 

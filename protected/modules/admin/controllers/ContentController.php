@@ -20,6 +20,7 @@ class ContentController extends ACiiController
 	public function actionSave($id=NULL)
 	{
 		$version = 0;
+		
 		if ($id == NULL)
 		{
 			$model = new Content;
@@ -73,11 +74,43 @@ class ContentController extends ACiiController
 		$command->bindParam(":id", $id, PDO::PARAM_STR);
 		$command->execute();
 
+		Yii::app()->user->setFlash('success', 'Post has been deleted');
+		
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 	
+	public function actionUpload()
+	{
+		error_reporting(-1);
+		if (Yii::app()->request->isPostRequest)
+		{
+			Yii::import("ext.EAjaxUpload.qqFileUploader");
+			$path = '/';
+			if ($_GET['title'] == 'blog-image')
+				$path = '/blog-images/';
+	        $folder=Yii::app()->getBasePath() .'/../uploads' . $path;// folder for uploaded files
+	        $allowedExtensions = array('jpg', 'jpeg', 'png', 'gif', 'bmp');//array("jpg","jpeg","gif","exe","mov" and etc...
+	        $sizeLimit = 10 * 1024 * 1024;// maximum file size in bytes
+	        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+	        $result = $uploader->handleUpload($folder);
+			
+			if ($result['success'] = true)
+			{
+				$meta = ContentMetadata::model()->findbyAttributes(array('content_id'=>$_GET['id'], 'key'=>$_GET['title']));
+				if ($meta == NULL)
+					$meta = new ContentMetadata;
+				$meta->content_id = $_GET['id'];
+				$meta->key = $_GET['title'];
+				$meta->value = '/uploads' . $path . $result['filename'];
+				$meta->save();
+			}
+	        $return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+ 
+        echo $return;
+		}		
+	}
 	
 	public function actionMetaSave($id=NULL, $key=NULL)
 	{
