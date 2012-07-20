@@ -3,6 +3,7 @@
 <? echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<? foreach ($content as $v): ?>
+		<? if ($v->password != '') { continue; } ?>
 		<url>
 			<loc><? echo $url .'/'. htmlspecialchars(str_replace('/', '', $v['slug']), ENT_QUOTES, "utf-8"); ?></loc>
 			<lastmod><? echo date('c', strtotime($v['updated']));?></lastmod>

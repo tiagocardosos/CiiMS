@@ -19,9 +19,9 @@ class CategoriesController extends ACiiController
 			$model = new Categories;
 		else
 			$model=$this->loadModel($id);
-
+		
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		//$this->performAjaxValidation($model);
 
 		if(isset($_POST['Categories']))
 		{
@@ -29,11 +29,11 @@ class CategoriesController extends ACiiController
 			if($model->save())
 			{
 				Yii::app()->user->setFlash('success', 'Category has been updated');
-				$this->redirect(array('save','id'=>$model->id));
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 			}
 			Yii::app()->user->setFlash('error', 'There was an error in your submission, please verify you data before trying again.');
 		}
-
+		
 		$this->render('save',array(
 			'model'=>$model,
 		));
@@ -46,17 +46,13 @@ class CategoriesController extends ACiiController
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+		// we only allow deletion via POST request
+		$this->loadModel($id)->delete();
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		Yii::app()->user->setFlash('success', 'Category has been deleted.');
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	/**

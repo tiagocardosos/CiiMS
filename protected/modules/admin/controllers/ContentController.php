@@ -20,6 +20,7 @@ class ContentController extends ACiiController
 	public function actionSave($id=NULL)
 	{
 		$version = 0;
+		
 		if ($id == NULL)
 		{
 			$model = new Content;
@@ -73,41 +74,44 @@ class ContentController extends ACiiController
 		$command->bindParam(":id", $id, PDO::PARAM_STR);
 		$command->execute();
 
+		Yii::app()->user->setFlash('success', 'Post has been deleted');
+		
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 	
-	
-	public function actionMetaSave($id=NULL, $key=NULL)
+	public function actionUpload()
 	{
-		if ($key == NULL)
-			$model = new ContentMetadata();
-		else
-			$model = ContentMetadata::model()->findByAttributes(array('content_id'=>$id, 'key'=>$key));
-	
-		if (isset($_POST['ContentMetadata']))
+		error_reporting(-1);
+		if (Yii::app()->request->isPostRequest)
 		{
-			$model->attributes = $_POST['ContentMetadata'];
-			try
+			Yii::import("ext.EAjaxUpload.qqFileUploader");
+			$path = '/';
+			if ($_GET['title'] == 'blog-image')
+				$path = '/blog-images/';
+	        $folder=Yii::app()->getBasePath() .'/../uploads' . $path;// folder for uploaded files
+	        $allowedExtensions = array('jpg', 'jpeg', 'png', 'gif', 'bmp');//array("jpg","jpeg","gif","exe","mov" and etc...
+	        $sizeLimit = 10 * 1024 * 1024;// maximum file size in bytes
+	        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+	        $result = $uploader->handleUpload($folder);
+			
+			if ($result['success'] = true)
 			{
-				if ($model->save())
-				{
-					$this->redirect(array('metasave','id'=>$model->content_id, 'key'=>$model->key));
-				}
+				$meta = ContentMetadata::model()->findbyAttributes(array('content_id'=>$_GET['id'], 'key'=>$_GET['title']));
+				if ($meta == NULL)
+					$meta = new ContentMetadata;
+				$meta->content_id = $_GET['id'];
+				$meta->key = $_GET['title'];
+				$meta->value = '/uploads' . $path . $result['filename'];
+				$meta->save();
 			}
-			catch(CDbException $e)
-			{
-				$model->addError('key', $e->getMessage());
-			}
-		}
-		
-		$this->render('metasave', array(
-			'model'=>$model,
-			'id'=>$id, 
-			'key'=>$key
-			));
+	        $return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+ 
+        echo $return;
+		}		
 	}
+
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -138,24 +142,6 @@ class ContentController extends ACiiController
 			'model'=>$model,
 		));
 	}
-	
-	/**
-	 * Lists all models.
-	 */
-	public function actionMeta($id=NULL)
-	{
-		$_GET['ContentMetadata']['content_id'] = $id;
-		$model=new ContentMetadata('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ContentMetadata']))
-			$model->attributes=$_GET['ContentMetadata'];
-
-		$this->render('meta',array(
-			'model'=>$model,
-			'id'=>$id,
-		));
-	}
-
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

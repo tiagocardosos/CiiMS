@@ -1,8 +1,8 @@
-.card .left {
+.left {
 	float:left;
 }
 
-.card .right {
+.right {
 	float:left;
 }
 
@@ -57,7 +57,7 @@
 	color:#FF5C00;
 }
 
-.card .nav-header.top {
+.card .nav-header.top, .well .top {
 	padding-bottom: 5px;
 	border-bottom: 1px solid #EEE;
 }
@@ -70,3 +70,16 @@
 	padding-left: 0px;
 }
 
+.pagination {
+	text-align:center;
+}
+
+.hidden {
+	display:none;
+}
+.qq-upload-list {
+	margin-top: 10px;
+}
+.qq-upload-failed-text {display:none;}
+.qq-upload-fail .qq-upload-failed-text {display:inline;}
+.qq-upload-size { margin-left: 10px;}
