@@ -26,6 +26,11 @@
 	<div style="clear:both;"></div>
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.BootButton', array(
+			'type'=>'primary',
+			'buttonType'=>'submit',
+			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+		)); ?>
+		<?php $this->widget('bootstrap.widgets.BootButton', array(
 			'type'=>'danger',
 			'label'=>'Change Extract',
 			'htmlOptions'=>array(
@@ -35,16 +40,34 @@
 			)
 		)); ?>
 		<?php $this->widget('bootstrap.widgets.BootButton', array(
-			'type'=>'primary',
-			'buttonType'=>'submit',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+			'type'=>'success',
+			'label'=>'Preview',
+			'url'=>'#previewModal',
+			'htmlOptions'=>array(
+				'id'=>'previewButton',
+				'rel'=>'tooltip',
+				'title'=>'Preview how your post will look'
+			)
 		)); ?>
 	</div>
 	<?php $this->endWidget(); ?>
 </div>
 
+<div id="previewPost"></div>
 <? Yii::app()->clientScript->registerScript('extract', '
 	$("#extractButton").click(function() {
 		$("#extractForm").slideToggle();
+	});
+	
+	$("#previewButton").click(function() {
+		$.ajax({
+			type: "POST",
+			url: "../../preview", 
+			data: $("form").serialize(),
+			success: function(data) {
+				$("#previewPost").html(data);
+				$("#previewModal").modal();
+			}
+		});
 	});
 '); ?>

@@ -81,9 +81,11 @@ class ContentController extends ACiiController
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 	
+	/**
+	 * Handles file uploading for the controller
+	 */
 	public function actionUpload()
 	{
-		error_reporting(-1);
 		if (Yii::app()->request->isPostRequest)
 		{
 			Yii::import("ext.EAjaxUpload.qqFileUploader");
@@ -112,6 +114,14 @@ class ContentController extends ACiiController
 		}		
 	}
 
+	/**
+	 * Displays a CMarkDownParser preview of the content to be displayed
+	 */
+	public function actionPreview()
+	{
+		$md = new CMarkdownParser();
+		$this->renderPartial('preview', array('md'=>$md, 'data'=>$_POST));
+	}
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

@@ -76,7 +76,7 @@ class SiteController extends CiiController
 			$pages=new CPagination($itemCount);
 			$pages->pageSize=$pageSize;			
 			
-			$criteria->offset = $criteria->limit*($pages->getCurrentPage()-1);			
+			$criteria->offset = $criteria->limit*($pages->getCurrentPage());			
 			$data = Content::model()->findAll($criteria);
     		$pages->applyLimit($criteria);
 			

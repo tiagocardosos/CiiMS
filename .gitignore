@@ -2,7 +2,7 @@ assets/*
 protected/runtime/*
 .settings
 .project
-protected/config/*.php
+protected/config/*
 .htaccess
 uploads
 rsvp

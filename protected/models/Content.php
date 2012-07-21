@@ -181,7 +181,7 @@ class Content extends CiiModel
     		$this->extract = $this->myTruncate($this->content, 250, '.', '');
 		
 		if ($this->slug == '')
-			$this->slug = $this->checkSlug(str_replace(' ', '-', $this->title));
+			$this->slug = $this->checkSlug(str_replace(' ', '-', strtolower($this->title)));
 	 	
 	    return parent::beforeValidate();
 	}
