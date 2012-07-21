@@ -62,7 +62,7 @@
 	$("#previewButton").click(function() {
 		$.ajax({
 			type: "POST",
-			url: "../../preview", 
+			url: "'.Yii::app()->createAbsoluteUrl('/admin/content/preview').'", 
 			data: $("form").serialize(),
 			success: function(data) {
 				$("#previewPost").html(data);
