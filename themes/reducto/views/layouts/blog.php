@@ -18,7 +18,7 @@
 	                    	?>
 	                    </li>
 	                    <li class="search-last" style="margin-right: 0px;">
-	                    	<? echo CHtml::button('Search', array('class'=>'search-button')); ?>
+	                    	<? echo CHtml::submitButton('Search', array('class'=>'search-button')); ?>
 	                    </li>
 	                </ul>
                 </form>

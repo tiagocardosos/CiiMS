@@ -2,7 +2,7 @@
 	<center>
 		<? 
 			echo CHtml::textField('q', $this->displayVar($_GET['q']), array('style'=>'width: 400px; float:none;', 'placeholder'=>'What are you looking for?', ));
-			echo CHtml::button('Search', array('class'=>'search-button', 'style'=>'float:none; margin-left: 15px;')); 
+			echo CHtml::submitButton('Search', array('class'=>'search-button', 'style'=>'float:none; margin-left: 15px;')); 
 		?>
 	</center>
 </form>	

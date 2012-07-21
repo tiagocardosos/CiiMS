@@ -144,7 +144,7 @@
 		                    	<? echo CHtml::textField('q', $this->displayVar($_GET['q']), array('placeholder'=>'What are you looking for?', )); ?>
 		                    </li>
 		                    <li class="search-last">
-		                    	<? echo CHtml::button('Search', array('class'=>'search-button')); ?>
+		                    	<? echo CHtml::submitButton('Search', array('class'=>'search-button')); ?>
 		                    </li>
 		                </ul>
 	                </form>
