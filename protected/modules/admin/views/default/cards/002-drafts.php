@@ -11,7 +11,7 @@
 	<? foreach(Content::model()->findAll($postsCriteria) as $draft): ?>
 		<div class="span10">
 			<h5><? echo CHtml::link($draft->title, Yii::app()->createUrl('/admin/content/save/'. $draft->id)); ?> by <? echo $draft->author->displayName; ?> on <? echo CTimestamp::formatDate("M d, y @ H:i", strtotime($draft->updated)); ?></h5>
-			<? echo $draft->content; ?>
+			<? $md = new CMarkdownParser; echo $md->safeTransform($draft->extract); ?>...
 		</div>
 		<br />
 	<? endforeach; ?>
