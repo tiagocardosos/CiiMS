@@ -38,7 +38,6 @@ class ACiiController extends CController
 	
 	public function beforeAction($action)
 	{
-		Yii::app()->setTheme('admin');
 		$this->main_menu = array(
         array('label'=>'Administration Panel'),
         array(

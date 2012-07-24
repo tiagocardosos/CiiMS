@@ -67,6 +67,7 @@ class CategoriesController extends CiiController
 		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
 		$criteria->addCondition('type_id >= 2');
 		$criteria->addCondition("category_id = " . $id);
+		$criteria->addCondition('password = ""');
 		$criteria->limit = $pageSize;			
 		$criteria->order = 'created DESC';
 		

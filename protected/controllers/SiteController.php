@@ -69,6 +69,7 @@ class SiteController extends CiiController
 			$criteria=new CDbCriteria;
 			$criteria->addInCondition('id', array_keys(isset($result['matches']) ? $result['matches'] : array()));
 			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
+			$criteria->addCondition('password = ""');
 			
 			$criteria->limit = $pageSize;	
 			$criteria->order = 'id DESC';		
@@ -80,6 +81,37 @@ class SiteController extends CiiController
 			$data = Content::model()->findAll($criteria);
     		$pages->applyLimit($criteria);
 			
+		}		
+		
+		$this->render('search', array('id'=>$id, 'data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));
+	}
+
+	public function actionMySQLSearch($id=1)
+	{
+		$this->setPageTitle(Yii::app()->name . ' | Search');
+		$this->layout = '//layouts/default';
+		$data = array();
+		$pages = array();
+		$itemCount = 0;
+		$pageSize = $this->displayVar((Configuration::model()->findByAttributes(array('key'=>'searchPaginationSize'))->value), 10);
+		
+		if (isset($_GET['q']) && $_GET['q'] != '')
+		{	
+			$criteria=new CDbCriteria;
+			$criteria->addSearchCondition('content', $_GET['q'], true, 'OR');
+			$criteria->addSearchCondition('title', $_GET['q'], true, 'OR');
+			$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
+			$criteria->addCondition('password = ""');
+			
+			$criteria->limit = $pageSize;	
+			$criteria->order = 'id DESC';		
+			$itemCount = Content::model()->count($criteria);
+			$pages=new CPagination($itemCount);
+			$pages->pageSize=$pageSize;			
+			
+			$criteria->offset = $criteria->limit*($pages->getCurrentPage());			
+			$data = Content::model()->findAll($criteria);
+    		$pages->applyLimit($criteria);		
 		}		
 		
 		$this->render('search', array('id'=>$id, 'data'=>$data, 'itemCount'=>$itemCount, 'pages'=>$pages));

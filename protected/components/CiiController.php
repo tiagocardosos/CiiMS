@@ -8,7 +8,7 @@ class CiiController extends CController
 	
 	public function beforeAction($action)
 	{
-		Yii::app()->setTheme(Configuration::model()->findByAttributes(array('key'=>'theme'))->value);
+		Yii::app()->setTheme($this->displayVar(Configuration::model()->findByAttributes(array('key'=>'theme'))->value, 'default'));
 		return true;
 	}
 	
@@ -96,7 +96,7 @@ class CiiController extends CController
 	 * @param  	$mode 	array 	The method(s) we would like to apply to the variable
 	 * @return 	$var	mixed	The variable depending upon the mode setting
 	 */
-	public function displayVar(&$var, $default = '')
+	public function displayVar($var, $default = NULL)
 	{
 		if (is_array($var))
 			return is_array($var) && !empty($var) ? $var : $default;
