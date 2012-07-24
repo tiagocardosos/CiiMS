@@ -115,14 +115,10 @@ class ContentController extends CiiController
 				$_SESSION['password']['tries'] = $_SESSION['password']['tries'] + 1;
 			}
 		}
-<<<<<<< HEAD
-		Yii::app()->setTheme('admin');
-=======
 		$themeView = Configuration::model()->findByAttributes(array('key'=>'themePasswordView'))->value;
 		if ($themeView === NULL || $themeView != 1)
 			Yii::app()->setTheme('default');
 		
->>>>>>> master
 		$this->layout = 'main';
 		$this->render('password', array('id'=>$id));
 	}
@@ -146,10 +142,7 @@ class ContentController extends CiiController
 		$criteria=new CDbCriteria;
 		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
 		$criteria->addCondition('type_id >= 2');
-<<<<<<< HEAD
-=======
 		$criteria->addCondition('password = ""');
->>>>>>> master
 		$criteria->order = 'created DESC';
 		$criteria->limit = $pageSize;			
 		
