@@ -3,7 +3,7 @@
 <div class="thirty-margin-filler"></div>
 <div class="horizontal-rule"></div>
 <div id="featured-wrapper">
-	<h1>Want to know more about me?</h1>
+	<h1>Want to know more portfolio me?</h1>
 	<p>
 		
 	</p>
@@ -27,7 +27,7 @@
 			toolsets, and web applications to suite the needs of various clients (including this blog framework).
 		</p>
 		<p>
-			Are you in need of a new developer for your website? Head over to my <? echo Chtml::link('profile', Yii::app()->createUrl('/about')); ?>
+			Are you in need of a new developer for your website? Head over to my <? echo Chtml::link('profile', Yii::app()->createUrl('/portfolio')); ?>
 			and contact me! I'd love to do business with you.
 		</p>
 	</div>
@@ -40,7 +40,7 @@
 		</p>
 		<p>
 			Want to see more of my work? Take a look at the <? echo CHtml::link('photography section', Yii::app()->createUrl('/photography')); ?>.
-			Interested in buying a print from me? Head over to my <? echo Chtml::link('profile', Yii::app()->createUrl('/about')); ?> 
+			Interested in buying a print from me? Head over to my <? echo Chtml::link('profile', Yii::app()->createUrl('/portfolio')); ?> 
 			and contact me through one of the social networks I am on. I'd love to hear from you!
 		</p>
 	</div>
