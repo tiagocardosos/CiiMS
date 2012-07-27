@@ -6,7 +6,7 @@
 	<h6>A Framework for Developers</h6>
 	<p>CiiMS is a <i>developer</i> oriented Content Management System written in Yii. Like most CMS' CiiMS has a broad feature set ranging from custom themes, password protected posts, multiple blogs, custom pages and layouts, and highly extensible modules, but what sets CiiMS apart from traditional CMS' is it's simplicity.</p>
 	<p>Built from the groud up, CiiMS is designed to be as simple, as fast, and as secure as possible so that developers can get their job done, and so that bloggers can do what they do best, write excellent content.</p>
-	<p>CiiMS is currently in private alpha, but you can experience it by browsing this site (written in CiiMS). A public beta will be available this fall.</p>
+	<p>CiiMS is available for download on <?php echo CHtml::link('Github', 'https://github.com/charlesportwoodii/CiiMS'); ?></p>
 </div>
 <div class="horizontal-rule"></div>
 
