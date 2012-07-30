@@ -5,7 +5,7 @@
 		    <br /><div><?php echo Yii::app()->user->getFlash('reset'); ?></div>
 	<?php endif; ?>
 	<br />
-	<?
+	<?php
 		$form=$this->beginWidget('CActiveForm', array(
 					'id'=>'contact',
 					'focus'=>array($model,'username'),
@@ -14,7 +14,7 @@
 				));
 			echo $form->errorSummary($model, '', '', array('class'=>'red-box')); ?>
 		<br />		
-	<?		echo $form->TextField($model, 'username', array('id'=>'email', 'placeholder'=>'Email', 'style'=>'margin-right: 15px;'));
+	<?php		echo $form->TextField($model, 'username', array('id'=>'email', 'placeholder'=>'Email', 'style'=>'margin-right: 15px;'));
 			echo $form->PasswordField($model, 'password', array('id'=>'password', 'placeholder'=>'Password'));
 			echo CHtml::submitButton('Login', array('class'=>'btn btn-primary', 'style'=>'margin-top: -9px; margin-left: 10px;'));
 		$this->endWidget(); 
@@ -25,7 +25,7 @@
 <div class="well span5">
 	<h4>Why do I need an account?</h4>
 	<div class="horizontal-rule"></div>
-	 <p>Registering on Erianna.com gives you access to many features not available to unregistered users. Registered users can:</p>
+	 <p>Registering on <?php echo Yii::app()->name; ?> gives you access to many features not available to unregistered users. Registered users can:</p>
 	 <br />
     	<ul class="green-tick">
 	    	<li>Participate on community discussions.</li>

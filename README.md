@@ -6,6 +6,20 @@ CiiMS is a high performance CMS designed for both end users and developers. CiiM
 
 CiiMS is designed to be fast, easy to deploy, and easy to modify.
 
+#### Seeing is Believing
+    Forget the details, just let me see it already...
+
+Sure thing boss: A demo of CiiMS can be found at:
+
+    http://ciims.erianna.com
+
+You may use the following credentials to login and manage the site.
+
+    Email: admin
+    Pasword: admin
+
+Please note that this demo is not monitored, and is reset at an unspecified interval and at my discretion. Please be nice.
+
 #### Features
 * Full Admin Panel
 * Self Installer
@@ -85,13 +99,12 @@ If you encounter any errors, PHP should output those errors to the browser for y
 
 One thing you will need to do before users can register on your site is setup your site with ReCaptcha keys. Go to [recaptcha](http://www.recaptcha.com) and register your site and retrieve your keys, then edit the 'params' array in protected/config/main.php with the following
 
-~~~~
-[PHP]
+```php
 	'params' => array(
 		'reCaptchaPrivateKey' => 'YOUR_PK_HERE',
 		'reCaptchaPublicKey'  => 'YOUR_PUB_KEY_HERE'
 	)
-~~~~
+```
 
 ------------------
 
@@ -108,8 +121,7 @@ Once you have the key and secret, add the following to the "modules" section of
     protected/config/main.php
 
 PROVIDER_NAME, and keys will need to be changed for each provider
-~~~~
-[PHP]
+```php
 	'hybridauth' => array(
 		'providers'=> array(
 			'PROVIDER_NAME' => array(
@@ -119,7 +131,7 @@ PROVIDER_NAME, and keys will need to be changed for each provider
 			)
 		)
 	)
-~~~
+```
 
 Additional HybridAuth providers can be installed by copying the provider file to protected/modules/hybridauth/hybrid/providers/
 
@@ -128,29 +140,26 @@ Additional information can be found on [hybridauths website](http://hybridauth.s
 ##### CSS/Script Optimization
 By default, CiiMS will optimize and combine any CSS/Script files registered with
 
-~~~~
-[PHP]
+```php
     Yii::app()->clientScript->register[Script|Css|ScriptFile|CssFile]
-~~~~
+```
 
 By default, CSS compression and combination is on and script combination is on.
 
 Scrpt compression is disabled by default because of some issues that arise when certain scripts are combined together. If you wish to enable this feature, change the following to true
 
-~~~~
-[PHP]
+```php
 	'components' => array(
 		'clientScript' => array(
 			'optimizeScriptFiles '=> false
 		)
 	)
-~~~
+```
 
 ##### Enable Memcache Support
 By default CiiMS will run with CFileCache enabled. Performance can be improved by using CiiMemCache instead. Memcache support can be enabled by modifying the 'cache' item under 'components':
 
-~~~~
-[PHP]
+```php
 	'cache'=>array(
          	'class'=>'application.components.CiiMemCache',
                    'servers'=>array(
@@ -161,7 +170,7 @@ By default CiiMS will run with CFileCache enabled. Performance can be improved b
                             ),
                    ),
          ),
-~~~~
+```
 
 Edit the host, port and weight as you see fit.
 
@@ -172,22 +181,21 @@ To enable Sphinx, you need to make server changes to your config file.
 
 First, add the following to your params array
 
-~~~~
-[PHP]
+```php
 	'sphinxHost'=>'localhost',
          'sphinxPort'=>'9312',
          'sphinxSource'=>'SOURCE_NAME',
-~~~~
+```
 
 Second, replace the URLManager->rules->search array with the following
 
-~~~~
-[PHP]
+```php
 	'search/<page:\d+>'=>'/site/search',
 	'search/<id:\d+>'=>'/site/search',
-~~~~
+```
 
 While configuring Sphinx is beyond the scope of this document, your datasource should be configured as followed:
+
 ~~~~
 source src
 {
@@ -267,3 +275,13 @@ The current roadmap will be added to this soon. For now:
 
 * Unit Tests
 
+#### License
+
+MIT LICENSE
+Copyright (c) 2012 Charles R. Portwood II
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
