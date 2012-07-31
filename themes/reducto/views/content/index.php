@@ -3,7 +3,7 @@
 <div class="thirty-margin-filler"></div>
 <div class="horizontal-rule"></div>
 <div id="featured-wrapper">
-	<h1>Want to know more portfolio me?</h1>
+	<h1>Want to know more about me?</h1>
 	<p>
 		
 	</p>
@@ -23,7 +23,7 @@
 		<h4>Software Engineer</h4>
 		<p>
 			Since I was eight, I've been fascinated with web applications. Since I wrote my first HTML blog in 1998, I've been in love 
-			with developing great software. While I specialize in web application development, I am fluent in several programming languages and have written several apps, 
+			with developing great software. While I specialize in web application development, I am fluent in several programming languages (PHP, SQL, Objective-C, C, JS) and have written several apps, 
 			toolsets, and web applications to suite the needs of various clients (including this blog framework).
 		</p>
 		<p>
@@ -52,7 +52,7 @@
 			<br />
 			<? 
 				echo CHtml::link(
-					CHtml::image(Yii::app()->baseUrl . '/images/social-icons/LinkDeck/32/twitter.png'), 
+				CHtml::image(Yii::app()->baseUrl . '/images/social-icons/LinkDeck/32/twitter.png'), 
 								'https://www.twitter.com/charlesportwood', 
 								array('escape'=>true, 'class'=>'social-icon')
 					);
