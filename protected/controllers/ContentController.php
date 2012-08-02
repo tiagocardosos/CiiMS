@@ -167,7 +167,7 @@ class ContentController extends CiiController
 		$criteria=new CDbCriteria;
 		$criteria->addCondition("vid=(SELECT MAX(vid) FROM content WHERE id=t.id)");
 		$criteria->addCondition('type_id >= 2');
-		$criteria->addCondition('status = 1');		
+		$criteria->addCondition('status = 1');
 		if ($id != NULL)
 			$criteria->addCondition("category_id = " . $id);
 					
