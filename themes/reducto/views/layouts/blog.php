@@ -50,7 +50,7 @@
 				<?
 					$related = Yii::app()->db->createCommand('
 						SELECT id, title, slug, comment_count FROM content  WHERE category_id = ' . $this->params['data']['category_id'] .
-						' AND id != ' . $this->params['data']['id'] . ' AND vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) ORDER BY updated DESC LIMIT 5')->queryAll();
+						' AND status = 1 AND id != ' . $this->params['data']['id'] . ' AND vid = (SELECT MAX(vid) FROM content AS content2 WHERE content2.id = content.id) ORDER BY updated DESC LIMIT 5')->queryAll();
 
 					
 					foreach ($related as $k=>$v)
