@@ -1,5 +1,15 @@
 <div class="one-third">
-	<? echo CHtml::image(Yii::app()->baseUrl . '/images/reducto/featured-image.png', NULL, array('class'=>'three-column-picture')); ?>
+	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl . '/uploads/markpadlogo.png', NULL, array('class'=>'three-column-picture')), Yii::app()->createUrl('/markpad'), array('escape'=>true)); ?>
+    <center><h6>Markpad Editor</h6></center>
+    <center><? echo CHtml::link(CHtml::image(Yii::app()->baseUrl .'/uploads/aitappstorelogo.jpg', NULL, array('width'=>'200px')), '#', array('escape'=>true)); ?></center>
+</div>
+<div class="one-third-last">
+	<h6>Markdown Editing for iOS</h6>
+	<p>Markpad is a simple and easy to use Markdown editor and previewer for iPhone and iPad. With Markpad you can easily create, edit, and review Markdown documents.<br />Use Markpad to write notes, keep a journal, or preview Markdown output before saving it to your blog. <br ><br />★ Clean Interface<br />Markpad has a clean and simple interface that allows you to create and preview Markdown notes without getting in your way.<br /><br />★ Github Flavored Markdown<br />Looking to edit and preview content on Github? Markpad supports both regular and Github flavored Markdown!<br /><br />★ Easy Way to Learn Markdown<br />The easiest way to learn something by trying it. Use Markpad to teach yourself Markdown!</p>
+</div>
+<div class="horizontal-rule"></div>
+<div class="one-third">
+	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl . '/uploads/ciimslogo.png', NULL, array('class'=>'three-column-picture')), 'https://github.com/charlesportwoodii/CiiMS', array('escape'=>true)); ?>
     <center><h6>CiiMS</h6></center>
 </div>
 <div class="one-third-last">

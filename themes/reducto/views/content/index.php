@@ -1,6 +1,5 @@
 <? echo CHtml::image('uploads/003.jpg', NULL, array('class'=>'image'));?>
 
-<div class="thirty-margin-filler"></div>
 <div class="horizontal-rule"></div>
 <div id="featured-wrapper">
 	<h1>Want to know more about me?</h1>
