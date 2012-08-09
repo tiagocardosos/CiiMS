@@ -59,8 +59,8 @@
 				
 				echo CHtml::link(
 				CHtml::image(Yii::app()->baseUrl . '/images/social-icons/LinkDeck/32/googleplus.png'), 
-							'https://plus.google.com/u/0/103392860132365445794/posts', 
-							array('escape'=>true, 'class'=>'social-icon')
+							'https://profiles.google.com/103392860132365445794', 
+							array('escape'=>true, 'class'=>'social-icon', 'rel'=>'me')
 				);
 				
 				echo CHtml::link(
