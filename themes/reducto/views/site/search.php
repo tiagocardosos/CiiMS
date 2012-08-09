@@ -18,6 +18,7 @@
 	<? endif; ?>
 	
 	<? foreach ($data as $k=>$v): ?>
+		<? $meta = Content::model()->parseMeta($v->metadata); ?>
         <h1><? echo CHtml::link($v->title, Yii::app()->createUrl($v->slug)); ?></h1>
         <div class="horizontal-rule"></div>
         <div class="blog-data">
@@ -29,6 +30,10 @@
         		<span class="black"><? echo $v->comment_count; ?></span> Comments
         	<? endif; ?>
         </div>
+        <div class="horizontal-rule"></div>
+		<? if (isset($meta['blog-image'])): ?>
+			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image', 'style'=>'width: 700px')); ?></p>
+		<? endif; ?>
         <div class="horizontal-rule"></div>
         <p><? echo strip_tags($v->extract, '<p><br>'); ?></p>
         <? echo CHtml::link('Read More', Yii::app()->createUrl($v->slug), array('class'=>'medium button')); ?>

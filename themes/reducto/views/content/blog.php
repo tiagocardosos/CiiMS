@@ -11,7 +11,7 @@
 </div>
 <div class="horizontal-rule"></div>
 <? if (isset($meta['blog-image'])): ?>
-	<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image')); ?></p>
+	<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image', 'style'=>'width: 700px')); ?></p>
 <? endif; ?>
 <div class="clear"></div>
 <div class="content">

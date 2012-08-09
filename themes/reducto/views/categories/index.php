@@ -20,7 +20,7 @@
         </div>
         <div class="horizontal-rule"></div>
 		<? if (isset($meta['blog-image'])): ?>
-			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image')); ?></p>
+			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image', 'style'=>'width: 700px')); ?></p>
 		<? endif; ?>
         <div class="horizontal-rule"></div>
         <? $md = new CMarkdownParser; echo strip_tags($md->safeTransform($v->extract), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
