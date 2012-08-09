@@ -3,7 +3,7 @@
 <div class="blog-data">
 	<? echo $data->created == $data->updated ? 'Posted' : 'Updated'; ?>
 	<span class="black"><? echo date('F jS, Y @ H:i', strtotime($data->created)); ?></span>
-	by <span class="black"><? echo $data->author->displayName; ?></span>
+	by <span class="black"><? echo CHtml::link($data->author->displayName, Yii::app()->createUrl('/portfolio'), array('rel'=>'author')); ?></span>
 	in <? echo CHtml::link($data->category->name, Yii::app()->createUrl($data->category->slug)); ?> - 
 	<? if ($data->commentable): ?>
 		<? echo CHtml::link("<span class=\"black\">{$data->comment_count}</span> Comments", '#comments', array('escape'=>true)); ?>

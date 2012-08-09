@@ -7,7 +7,7 @@
 		<div class="horizontal-rule"></div>
 		<div class="blog-data">
 			Posted <span class="black"><? echo date('F jS, Y @ H:i', strtotime($content->created)); ?></span> 
-			by <span class="black"><? echo $content->author->displayName; ?></span>
+			by <span class="black"><? echo CHtml::link($data->author->displayName, Yii::app()->createUrl('/portfolio'), array('rel'=>'author')); ?></span>
 			in <? echo CHtml::link($content->category->name, Yii::app()->createUrl($content->category->slug)); ?>
 			<span class="black"><? echo $content->comment_count; ?></span> Comments</div>
 		<div class="horizontal-rule"></div>
