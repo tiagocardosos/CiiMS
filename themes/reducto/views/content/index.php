@@ -26,6 +26,9 @@
 			toolsets, and web applications to suite the needs of various clients (including this blog framework).
 		</p>
 		<p>
+			Want to see what I'm working on? Check out my <? echo CHtml::link('projects page', Yii::app()->createUrl('/projects')); ?>!
+		</p>
+		<p>
 			Are you in need of a new developer for your website? Head over to my <? echo Chtml::link('profile', Yii::app()->createUrl('/portfolio')); ?>
 			and contact me! I'd love to do business with you.
 		</p>
