@@ -1,7 +1,7 @@
 <div class="one-third">
 	<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl . '/uploads/markpadlogo.png', NULL, array('class'=>'three-column-picture')), Yii::app()->createUrl('/markpad'), array('escape'=>true)); ?>
     <center><h6>Markpad Editor</h6></center>
-    <center><? echo CHtml::link(CHtml::image(Yii::app()->baseUrl .'/uploads/aitappstorelogo.jpg', NULL, array('width'=>'200px')), '#', array('escape'=>true)); ?></center>
+    <center><? echo CHtml::link(CHtml::image(Yii::app()->baseUrl .'/uploads/aitappstorelogo.jpg', NULL, array('width'=>'200px')), 'http://itunes.apple.com/us/app/markpad-editor/id550708575?ls=1&mt=8', array('escape'=>true)); ?></center>
 </div>
 <div class="one-third-last">
 	<h6>Markdown Editing for iOS</h6>

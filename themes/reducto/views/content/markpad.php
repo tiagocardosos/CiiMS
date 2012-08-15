@@ -13,7 +13,7 @@
 	</div>
 	<div class="one-third-last" style="margin-top: 30px;">
 		<br />
-		<center><? echo CHtml::link(CHtml::image(Yii::app()->baseUrl .'/uploads/aitappstorelogo.jpg', NULL, array('width'=>'200px')), '#', array('escape'=>true)); ?></center>
+		<center><? echo CHtml::link(CHtml::image(Yii::app()->baseUrl .'/uploads/aitappstorelogo.jpg', NULL, array('width'=>'200px')), 'http://itunes.apple.com/us/app/markpad-editor/id550708575?ls=1&mt=8', array('escape'=>true)); ?></center>
 	</div>
 	<div class="horizontal-rule"></div>
 	<p></p>
@@ -47,6 +47,6 @@
 			<br />
 			<br />
 			<br />
-			<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl .'/uploads/aitappstorelogo.jpg', NULL, array('width'=>'200px')), '#', array('escape'=>true)); ?>
+			<? echo CHtml::link(CHtml::image(Yii::app()->baseUrl .'/uploads/aitappstorelogo.jpg', NULL, array('width'=>'200px')), 'http://itunes.apple.com/us/app/markpad-editor/id550708575?ls=1&mt=8', array('escape'=>true)); ?>
 		</center>
 	</div>
