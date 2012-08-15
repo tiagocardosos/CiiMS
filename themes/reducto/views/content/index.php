@@ -1,5 +1,19 @@
-<? echo CHtml::image('uploads/003.jpg', NULL, array('class'=>'image'));?>
-
+<? //echo CHtml::image('uploads/003.jpg', NULL, array('class'=>'image'));?>
+<? echo CHtml::link(
+	CHtml::image('/uploads/blog-images/69d0f44257776be998e859c570d81c9d.png'), Yii::app()->createUrl('/markpad'), array('class'=>'image', 'escape'=>true)
+); ?>
+<div class="horizontal-rule"></div>
+<div class="two-thirds">
+<div id="slogan" style="width: 60%">
+Markpad Editor is now available in the App Store! Read the <? echo CHtml::link('announcement page', Yii::app()->createUrl('/markpad-editor-announcement'), array('class'=>'blue')); ?> for more details or head to the <? echo CHtml::link('App Store', 'http://itunes.apple.com/us/app/markpad-editor/id550708575?ls=1&mt=8', array('class'=>'blue')); ?> to download it now!
+</div>
+</div>
+<div class="one-third-last" style="float:right;">
+<br />
+<? echo CHtml::link(
+	CHtml::image('/uploads/aitappstorelogo.jpg'), 'http://itunes.apple.com/us/app/markpad-editor/id550708575?ls=1&mt=8'
+); ?>
+</div>
 <div class="horizontal-rule"></div>
 <div id="featured-wrapper">
 	<h1>Want to know more about me?</h1>
