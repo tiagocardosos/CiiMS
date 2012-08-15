@@ -65,7 +65,7 @@
 
 	/* ------ 2. General ------ */
 	
-	body{background:url(../../images/reducto/background.png) repeat;height:100%;height:auto;font-size:12px;color:#777;font-family:'Droid Sans';}
+	body{background:url(../../images/reducto/background.png) repeat;height:100%;height:auto;font-size:12px;color:#333;font-family:'Droid Sans';}
 	h1,h2,h3,h4,h5,h6{letter-spacing:1px;}
 	a:link,a:visited,a:hover,a:active,a:focus{text-decoration:none;outline:none;}
 	a{color:#444;}
@@ -554,7 +554,7 @@
         margin-top:-10px;
         padding:0 5px;
 		cursor:pointer;
-		color:#A7CE44;}
+		color:#08C;}
 	ul.widget-list.posts li{background:transparent url(../../images/reducto/widget-post.png) no-repeat scroll 0px 4px;padding-left:20px;}
 	ul.widget-list.comments li{background:transparent url(../../images/reducto/black-icons.png) no-repeat scroll 0px -35px;padding-left:20px;}
 	 
@@ -607,7 +607,8 @@
 	.search-button:hover{background-color:#111;color:#fff;}
 	 
 	/* 4. Navigation Widget */
-	ul.widget-list.navigation .selected a{padding-left:10px;color:#A7CE44;}
+	ul.widget-list.navigation .selected a{padding-left:10px;color:#08C;}
+	/* #A7CE44*/
 	ul.widget-list.navigation .selected a:hover{color:#777;}
 	
 	/* ------ 13. Pagination ------ */
