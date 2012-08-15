@@ -12,7 +12,7 @@
 			<span class="black"><? echo $content->comment_count; ?></span> Comments</div>
 		<div class="horizontal-rule"></div>
 		<? if ($this->displayVar($meta['blog-image']['value'])): ?>
-			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image')); ?></p>
+			<p><? echo CHtml::image(Yii::app()->baseUrl . $meta['blog-image']['value'], NULL, array('class'=>'image', 'style'=>'width: 700px')); ?></p>
 		<? endif; ?>
 		<? $md = new CMarkdownParser; echo strip_tags($md->safeTransform($content->extract), '<h1><h2><h3><h4><h5><6h><p><b><strong><i>'); ?>
 		<? echo CHtml::link('Read More', Yii::app()->createUrl($content->slug), array('class'=>'medium button')); ?>
