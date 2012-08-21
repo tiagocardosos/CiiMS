@@ -648,6 +648,10 @@
 		margin-left: 70px; 
 		clear:none;
 	}	
+	.content a, #featured-wrapper a {
+		color: #08C;
+		text-decoration:none;
+	}
 
 	.content ul li{
 		background:transparent url(../../images/reducto/green-icons.png) no-repeat scroll 0px -121px;
