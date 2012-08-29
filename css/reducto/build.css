@@ -71,8 +71,8 @@
 	a{color:#444;}
 	a:hover{color:#777;}	
 	pre,code{white-space:pre;clear:both;float:none;}
-	code{background:#FFF;display:block;border:1px solid #CCC;padding:5px;font-size:12px;}
-	pre{background:#F5F5F5;display:block;border:1px solid #CCC;padding:5px;font-size:12px;}
+	code{margin:10px;background:#FFF;display:block;border:1px solid #CCC;padding:5px;font-size:12px;}
+	pre{margin:10px;background:#F5F5F5;display:block;border:1px solid #CCC;padding:5px;font-size:12px;}
 	
 	/* ------ 3. List Styles ------ */
 	
