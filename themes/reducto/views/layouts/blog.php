@@ -8,7 +8,7 @@
 			<div class="horizontal-rule"></div>
 			<form id="search" method="GET" action="<? echo Yii::app()->createUrl('/search'); ?>">
 	                <ul class="widget-list search">
-	                    <li>
+	                    <li style="margin-right: 0px;">
 	                    	<? echo CHtml::textField('q', $this->displayVar($_GET['q']), 
 	                    							array(
 	                    								'placeholder'=>'What are you looking for?',
@@ -17,7 +17,7 @@
 													); 
 	                    	?>
 	                    </li>
-	                    <li class="search-last" style="margin-right: 0px;">
+	                    <li class="search-last" style="float:right; margin-right: 0px;">
 	                    	<? echo CHtml::submitButton('Search', array('class'=>'search-button')); ?>
 	                    </li>
 	                </ul>
