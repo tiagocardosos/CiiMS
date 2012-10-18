@@ -170,7 +170,7 @@
 	    
 	<? if (!YII_DEBUG): ?>
 		<!-- Analytics Plugin -->
-		<? $this->widget('ext.analytics.EPiwikAnalyticsWidget', array('id'=>2, 'baseUrl'=>'http://www.erianna.com:2080')); ?>
+		<? $this->widget('ext.analytics.EPiwikAnalyticsWidget', array('id'=>2, 'baseUrl'=>'https://www.erianna.com:2080')); ?>
 		<? $this->widget('ext.analytics.EGoogleAnalyticsWidget', array('account'=>'UA-21577234-3', 'addThis'=>true, 'addThisSocial'=>'true')); ?>
 	<? endif; ?>
 	
