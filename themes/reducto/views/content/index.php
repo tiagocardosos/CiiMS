@@ -1,6 +1,6 @@
 <? //echo CHtml::image('uploads/003.jpg', NULL, array('class'=>'image'));?>
 <? echo CHtml::link(
-	CHtml::image('/uploads/blog-images/69d0f44257776be998e859c570d81c9d.png'), Yii::app()->createUrl('/markpad'), array('class'=>'image', 'escape'=>true)
+	CHtml::image('/uploads/003.jpg'), Yii::app()->createUrl('/markpad'), array('class'=>'image', 'escape'=>true)
 ); ?>
 <div class="horizontal-rule"></div>
 <div class="two-thirds">
